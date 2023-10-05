@@ -2,7 +2,7 @@
     position: absolute;
     top: 1rem !important;
     left: 2.5% !important;
-    height: 3.3rem !important;
+    height: max-content !important;
     z-index: 99;
 
     background: white !important;

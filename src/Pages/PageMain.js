@@ -103,9 +103,9 @@ function MainNew() {
         <div className='PageMainNew'>
             <div className='main-new-header px-5'>
                 <div className='header-logo-prima'>
-                    <img className='LogoPatra ps-5 mt-3' src={LogoPatra} alt="LogoPatra" />
+                    <img className='LogoPatra mt-3' src={LogoPatra} alt="LogoPatra" />
                 </div>
-                <div className='header-total-ticket '>
+                <div className='header-total-ticket mt-3'>
                     <h1 className='text-end'>6 Oktober 2023</h1>
                     <p className='my-2 text-end'>13:45 WIB</p>
                     <div className='upper-hr gap-3'>
