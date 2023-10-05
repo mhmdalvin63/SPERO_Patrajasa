@@ -1,0 +1,102 @@
+.dropdown-toggle::after {
+    display: none !important;
+}
+
+.dropdown-table-ticket{
+    border: 1px solid #1767B3 !important;
+}
+
+.dropdown-list-ticket{
+    color: white !important;
+    padding: .15rem .5rem !important;
+}
+
+.menu-dropdown-table-ticket{
+    width: 90vw !important;
+    margin-bottom: 0 !important;
+    border-radius: 0 !important;
+}
+
+.menu-dropdown-list{
+    width: 90vw !important;
+}
+
+.vl-list{
+    border-left : 1px solid grey;
+    height: 12.5rem;
+}
+
+.page-ticket-content{
+    margin-top: 10rem;
+}
+.chart-status{
+    display: grid;
+    gap: 2rem;
+    grid-template-columns: auto auto auto;
+    grid-template-rows: auto auto;
+    grid-template-areas: 
+      "htt1 htt2 htt3"
+      "htt4 htt5 htt6";
+}
+.chart-status .header-total-ticket:nth-child(1){
+    grid-area: htt1;
+}
+.chart-status .header-total-ticket:nth-child(2){
+    grid-area: htt2;
+}
+.chart-status .header-total-ticket:nth-child(3){
+    grid-area: htt3;
+}
+.chart-status .header-total-ticket:nth-child(4){
+    grid-area: htt4;
+}
+.chart-status .header-total-ticket:nth-child(5){
+    grid-area: htt5;
+}
+.chart-status .header-total-ticket:nth-child(6){
+    grid-area: htt6;
+}
+
+
+.multi-axis{
+    position: relative;
+}
+.title-multi-axis{
+    position: absolute;
+    top: 0;
+    display: flex;
+    justify-content: space-between;
+    width: 100% !important;
+}
+.select-multi-axis{
+    background-color: #1767B3 !important;
+    color: white !important;
+    border-radius: 5px !important;
+    width: 25% !important;
+}
+
+
+.filtering-table-dropdown-ticket{
+    display: flex;
+    justify-content: space-between;
+    align-items: end;
+}
+.search-bottom{
+    height: 2.5rem;
+    border: 1px solid rgb(206, 204, 204) !important;
+    border-radius: 10px;
+}
+.btn-primary {
+    --bs-btn-color: none !important;
+    --bs-btn-bg: none !important;
+    --bs-btn-border-color: none !important;
+}
+.search-button Button.icon{
+    color: grey !important;
+    border: none !important;
+    background-color: none !important;
+    background: none !important;
+}
+.search-bottom .icon2{
+    border: none !important;
+}

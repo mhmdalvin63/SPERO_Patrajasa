@@ -1,0 +1,120 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+#body{
+  font-family: 'Poppins', sans-serif !important;
+}
+.PageMain{
+  margin-top: 4.5rem;
+}
+/* .PageMainNew{
+  margin-top: .5rem;
+} */
+/* .PageTracking{
+  margin-top: .5rem;
+} */
+/* .PageTicket{
+  margin-top: 5rem;
+} */
+.PageKategori{
+  margin-top: 5rem;
+}
+.nw{
+  text-wrap: nowrap;
+}
+  .fwb{
+    font-weight: bold;
+  }
+  .text-blue{
+    color: #1767B3;
+  }
+  .text-yellow{
+    color: #FFB800;
+  }
+  .text-purple{
+    color: #AA00E6;
+  }
+  .text-cyan{
+    color: #00F9F9;
+  }
+  .text-grey{
+    color: #969696;
+  }
+  .text-lime{
+    color: #7AC241;
+  }
+  .text-red{
+    color: #EC2028;
+  }
+  .text-orange{
+    color: #B08A00;
+  }
+
+  .bg-blue{
+    background-color: #1767B3 !important;
+  }
+  .bg-lime{
+    background-color: #7AC241 !important;
+  }
+  .bg-red{
+    background-color: #EC2028 !important;
+  }
+  .bg-orange{
+    background-color: #FFB800 !important;
+  }
+  .bg-cyan{
+    background-color: #00F9F9 !important;
+  }
+  .bg-purple{
+    background-color: #AA00E6 !important;
+  }
+  
+  /* Extra large devices (large laptops and desktops, 1200px and up) */
+  @media only screen and (min-width: 1200px) {
+    p{
+        font-size: calc(50% + 1vmin);
+        margin-bottom: 0!important;
+      }
+    p.xs{
+        font-size: calc(50% + .35vmin);
+        margin-bottom: 0!important;
+      }
+    p.sm{
+        font-size: calc(50% + .75vmin);
+        margin-bottom: 0!important;
+      }
+    p.md{
+        font-size: calc(50% + .8vmin);
+        margin-bottom: 0!important;
+      }
+    h1{
+      font-size: calc(50% + 3vmin)!important;
+      margin-bottom: 0!important;
+    }
+    h1.sm{
+      font-size: calc(50% + 3.5vmin)!important;
+      margin-bottom: 0!important;
+    }
+    h1.xl{
+      font-size: calc(50% + 8vmin)!important;
+      margin-bottom: 0!important;
+    }
+    h1.md{
+      font-size: calc(50% + 5vmin)!important;
+      margin-bottom: 0!important;
+    }
+    h2{
+      font-size: calc(50% + 2vmin)!important;
+      margin-bottom: 0!important;
+    }
+    h3{
+      font-size: calc(50% + 1.5vmin)!important;
+      margin-bottom: 0!important;
+    }
+    h4{
+      font-size: calc(50% + 1vmin)!important;
+      margin-bottom: 0!important;
+    }
+    h5{
+      font-size: calc(50% + .5vmin)!important;
+      margin-bottom: 0!important;
+    }
+  }

@@ -1,0 +1,60 @@
+#sidebar-button{
+    position: absolute;
+    top: 1rem !important;
+    left: 2.5% !important;
+    height: 3.3rem !important;
+    z-index: 99;
+
+    background: white !important;
+    border: none !important;
+    box-shadow: rgba(14, 30, 37, 0.12) 0px 2px 4px 0px, rgba(14, 30, 37, 0.32) 0px 2px 16px 0px;
+}
+#sidebar-button .sidebar-burger-menu{
+    color: grey;
+}
+.menu-sidebar{
+    display: block;
+    text-decoration: none;
+    color: black;
+    margin-top: 1rem;
+}
+
+.dropdown-menu{
+    border-radius: 1rem !important;
+    width: 15rem;
+    padding: 0 !important;
+    transform: translateY(0);
+  transition: transform 0.5s ease-in-out;
+}
+.dropdown-menu .show{
+    transform: translateY(-100%);
+}
+
+#nav-menu{
+    display: block;
+    padding-left: 2rem;
+}
+
+.rectangle{
+    width: 10px;
+    height: 10px;
+    background-color: grey;
+    border-radius: 50%;
+}
+
+
+.nav-bottom{
+    border-radius: 0 0 1rem 1rem;
+    padding: .5rem;
+    background-color: grey;
+}
+.button-logout button{
+    width: 100%;
+    background: none !important;
+    border: none !important;
+    color: white;
+    /* text-align: center !important; */
+}
+.button-logout .d-flex{
+    width: 100% !important; 
+}
