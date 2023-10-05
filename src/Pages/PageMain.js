@@ -138,44 +138,44 @@ function MainNew() {
             <div className='main-new-bottom px-5'>
                 <div className='main-new-bottom-left'>
                     <div className='main-parent-ticket-border gap-2'>
-                        <h1 className='md fwb text-blue'><Icon icon="ion:log-in-outline" /></h1>
+                        <h1 className='xl fwb text-blue'><Icon icon="ion:log-in-outline" /></h1>
                         <div className='count-ticket-border'>
-                            <h2 className='fwb'>{open.value}</h2>
+                            <h1 className='md fwb'>{open.value}</h1>
                             <p>Open</p>
                         </div>
                     </div>
                     <div className='main-parent-ticket-border gap-2'>
-                        <h1 className='md fwb text-yellow'><Icon icon="material-symbols:forward" /></h1>
+                        <h1 className='xl fwb text-yellow'><Icon icon="material-symbols:forward" /></h1>
                         <div className='count-ticket-border'>
-                            <h2 className='fwb'>{Forwarding.value}</h2>
+                            <h1 className='md fwb'>{Forwarding.value}</h1>
                             <p>Forwarding</p>
                         </div>
                     </div>
                     <div className='main-parent-ticket-border gap-2'>
-                        <h1 className='md fwb text-lime'><Icon icon="clarity:process-on-vm-line" /></h1>
+                        <h1 className='xl fwb text-lime'><Icon icon="clarity:process-on-vm-line" /></h1>
                         <div className='count-ticket-border'>
-                            <h2 className='fwb'>{Proses.value}</h2>
+                            <h1 className='md fwb'>{Proses.value}</h1>
                             <p>Proses</p>
                         </div>
                     </div>
                     <div className='main-parent-ticket-border gap-2'>
-                        <h1 className='md fwb text-purple'><Icon icon="material-symbols:reopen-window" /></h1>
+                        <h1 className='xl fwb text-purple'><Icon icon="material-symbols:reopen-window" /></h1>
                         <div className='count-ticket-border'>
-                            <h2 className='fwb'>{Reopen.value}</h2>
+                            <h1 className='md fwb'>{Reopen.value}</h1>
                             <p>Re-Open</p>
                         </div>
                     </div>
                     <div className='main-parent-ticket-border gap-2'>
-                        <h1 className='md fwb text-cyan'><Icon icon="material-symbols:done" /></h1>
+                        <h1 className='xl fwb text-cyan'><Icon icon="material-symbols:done" /></h1>
                         <div className='count-ticket-border'>
-                            <h2 className='fwb'>{Done.value}</h2>
+                            <h1 className='md fwb'>{Done.value}</h1>
                             <p>Done</p>
                         </div>
                     </div>
                     <div className='main-parent-ticket-border gap-2'>
-                        <h1 className='md fwb text-red'><Icon icon="jam:shield-close" /></h1>
+                        <h1 className='xl fwb text-red'><Icon icon="jam:shield-close" /></h1>
                         <div className='count-ticket-border'>
-                            <h2 className='fwb'>{Close.value}</h2>
+                            <h1 className='md fwb'>{Close.value}</h1>
                             <p>Closed</p>
                         </div>
                     </div>
@@ -189,7 +189,7 @@ function MainNew() {
                                 <h1 className='xl text-black'>{Po.count}</h1>
                                 <div className='text-lime'>
                                     <div className='icon-ticket gap-2'>
-                                        <h1 className='sm'><Icon icon="clarity:administrator-solid" /></h1>
+                                        <h1 className='xl'><Icon icon="clarity:administrator-solid" /></h1>
                                         <Detak fill="blue" />
                                     </div>
                                     <p className='text-start'>Proses Owner</p>
@@ -231,7 +231,7 @@ function MainNew() {
                                 <h1 className='xl text-black'>{Driver.count}</h1>
                                 <div className='text-red'>
                                     <div className='icon-ticket gap-2'>
-                                        <h1 className='sm'><Icon icon="game-icons:full-motorcycle-helmet" /></h1>
+                                        <h1 className='xl'><Icon icon="game-icons:full-motorcycle-helmet" /></h1>
                                         <div>
                                             <Detakred fill="blue" />
                                             <p className='text-start'>Driver</p>
@@ -275,7 +275,7 @@ function MainNew() {
                                 <h1 className='xl text-black'>12</h1>
                                 <div className='text-yellow'>
                                     <div className='icon-ticket gap-2'>
-                                        <h1 className='sm'><Icon icon="ic:round-support-agent" /></h1>
+                                        <h1 className='xl'><Icon icon="ic:round-support-agent" /></h1>
                                         <div>
                                             <Detakyellow fill="blue" />
                                             <p className='text-start'>Operator</p>

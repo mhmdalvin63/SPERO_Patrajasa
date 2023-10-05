@@ -26,7 +26,7 @@
 }
 .icon-ticket{
     display: flex;
-    align-items: start;
+    align-items: end;
 }
 
 .lower-hr{
@@ -36,6 +36,7 @@
 }
 
 .SvgMaps{
+    margin-top: -3rem;
     width: 100%;
 }
 .SvgMaps div:not([class]){
@@ -110,6 +111,10 @@
     align-items: center;
     justify-content: space-around;
     color: white;
+}
+
+.detak{
+    width: ;
 }
 
 .table {

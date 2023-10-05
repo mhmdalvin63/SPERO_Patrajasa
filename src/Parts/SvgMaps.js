@@ -9,8 +9,8 @@ const MapComponent = () => {
     // Add more markers here
   ];
 
-  const svgWidth = 1100; // Width of your SVG
-  const svgHeight = 400; // Height of your SVG
+  const svgWidth = 1500; // Width of your SVG
+  const svgHeight = 600; // Height of your SVG
 
   return (
     <div>
