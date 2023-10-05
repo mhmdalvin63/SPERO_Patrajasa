@@ -207,9 +207,9 @@ function MainNew() {
                             </div>
                             <div className='hr-main text-black'></div>
                             <div className='lower-hr gap-2 text-black'>
-                                <p>Online <span>7</span></p>
+                                <p className='xl'>Online <span>7</span></p>
                                 <div className='vl'></div>
-                                <p>Offline <span>5</span></p>
+                                <p className='xl'>Offline <span>5</span></p>
                             </div>
                         </div>
                     </Dropdown.Toggle>
@@ -253,9 +253,9 @@ function MainNew() {
                             </div>
                             <div className='hr-main text-black'></div>
                             <div className='lower-hr gap-2 text-black'>
-                                <p>Online <span>7</span></p>
+                                <p className='xl'>Online <span>7</span></p>
                                 <div className='vl'></div>
-                                <p>Offline <span>5</span></p>
+                                <p className='xl'>Offline <span>5</span></p>
                             </div>
                         </div>
                     </Dropdown.Toggle>
@@ -300,9 +300,9 @@ function MainNew() {
                             </div>
                             <div className='hr-main text-black'></div>
                             <div className='lower-hr gap-2 text-black'>
-                                <p>Online <span>7</span></p>
+                                <p className='xl'>Online <span>7</span></p>
                                 <div className='vl'></div>
-                                <p>Offline <span>5</span></p>
+                                <p className='xl'>Offline <span>5</span></p>
                             </div>
                         </div>
                     </Dropdown.Toggle>

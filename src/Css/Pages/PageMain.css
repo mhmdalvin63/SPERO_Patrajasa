@@ -52,13 +52,12 @@
 
 .main-new-bottom-left{
     display: grid;
-    grid-template-columns: max-content max-content;
-    grid-template-rows: auto auto auto;
+    grid-template-columns: max-content max-content max-content;
+    grid-template-rows: auto auto;
     gap: 2.5rem;
     grid-template-areas: 
-    "mptb1 mptb2"
-    "mptb3 mptb4"
-    "mptb5 mptb6";
+    "mptb1 mptb2 mptb3"
+    "mptb4 mptb5 mptb6";
 }
 .main-new-bottom-left .main-parent-ticket-border:nth-child(1){grid-area: mptb1;}
 .main-new-bottom-left .main-parent-ticket-border:nth-child(2){grid-area: mptb2;}
