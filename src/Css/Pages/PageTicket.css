@@ -27,6 +27,7 @@
 }
 
 .page-ticket-content{
+    gap: 5rem;
     margin-top: 10rem;
 }
 .chart-status{
