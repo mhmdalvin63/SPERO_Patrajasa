@@ -17,7 +17,7 @@ function PageTicket() {
         <div className='PageListTicket'>
             <div className='main-new-header px-5 pt-2'>
                 <div className='header-logo-prima pt-2'>
-                    <img className='LogoPatra ps-5' src={LogoPatra} alt="LogoPatra" />
+                    <img className='LogoPatra mt-2' src={LogoPatra} alt="LogoPatra" />
                 </div>
                 <div className='track-filter text-end'>
                     <h1 className='text-black'>6 Oktober 2023</h1>
