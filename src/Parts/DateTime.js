@@ -30,7 +30,7 @@ function DateTime(){
   return(
     <div>
         <h1 className=''>{`${day} ${currentMonthName} ${year}`}</h1>
-        <p className='my-2 text-end'>{currentTime.toLocaleTimeString()} WIB</p>
+        <p className='my-2 text-end xl'>{currentTime.toLocaleTimeString()} WIB</p>
     </div>
   )
 }

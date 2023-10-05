@@ -117,26 +117,28 @@ function MainNew() {
                     <img className='LogoPatra' src={LogoPatra} alt="LogoPatra" />
                 </div>
                 <div className='header-total-ticket'>
-                    <DateTime />
-                    <div className='upper-hr gap-3'>
-                        <h1 className='xl'>{posts.total_ticket}</h1>
+                    <div className='text-end'>
+                        <DateTime />
+                    </div>
+                    <div className='upper-hr-top gap-3'>
+                        <h1 className='xl tg'>{posts.total_ticket}</h1>
                         <div>
-                            <div className='icon-ticket gap-2 text-blue'>
-                                <h1 className='sm fwb'><Icon icon="carbon:report" /></h1>
+                            <div className='icon-ticket-top gap-2 text-blue'>
+                                <h1 className='md fwb mt-3'><Icon icon="carbon:report" /></h1>
                                 <div>
-                                <Detakblue />
-                                <p>Ticket</p>
+                                <Detakblue className='detak' />
+                                <p className='xl fwb700 tt'>Ticket</p>
                                 </div>
                             </div>
                         </div>
                     </div>
                     <div className='hr-main'></div>
-                    <div className='lower-hr gap-2'>
-                        <p className='text-blue'>Low <span className='fwb'>{priority.low}</span></p>
+                    <div className='lower-hr gap-3'>
+                        <p className='xl text-blue'>Low <span className='fwb'>{priority.low}</span></p>
                         <div className='vl'></div>
-                        <p className='text-lime'>Medium <span className='fwb'>{priority.medium}</span></p>
+                        <p className='xl text-lime'>Medium <span className='fwb'>{priority.medium}</span></p>
                         <div className='vl'></div>
-                        <p className='text-red'>Height <span className='fwb'>{priority.high}</span></p>
+                        <p className='xl text-red'>Height <span className='fwb'>{priority.high}</span></p>
                     </div>
                 </div>
             </div>
@@ -196,20 +198,20 @@ function MainNew() {
                     <Dropdown.Toggle className='dropdown-main' id="dropdown-basic">
                         <div className='header-total-ticket '>
                             <div className='upper-hr gap-3'>
-                                <h1 className='xl text-black'>{Po.count}</h1>
+                                <h1 className='xl tg'>{Po.count}</h1>
                                 <div className='text-lime'>
                                     <div className='icon-ticket gap-2'>
-                                        <h1 className='sm'><Icon icon="clarity:administrator-solid" /></h1>
-                                        <Detak fill="blue" />
+                                        <h1 className='md'><Icon icon="clarity:administrator-solid" /></h1>
+                                        <Detak fill="blue" className='detak' />
                                     </div>
-                                    <p className='text-start'>Proses Owner</p>
+                                    <p className='text-start xl tt fwb700'>Proses Owner</p>
                                 </div>
                             </div>
-                            <div className='hr-main text-black'></div>
-                            <div className='lower-hr gap-2 text-black'>
-                                <p className='xl'>Online <span>7</span></p>
+                            <div className='hr-main tg'></div>
+                            <div className='lower-hr gap-3 tg'>
+                                <p className='xl'>Online <span className='fwb700'>7</span></p>
                                 <div className='vl'></div>
-                                <p className='xl'>Offline <span>5</span></p>
+                                <p className='xl'>Offline <span className='fwb700'>5</span></p>
                             </div>
                         </div>
                     </Dropdown.Toggle>
@@ -240,22 +242,20 @@ function MainNew() {
                     <Dropdown.Toggle className='dropdown-main' id="dropdown-basic">
                         <div className='header-total-ticket '>
                             <div className='upper-hr gap-3'>
-                                <h1 className='xl text-black'>{Driver.total}</h1>
+                                <h1 className='xl tg'>{Driver.total}</h1>
                                 <div className='text-red'>
                                     <div className='icon-ticket gap-2'>
-                                        <h1 className='sm'><Icon icon="game-icons:full-motorcycle-helmet" /></h1>
-                                        <div>
-                                            <Detakred fill="blue" />
-                                            <p className='text-start'>Driver</p>
-                                        </div>
+                                        <h1 className='md'><Icon icon="game-icons:full-motorcycle-helmet" /></h1>
+                                            <Detakred fill="blue"  className='detak'/>
                                     </div>
+                                            <p className='text-center fwb700 tt xl'>Driver</p>
                                 </div>
                             </div>
-                            <div className='hr-main text-black'></div>
-                            <div className='lower-hr gap-2 text-black'>
-                                <p className='xl'>Online <span>7</span></p>
+                            <div className='hr-main tg'></div>
+                            <div className='lower-hr gap-3 tg'>
+                                <p className='xl '>Online <span className='fwb700'>7</span></p>
                                 <div className='vl'></div>
-                                <p className='xl'>Offline <span>5</span></p>
+                                <p className='xl '>Offline <span className='fwb700'>5</span></p>
                             </div>
                         </div>
                     </Dropdown.Toggle>
@@ -287,22 +287,20 @@ function MainNew() {
                     <Dropdown.Toggle className='dropdown-main' id="dropdown-basic">
                         <div className='header-total-ticket '>
                             <div className='upper-hr gap-3'>
-                                <h1 className='xl text-black'>12</h1>
+                                <h1 className='xl tg'>12</h1>
                                 <div className='text-yellow'>
                                     <div className='icon-ticket gap-2'>
-                                        <h1 className='sm'><Icon icon="ic:round-support-agent" /></h1>
-                                        <div>
-                                            <Detakyellow fill="blue" />
-                                            <p className='text-start'>Operator</p>
-                                        </div>
+                                        <h1 className='md'><Icon icon="ic:round-support-agent" /></h1>
+                                            <Detakyellow fill="blue"  className='detak'/>
                                     </div>
+                                            <p className='text-center fwb700 tt xl'>Operator</p>
                                 </div>
                             </div>
-                            <div className='hr-main text-black'></div>
-                            <div className='lower-hr gap-2 text-black'>
-                                <p className='xl'>Online <span>7</span></p>
+                            <div className='hr-main tg'></div>
+                            <div className='lower-hr gap-3 tg'>
+                                <p className='xl'>Online <span className='fwb700'>7</span></p>
                                 <div className='vl'></div>
-                                <p className='xl'>Offline <span>5</span></p>
+                                <p className='xl'>Offline <span className='fwb700'>5</span></p>
                             </div>
                         </div>
                     </Dropdown.Toggle>

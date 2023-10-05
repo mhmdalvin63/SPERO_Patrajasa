@@ -1,13 +1,13 @@
 .hr-main {
     margin: 0 0 .35rem 0 !important;
-    color: inherit;
-    border: 0;
+    color: #333;
+    border: 10;
     border-top: var(--bs-border-width) solid;
-    opacity: .25;
+    opacity: 1;
 }
 .vl {
-    border-left: 1px solid black;
-    height: 1.25rem;
+    border-left: 1px solid #333;
+    height: 2rem;
   }
 
 
@@ -27,12 +27,21 @@
 }
 .upper-hr{
     display: flex;
-    align-items: center;
+    align-items: end;
+    justify-content: center;
+}
+.upper-hr-top{
+    display: flex;
+    align-items: end;
     justify-content: center;
 }
 .icon-ticket{
     display: flex;
-    align-items: start;
+    align-items: end;
+}
+.icon-ticket-top{
+    display: flex;
+    align-items: center;
 }
 
 .lower-hr{
@@ -42,7 +51,7 @@
 }
 
 .SvgMaps{
-    margin-top: -3rem;
+    margin-top: -10rem;
     width: 100%;
 }
 .SvgMaps div:not([class]){
@@ -50,11 +59,17 @@
     justify-content: center;
 }
 
+.detak{
+    transform: translateY(2rem);
+    width: 140px;
+    height: 140px;
+}
+
 .main-new-bottom-left{
     display: grid;
     grid-template-columns: max-content max-content max-content;
     grid-template-rows: auto auto;
-    gap: 2.5rem;
+    gap: 1rem;
     grid-template-areas: 
     "mptb1 mptb2 mptb3"
     "mptb4 mptb5 mptb6";
