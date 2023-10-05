@@ -5,7 +5,7 @@ import SvgMaps from '../Parts/SvgMaps'
 
 import Table from 'react-bootstrap/Table';
 
-
+import DateTime from '../Parts/DateTime';
 
 import LogoPatra from '../Images/Logo-Prima.png';
 
@@ -48,6 +48,9 @@ function MainNew() {
   const [Po, setPo] = useState([]);
   const [PoList, setPoList] = useState([]);
 
+  // P R O C E S S   O W N E R
+  const [Operator, SetOperator] = useState([]);
+
 
   // T I C K E T   S U M M A R Y
   useEffect(() => {
@@ -75,9 +78,17 @@ function MainNew() {
       axios.get('https://apipatra.spero-lab.id/api/dashboard/driver', { headers: {"Authorization" : `Bearer ${token}`} })
        .then((result) => {
          console.log('DRIVERRRRRR',result.data.data);
-         setDriver(result.data.data);
+         setDriver(result.data.data.count);
          setDriverList(result.data.data.drivers)
          console.log(setDriverList);
+       })
+      //  .catch((error) => console.log(error));
+       console.log(DriverList)
+
+      axios.get('https://apipatra.spero-lab.id/api/dashboard/operator', { headers: {"Authorization" : `Bearer ${token}`} })
+       .then((result) => {
+         console.log('OPERATORRRR',result.data.data.operator);
+         SetOperator(result.data.data.operator);
        })
       //  .catch((error) => console.log(error));
        console.log(DriverList)
@@ -103,11 +114,10 @@ function MainNew() {
         <div className='PageMainNew'>
             <div className='main-new-header px-5'>
                 <div className='header-logo-prima'>
-                    <img className='LogoPatra mt-3' src={LogoPatra} alt="LogoPatra" />
+                    <img className='LogoPatra' src={LogoPatra} alt="LogoPatra" />
                 </div>
-                <div className='header-total-ticket mt-3'>
-                    <h1 className='text-end'>6 Oktober 2023</h1>
-                    <p className='my-2 text-end'>13:45 WIB</p>
+                <div className='header-total-ticket'>
+                    <DateTime />
                     <div className='upper-hr gap-3'>
                         <h1 className='xl'>{posts.total_ticket}</h1>
                         <div>
@@ -216,10 +226,12 @@ function MainNew() {
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                            <td colSpan={5}>Jamal</td>
-                            <td className='text-center'>Hadir!!!!!</td>
+                        {PoList.map((item, index) => (
+                            <tr key={index}>
+                            <td colSpan={5}>{item.name}</td>
+                            <td className='text-center'>{new Date(item.created_at).toLocaleDateString()}</td>
                             </tr>
+                        ))}
                         </tbody>
                     </Table>
                     </Dropdown.Menu>
@@ -228,7 +240,7 @@ function MainNew() {
                     <Dropdown.Toggle className='dropdown-main' id="dropdown-basic">
                         <div className='header-total-ticket '>
                             <div className='upper-hr gap-3'>
-                                <h1 className='xl text-black'>{Driver.count}</h1>
+                                <h1 className='xl text-black'>{Driver.total}</h1>
                                 <div className='text-red'>
                                     <div className='icon-ticket gap-2'>
                                         <h1 className='xl'><Icon icon="game-icons:full-motorcycle-helmet" /></h1>
@@ -249,7 +261,7 @@ function MainNew() {
                     </Dropdown.Toggle>
                     <Dropdown.Menu id='menu-dropdown-active'>
                     <Table className='border-none'>
-                        <thead className='bg-lime text-center text-white'>
+                        <thead className='bg-red text-center text-white'>
                             <tr>
                             <th>Driver</th>
                             <th></th>
@@ -260,10 +272,13 @@ function MainNew() {
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                            <td colSpan={5}>Jamal</td>
-                            <td className='text-center'>Hadir!!!!!</td>
+                        {DriverList.map((item, index) => (
+                            <tr key={index}>
+                            <td colSpan={5}>{item.name}</td>
+                            <td className='text-center'>{new Date(item.created_at).toLocaleDateString()}</td>
                             </tr>
+                        ))}
+                            
                         </tbody>
                     </Table>
                     </Dropdown.Menu>
@@ -293,7 +308,7 @@ function MainNew() {
                     </Dropdown.Toggle>
                     <Dropdown.Menu id='menu-dropdown-active'>
                     <Table className='border-none'>
-                        <thead className='bg-lime text-center text-white'>
+                        <thead className='bg-orange text-center text-white'>
                             <tr>
                             <th>Driver</th>
                             <th></th>
@@ -304,10 +319,12 @@ function MainNew() {
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                            <td colSpan={5}>Jamal</td>
-                            <td className='text-center'>Hadir!!!!!</td>
+                        {Operator.map((item, index) => (
+                            <tr key={index}>
+                            <td colSpan={5}>{item.name}</td>
+                            <td className='text-center'>{new Date(item.created_at).toLocaleDateString()}</td>
                             </tr>
+                        ))}
                         </tbody>
                     </Table>
                     </Dropdown.Menu>

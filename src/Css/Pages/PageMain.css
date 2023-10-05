@@ -17,7 +17,13 @@
     justify-content: space-between;
 }
 .LogoPatra{
-    margin-left: 45%;
+    width: 15%;
+    position: absolute;
+    top: 3%;
+    left: 7.5rem;
+}
+.header-total-ticket{
+    margin-top: 3% !important;
 }
 .upper-hr{
     display: flex;
@@ -26,7 +32,7 @@
 }
 .icon-ticket{
     display: flex;
-    align-items: end;
+    align-items: start;
 }
 
 .lower-hr{
@@ -113,10 +119,6 @@
     color: white;
 }
 
-.detak{
-    width: ;
-}
-
 .table {
     --bs-table-color-type: initial;
     --bs-table-bg-type: initial;
@@ -144,4 +146,18 @@
 }
 .dropdown-menu .show{
     transform: translateY(-100%);
+}
+
+
+.border1{
+    padding: 1rem;
+    border: 1px solid red;
+}
+.border2{
+    padding: 1rem;
+    border: 1px solid red;
+}
+.border3{
+    padding: 1rem;
+    border: 1px solid red;
 }

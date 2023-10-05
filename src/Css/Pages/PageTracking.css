@@ -9,7 +9,7 @@ hr.hr-bottom {
 .track-filter{
     position: absolute;
     right: 2.5%;
-    top: 2.5%;
+    top: 4.5%;
 }
 .dropstart .dropdown-toggle::before {
     content: none !important;

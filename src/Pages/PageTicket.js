@@ -8,6 +8,7 @@ import { Icon } from '@iconify/react';
 
 import {Table} from 'react-bootstrap';
 
+import DateTime from '../Parts/DateTime'
 
 import { useEffect, useState } from 'react';
 
@@ -109,13 +110,12 @@ function PageTicket() {
 
     return (
         <div className='PageTicket'>
-            <div className='main-new-header px-5 pt-2'>
-                <div className='header-logo-prima pt-2'>
-                    <img className='LogoPatra mt-2' src={LogoPatra} alt="LogoPatra" />
+            <div className='main-new-header align-items-start px-5'>
+                <div className='header-logo-prima'>
+                    <img className='LogoPatra' src={LogoPatra} alt="LogoPatra" />
                 </div>
                 <div className='track-filter text-end'>
-                    <h1 className='text-black'>6 Oktober 2023</h1>
-                    <p className='my-2 text-black'>13:45 WIB</p>
+                    <DateTime />
                     <div className='d-flex gap-4 justify-content-end align-items-end'>
                         <Dropdown drop="down">
                             <Dropdown.Toggle className='dropdown-table-ticket'>
@@ -224,10 +224,10 @@ function PageTicket() {
                 <div className='ticket-top'>
                     <div className='header-total-ticket '>
                             <div className='upper-hr gap-3'>
-                                <h1 className='md text-black'>{posts.total_ticket}</h1>
+                                <h1 className='xl text-black'>{posts.total_ticket}</h1>
                                 <div className='text-blue'>
                                     <div className='icon-ticket gap-2'>
-                                        <h1 className='sm'><Icon icon="carbon:report" /></h1>
+                                        <h1 className='md'><Icon icon="carbon:report" /></h1>
                                         <div>
                                             <Detakblue fill="blue" />
                                             <p className='text-start'>Ticket</p>
@@ -236,20 +236,20 @@ function PageTicket() {
                                 </div>
                             </div>
                             <div className='hr-main text-black'></div>
-                            <div className='lower-hr gap-2 text-black'>
-                                <p>Low <span>{priority.low}</span></p>
+                            <div className='lower-hr gap-4 text-black'>
+                                <h3>Low <span>{priority.low}</span></h3>
                                 <div className='vl'></div>
-                                <p>Medium <span>{priority.medium}</span></p>
+                                <h3>Medium <span>{priority.medium}</span></h3>
                                 <div className='vl'></div>
-                                <p>High <span>{priority.high}</span></p>
+                                <h3>High <span>{priority.high}</span></h3>
                             </div>
                     </div>
                 </div>
-                <div className='vl-list'></div>
+                {/* <div className='vl-list'></div> */}
                 <div className='chart-status'>
                     <div className='header-total-ticket'>
                                 <div className='upper-hr align-items-start gap-3'>
-                                    <h1 className='sm text-black'>{open.value}</h1>
+                                    <h1 className='md text-black'>{open.value}</h1>
                                     <div className='text-blue'>
                                         <div className='icon-ticket gap-2'>
                                             <h1><Icon icon="ion:log-in-outline" /></h1>
@@ -335,7 +335,7 @@ function PageTicket() {
                     </div>
                     <div className='header-total-ticket'>
                                 <div className='upper-hr align-items-start gap-3'>
-                                    <h1 className='sm text-black'>{Forwarding.value}</h1>
+                                    <h1 className='md text-black'>{Forwarding.value}</h1>
                                     <div className='text-yellow'>
                                         <div className='icon-ticket gap-2'>
                                             <h1><Icon icon="material-symbols:forward" /></h1>
@@ -346,7 +346,7 @@ function PageTicket() {
                                 <div className='d-flex justify-content-end gap-2 my-1'>
                                                     <p className='text-start'>Forward</p>
                                                     <Dropdown drop="down">
-                                                        <Dropdown.Toggle className='dropdown-list-ticket bg-blue' >
+                                                        <Dropdown.Toggle className='dropdown-list-ticket bg-orange' >
                                                         <p className='sm'>List Ticket</p>
                                                         </Dropdown.Toggle>
 
@@ -389,7 +389,7 @@ function PageTicket() {
                     </div>
                     <div className='header-total-ticket'>
                                 <div className='upper-hr align-items-start gap-3'>
-                                    <h1 className='sm text-black'>{Proses.value}</h1>
+                                    <h1 className='md text-black'>{Proses.value}</h1>
                                     <div className='text-lime'>
                                         <div className='icon-ticket gap-2'>
                                             <h1><Icon icon="clarity:process-on-vm-line" /></h1>
@@ -400,7 +400,7 @@ function PageTicket() {
                                 <div className='d-flex justify-content-end gap-2 my-1'>
                                                     <p className='text-start'>Process</p>
                                                     <Dropdown drop="down">
-                                                        <Dropdown.Toggle className='dropdown-list-ticket bg-blue' >
+                                                        <Dropdown.Toggle className='dropdown-list-ticket bg-lime' >
                                                         <p className='sm'>List Ticket</p>
                                                         </Dropdown.Toggle>
 
@@ -443,7 +443,7 @@ function PageTicket() {
                     </div>
                     <div className='header-total-ticket'>
                                 <div className='upper-hr align-items-start gap-3'>
-                                    <h1 className='sm text-black'>{Reopen.value}</h1>
+                                    <h1 className='md text-black'>{Reopen.value}</h1>
                                     <div className='text-purple'>
                                         <div className='icon-ticket gap-2'>
                                             <h1><Icon icon="material-symbols:reopen-window" /></h1>
@@ -454,7 +454,7 @@ function PageTicket() {
                                 <div className='d-flex justify-content-end gap-2 my-1'>
                                                     <p className='text-start'>Re-Open</p>
                                                     <Dropdown drop="down">
-                                                        <Dropdown.Toggle className='dropdown-list-ticket bg-blue' >
+                                                        <Dropdown.Toggle className='dropdown-list-ticket bg-purple' >
                                                         <p className='sm'>List Ticket</p>
                                                         </Dropdown.Toggle>
 
@@ -497,7 +497,7 @@ function PageTicket() {
                     </div>
                     <div className='header-total-ticket'>
                                 <div className='upper-hr align-items-start gap-3'>
-                                    <h1 className='sm text-black'>{Done.value}</h1>
+                                    <h1 className='md text-black'>{Done.value}</h1>
                                     <div className='text-cyan'>
                                         <div className='icon-ticket gap-2'>
                                             <h1><Icon icon="material-symbols:done" /></h1>
@@ -508,7 +508,7 @@ function PageTicket() {
                                 <div className='d-flex justify-content-end gap-2 my-1'>
                                                     <p className='text-start'>Done</p>
                                                     <Dropdown drop="down">
-                                                        <Dropdown.Toggle className='dropdown-list-ticket bg-blue' >
+                                                        <Dropdown.Toggle className='dropdown-list-ticket bg-cyan' >
                                                         <p className='sm'>List Ticket</p>
                                                         </Dropdown.Toggle>
 
@@ -551,7 +551,7 @@ function PageTicket() {
                     </div>
                     <div className='header-total-ticket'>
                                 <div className='upper-hr align-items-start gap-3'>
-                                    <h1 className='sm text-black'>{Close.value}</h1>
+                                    <h1 className='md text-black'>{Close.value}</h1>
                                     <div className='text-red'>
                                         <div className='icon-ticket gap-2'>
                                             <h1><Icon icon="jam:shield-close" /></h1>
@@ -562,7 +562,7 @@ function PageTicket() {
                                 <div className='d-flex justify-content-end gap-2 my-1'>
                                                     <p className='text-start'>Closed</p>
                                                     <Dropdown drop="down">
-                                                        <Dropdown.Toggle className='dropdown-list-ticket bg-blue' >
+                                                        <Dropdown.Toggle className='dropdown-list-ticket bg-red' >
                                                         <p className='sm'>List Ticket</p>
                                                         </Dropdown.Toggle>
 

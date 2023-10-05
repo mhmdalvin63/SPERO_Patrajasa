@@ -7,27 +7,44 @@ import {Dropdown, Form,  FormControl, Button} from 'react-bootstrap';
 import { Icon } from '@iconify/react';
 
 import {Table} from 'react-bootstrap';
+import { useEffect, useState } from 'react';
+import axios from 'axios';
+import DateTime from '../Parts/DateTime';
 
 
 
 
 function PageTicket() {
 
+    // T I C K E T
+  const [Ticket, setTicket] = useState([]);
+  const [DetailTicket, setDetailTicket] = useState([]);
+    useEffect(() => {
+        const token = sessionStorage.getItem("jwttoken");
+         axios.get('https://apipatra.spero-lab.id/api/dashboard/ticket', { headers: {"Authorization" : `Bearer ${token}`} })
+          .then((result) => {
+            console.log('DATAAAAA',result.data.data);
+            setTicket(result.data.data);
+            setDetailTicket(result.data.data);
+          })
+          .catch((error) => console.log(error));
+      }, []);
+
     return (
         <div className='PageListTicket'>
             <div className='main-new-header px-5 pt-2'>
-                <div className='header-logo-prima pt-2'>
-                    <img className='LogoPatra mt-2' src={LogoPatra} alt="LogoPatra" />
+                <div className='header-logo-prima'>
+                    <img className='LogoPatra' src={LogoPatra} alt="LogoPatra" />
                 </div>
                 <div className='track-filter text-end'>
-                    <h1 className='text-black'>6 Oktober 2023</h1>
-                    <p className='my-2 text-black'>13:45 WIB</p>
+                    <DateTime/>
                 </div>
             </div>
 
             {/* className='menu-dropdown-table-ticket'> */}
             <div className='table-list-ticket px-5'>
             <div className='filtering-table-dropdown-ticket px-3 my-3'>
+                <div className='d-flex align-items-center gap-5'>
                 <Form.Group className='select-date' controlId="sd">
                     <Form.Label><p className='nw'><Icon icon="bx:calendar" /> Start Date</p></Form.Label>
                     <Form.Control type="date" name="sd" placeholder="Start Date" />
@@ -45,6 +62,7 @@ function PageTicket() {
                     <option value="3">Three</option>
                     </Form.Select>
                 </Form.Group>
+                </div>
                 <Form className='search-bottom d-flex align-items-center'>
                     <FormControl type="text" placeholder="Search" className="icon2 mr-sm-2" />
                     <Button className='icon'><Icon icon="ri:search-line" /></Button>
@@ -58,30 +76,38 @@ function PageTicket() {
                     <th>Title</th>
                     <th>Ticket Masuk</th>
                     <th>Dateline Ticket</th>
+                    <th>Timecode</th>
                     <th>Prioritas</th>
                     <th>Status</th>
+                    <th>Action</th>
                 </tr>
                 </thead>
                 <tbody id='page-ticket-bottom-tbody'>
+                {Ticket.map((item) => (
                     <tr className='text-center'>
-                    <td>1</td>
-                    <td>1234</td>
-                    <td>Tukar Armada</td>
+                    <td>{item.id}</td>
+                    <td>{item.ticket_code}</td>
+                    <td>{item.activity.name}</td>
+                    <td>
+                        <p>{item.start_time}</p>
+                        {/* <p className='text-red'>11 : 14 WIB</p> */}
+                    </td>
                     <td>
                         <p>12 Sept’ 2023</p>
                         <p className='text-red'>11 : 14 WIB</p>
                     </td>
                     <td>
-                        <p>12 Sept’ 2023</p>
-                        <p className='text-red'>11 : 14 WIB</p>
+                        <p>hai</p>
                     </td>
                     <td className='text-blue'>
                         <p>Kategori 1</p>
                     </td>
-                    <td className='text-blue'>
-                        <p>Forwarding</p>
+                    <td>
+                        <p style={{ color: item.activity.color}}>{item.activity.name}</p>
                     </td>
+                    <td><h3><Icon icon="mdi:eye" /></h3></td>
                     </tr>
+                ))}
                 </tbody>
             </Table>
             </div>

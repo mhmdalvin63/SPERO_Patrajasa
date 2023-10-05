@@ -11,7 +11,9 @@ import {Dropdown, Form,  FormControl, Button, Row, Col} from 'react-bootstrap';
 
 // ICONIFY
 import { Icon } from '@iconify/react';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import axios from 'axios';
+import DateTime from '../Parts/DateTime';
 
 
 
@@ -45,6 +47,30 @@ function Tracking() {
 )
     
 
+// T I C K E T
+const [Ticket, setTicket,] = useState([]);
+
+// D R I V E R
+const [Driver, setDriver,] = useState([]);
+
+useEffect(() => {
+  const token = sessionStorage.getItem("jwttoken");
+  axios.get('https://apipatra.spero-lab.id/api/dashboard/ticket', { headers: {"Authorization" : `Bearer ${token}`} })
+  .then((result) => {
+    console.log('TICKETT WOIIIIIIIIIII', result.data.data);
+    setTicket(result.data.data);
+  })
+  .catch((error) => console.log(error));
+
+   axios.get('https://apipatra.spero-lab.id/api/dashboard/driver', { headers: {"Authorization" : `Bearer ${token}`} })
+    .then((result) => {
+      console.log('driverrrrrrrrrrrrrrrrrrrrrrrrrrrrr', result.data.data.drivers);
+      setDriver(result.data.data);
+    })
+    .catch((error) => console.log(error));
+}, []);
+
+// const mergeData = mergeData(data1, data2);
 
 
     return (
@@ -53,8 +79,9 @@ function Tracking() {
                 <Maps />
             </div>
             <div className='track-filter text-end'>
-                <h1 className='text-white'>6 Oktober 2023</h1>
-                <p className='my-2 text-white'>13:45 WIB</p>
+                <div className='text-white'>
+                    <DateTime/>
+                </div>
             <Dropdown drop="start">
                 <Dropdown.Toggle className='dropdown-filter-tracking'>
                 <h1><Icon icon="ion:filter" className='filter-button' /></h1>
