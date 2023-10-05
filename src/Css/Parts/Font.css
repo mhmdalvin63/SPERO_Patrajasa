@@ -85,6 +85,10 @@
         font-size: calc(50% + .8vmin);
         margin-bottom: 0!important;
       }
+    p.xl{
+        font-size: calc(50% + 1.5vmin);
+        margin-bottom: 0!important;
+      }
     h1{
       font-size: calc(50% + 3vmin)!important;
       margin-bottom: 0!important;

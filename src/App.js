@@ -8,11 +8,6 @@ import Tracking from './Pages/PageTracking';
 import Ticket from './Pages/PageTicket';
 import ListTicket from './Pages/PageListTicket';
 
-// import Test from './Charts/MultiLineHari';
-
-
-// import Report from './Pages/Report';
-
 function App() {
   return (
     <div id='body'>
