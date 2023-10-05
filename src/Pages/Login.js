@@ -60,7 +60,7 @@ sessionStorage.clear();
                      toast.success('Success');
                     //  sessionStorage.setItem('email',email);
                      sessionStorage.setItem('jwttoken',resp.access_token);
-                   usenavigate('/Main')
+                   usenavigate('/main')
                 }
                 // if (Object.keys(resp).length === 0) {
                 //     toast.error('Please Enter valid email');
