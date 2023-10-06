@@ -58,6 +58,9 @@
   .tg{
     color: #333;
   }
+  .tg2{
+    color: #696969 !important;
+  }
   .text-orange{
     color: #B08A00;
   }
@@ -97,6 +100,12 @@
       }
     p.md{
         font-size: calc(50% + .8vmin);
+        margin-bottom: 0!important;
+      }
+    p.md2{
+        font-size: calc(50% + 1.25vmin);
+        font-weight: 400;
+        color: #969696;
         margin-bottom: 0!important;
       }
     p.xl{

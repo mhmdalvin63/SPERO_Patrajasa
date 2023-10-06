@@ -1,5 +1,6 @@
 import { Fragment, useState } from "react";
 import MarkerHelm from '../Images/markerHelm.png';
+import MarkerMotor from '../Images/markerMotor.png';
 import Profile from '../Images/MotorIcon.png';
 import Kendala from '../Images/banmotor.jpg';
 import '../Css/Parts/MapsMarker.css';
@@ -18,11 +19,13 @@ import {
 const markers = [
   {
     id: 1,
+    role: 'driver-mobil',
     name: "Taman Sukatani",
     position: { lat: -6.39850806754815, lng: 106.88613027971365 },
   },
   {
     id: 2,
+    role: 'ticket',
     name: "Taman Merdeka",
     position: { lat: -6.396625090723208, lng: 106.8366856932065 },
   }
@@ -50,11 +53,11 @@ function App() {
           {isLoaded ? (
             <GoogleMap
               center={{ lat: -6.39850806754815, lng: 106.88613027971365 }}
-              zoom={10}
+              zoom={6}
               onClick={() => setActiveMarker(null)}
               mapContainerStyle={{ width: "100%", height: "100vh" }}
             >
-              {markers.map(({ id, name, position }) => (
+              {markers.map(({ id, role, name, position }) => (
                 <MarkerF
                   key={id}
                   position={position}

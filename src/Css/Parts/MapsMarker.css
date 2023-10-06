@@ -4,3 +4,58 @@
 .gmnoprint{
     display: none !important;
 }
+
+.maps-label{
+    width: 30vw;
+}
+.gm-ui-hover-effect{
+    background-color: #EC2028 !important;
+    border-radius: 50%;
+    opacity: 1;
+    color: white !important;
+}
+.header-maps{
+    position: fixed;
+    width: 93.1%;
+    background-color: #1767B3;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+.header-maps-left{
+    display: flex;
+    align-items: center;
+}
+.header-maps-image{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 2.25rem;
+    height: 2.25rem;
+    border-radius: 10px;
+    background-color: white;
+}
+.border-status-maps{
+    border-radius: 5px;
+    color: white;
+}
+
+.header-content{
+    padding-top: 3.5rem;
+}
+
+
+
+.gambar-aduan{
+    display: flex;
+    align-items: center;
+}
+.gambar-aduan img{
+    width: 22%;
+    height: auto;
+    border-radius: 10px;
+}
+.teks-aduan{
+    display: flex;
+    align-items: center;
+}
