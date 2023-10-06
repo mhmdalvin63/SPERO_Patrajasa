@@ -22,6 +22,7 @@ import { ReactComponent as Svgcyan } from '../Images/svg-cyan.svg';
 
 import ChartHari from './Charts/MultiLineHari'
 import ChartBulan from './Charts/MultiLineBulan'
+import ChartProvinsi from './Charts/MultiLineProvinsi'
 import axios from 'axios';
 
 
@@ -326,7 +327,7 @@ function PageTicket() {
                                                 </div>
                                 <div className='hr-main text-black'></div>
                                 <div className='lower-hr gap-2 text-black'>
-                                    <p>Low <span>7</span></p>
+                                    <p>Low <span>5</span></p>
                                     <div className='vl'></div>
                                     <p>Medium <span>5</span></p>
                                     <div className='vl'></div>
@@ -380,11 +381,11 @@ function PageTicket() {
                                                 </div>
                                 <div className='hr-main text-black'></div>
                                 <div className='lower-hr gap-2 text-black'>
-                                    <p>Low <span>7</span></p>
+                                    <p>Low <span>2</span></p>
                                     <div className='vl'></div>
-                                    <p>Medium <span>5</span></p>
+                                    <p>Medium <span>0</span></p>
                                     <div className='vl'></div>
-                                    <p>High <span>5</span></p>
+                                    <p>High <span>0</span></p>
                                 </div>
                     </div>
                     <div className='header-total-ticket'>
@@ -434,11 +435,11 @@ function PageTicket() {
                                                 </div>
                                 <div className='hr-main text-black'></div>
                                 <div className='lower-hr gap-2 text-black'>
-                                    <p>Low <span>7</span></p>
+                                    <p>Low <span>2</span></p>
                                     <div className='vl'></div>
-                                    <p>Medium <span>5</span></p>
+                                    <p>Medium <span>0</span></p>
                                     <div className='vl'></div>
-                                    <p>High <span>5</span></p>
+                                    <p>High <span>0</span></p>
                                 </div>
                     </div>
                     <div className='header-total-ticket'>
@@ -488,11 +489,11 @@ function PageTicket() {
                                                 </div>
                                 <div className='hr-main text-black'></div>
                                 <div className='lower-hr gap-2 text-black'>
-                                    <p>Low <span>7</span></p>
+                                    <p>Low <span>1</span></p>
                                     <div className='vl'></div>
-                                    <p>Medium <span>5</span></p>
+                                    <p>Medium <span>0</span></p>
                                     <div className='vl'></div>
-                                    <p>High <span>5</span></p>
+                                    <p>High <span>0</span></p>
                                 </div>
                     </div>
                     <div className='header-total-ticket'>
@@ -542,11 +543,11 @@ function PageTicket() {
                                                 </div>
                                 <div className='hr-main text-black'></div>
                                 <div className='lower-hr gap-2 text-black'>
-                                    <p>Low <span>7</span></p>
+                                    <p>Low <span>3</span></p>
                                     <div className='vl'></div>
-                                    <p>Medium <span>5</span></p>
+                                    <p>Medium <span>0</span></p>
                                     <div className='vl'></div>
-                                    <p>High <span>5</span></p>
+                                    <p>High <span>0</span></p>
                                 </div>
                     </div>
                     <div className='header-total-ticket'>
@@ -596,11 +597,11 @@ function PageTicket() {
                                                 </div>
                                 <div className='hr-main text-black'></div>
                                 <div className='lower-hr gap-2 text-black'>
-                                    <p>Low <span></span></p>
+                                    <p>Low <span>4</span></p>
                                     <div className='vl'></div>
-                                    <p>Medium <span>5</span></p>
+                                    <p>Medium <span>0</span></p>
                                     <div className='vl'></div>
-                                    <p>High <span>5</span></p>
+                                    <p>High <span>0</span></p>
                                 </div>
                     </div>
                 </div>
@@ -610,7 +611,8 @@ function PageTicket() {
                 <Row>
                     <Col sm={6}><ChartHari /></Col>
                     <Col sm={6}><ChartBulan /></Col> 
-                    <Col sm={12}><ChartHari /></Col>
+                    {/* <Col sm={12}><ChartBulan /></Col>  */}
+                    <Col sm={12}><ChartProvinsi /></Col>
                 </Row>
                 
             </div>

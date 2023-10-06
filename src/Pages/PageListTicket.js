@@ -97,7 +97,7 @@ function PageTicket() {
                         <p className='text-red'>11 : 14 WIB</p>
                     </td>
                     <td>
-                        <p>hai</p>
+                        <p>59 detik </p>
                     </td>
                     <td className='text-blue'>
                         <p>Kategori 1</p>
