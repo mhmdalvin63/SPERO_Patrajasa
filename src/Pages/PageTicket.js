@@ -1,7 +1,7 @@
 import '../Css/Pages/PageTicket.css';
 import '../Css/Parts/Font.css'; 
 
-import LogoPatra from '../Images/Logo-Prima.png';
+import SvgLogo from '../Parts/SvgLogo';
 import {Dropdown, Form,  FormControl, Button, Row, Col} from 'react-bootstrap';
 
 import { Icon } from '@iconify/react';
@@ -167,7 +167,7 @@ function PageTicket() {
           <div className='PageTicket'>
             <div className='main-new-header align-items-start px-5'>
                 <div className='header-logo-prima'>
-                    <img className='LogoPatra' src={LogoPatra} alt="LogoPatra" />
+                    <SvgLogo></SvgLogo>
                 </div>
                 <div className='track-filter text-end'>
                     <DateTime />
@@ -252,7 +252,7 @@ function PageTicket() {
                                         <p>Filter</p>
                                     </div>
                                     <div className='d-flex justify-content-end'>
-                                        <img className='LogoPatraTracking' src={LogoPatra} alt="LogoPatra" />
+                                        <SvgLogo></SvgLogo>
                                     </div>
                                 </div>
                                 <hr />
@@ -602,7 +602,7 @@ function PageTicket() {
                                                                     <p>Filter</p>
                                                                 </div>
                                                                 <div className='d-flex justify-content-end'>
-                                                                    <img className='LogoPatraTracking' src={LogoPatra} alt="LogoPatra" />
+                                                                    <SvgLogo></SvgLogo>
                                                                 </div>
                                                             </div>
                                                             <hr />
@@ -747,7 +747,7 @@ function PageTicket() {
                                                                     <p>Filter</p>
                                                                 </div>
                                                                 <div className='d-flex justify-content-end'>
-                                                                    <img className='LogoPatraTracking' src={LogoPatra} alt="LogoPatra" />
+                                                                    <SvgLogo></SvgLogo>
                                                                 </div>
                                                             </div>
                                                             <hr />

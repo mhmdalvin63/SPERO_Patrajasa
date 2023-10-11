@@ -6,9 +6,6 @@ import LogoPatra from '../Images/Logo-Prima.png';
 
 import {Dropdown, Form,  FormControl, Button, Row, Col} from 'react-bootstrap';
 
-
-
-
 // ICONIFY
 import { Icon } from '@iconify/react';
 import { useEffect, useState } from 'react';

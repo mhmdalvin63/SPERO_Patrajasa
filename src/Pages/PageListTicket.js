@@ -1,7 +1,8 @@
 import '../Css/Pages/PageTicket.css';
 import '../Css/Parts/Font.css'; 
 
-import LogoPatra from '../Images/Logo-Prima.png';
+import SvgLogo from '../Parts/SvgLogo';
+
 import {Dropdown, Form,  FormControl, Button} from 'react-bootstrap';
 
 import { Icon } from '@iconify/react';
@@ -43,7 +44,7 @@ function PageTicket() {
         <div className='PageListTicket'>
             <div className='main-new-header px-5 pt-2'>
                 <div className='header-logo-prima'>
-                    <img className='LogoPatra' src={LogoPatra} alt="LogoPatra" />
+                    <SvgLogo></SvgLogo>
                 </div>
                 <div className='track-filter text-end'>
                     <DateTime/>
