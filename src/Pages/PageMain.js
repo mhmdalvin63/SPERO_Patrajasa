@@ -244,10 +244,10 @@ function MainNew() {
             <div className='main-new-bottom px-5'>
                 <div className='main-new-bottom-left'>
                     <div className='main-parent-ticket-border gap-4'>
-                        <h1 className='md fwb text-blue'><Icon icon="ion:log-in-outline" /></h1>
+                        <h1 className='xl fwb text-blue'><Icon icon="ion:log-in-outline" /></h1>
                         <div className='count-ticket-border'>
-                            <h1 className='sm fwb'>{open.value}</h1>
-                            <p className='xl'>Open</p>
+                            <h1 className='md fwb'>{open.value}</h1>
+                            <h2>Open</h2>
                         </div>
                     </div>
                     {/* <div className='main-parent-ticket-border d-none gap-4'>
@@ -258,10 +258,10 @@ function MainNew() {
                         </div>
                     </div> */}
                     <div className='main-parent-ticket-border gap-4'>
-                        <h1 className='md fwb text-lime'><Icon icon="clarity:process-on-vm-line" /></h1>
+                        <h1 className='xl fwb text-lime'><Icon icon="clarity:process-on-vm-line" /></h1>
                         <div className='count-ticket-border'>
-                            <h1 className='sm fwb'>{Proses.value}</h1>
-                            <p className='xl'>Proses</p>
+                            <h1 className='md fwb'>{Proses.value}</h1>
+                            <h2>Proses</h2>
                         </div>
                     </div>
                     {/* <div className='main-parent-ticket-border d-none gap-4'>
@@ -272,17 +272,17 @@ function MainNew() {
                         </div>
                     </div> */}
                     <div className='main-parent-ticket-border gap-4'>
-                        <h1 className='md fwb text-cyan'><Icon icon="material-symbols:done" /></h1>
+                        <h1 className='xl fwb text-cyan'><Icon icon="material-symbols:done" /></h1>
                         <div className='count-ticket-border'>
-                            <h1 className='sm fwb'>{Done.value}</h1>
-                            <p className='xl'>Done</p>
+                            <h1 className='md fwb'>{Done.value}</h1>
+                            <h2>Done</h2>
                         </div>
                     </div>
                     <div className='main-parent-ticket-border gap-4'>
-                        <h1 className='md fwb text-red'><Icon icon="jam:shield-close" /></h1>
+                        <h1 className='xl fwb text-red'><Icon icon="jam:shield-close" /></h1>
                         <div className='count-ticket-border'>
-                            <h1 className='sm fwb'>{Close.value}</h1>
-                            <p className='xl'>Closed</p>
+                            <h1 className='md fwb'>{Close.value}</h1>
+                            <h2>Closed</h2>
                         </div>
                     </div>
                 </div>
@@ -339,7 +339,7 @@ function MainNew() {
                                 <h1 className='xl tg'>{Driver.total}</h1>
                                 <div className='text-red'>
                                     <div className='icon-ticket gap-2'>
-                                        <h1 className='md'><Icon icon="game-icons:full-motorcycle-helmet" /></h1>
+                                        <h1 className='md'><Icon icon="mingcute:steering-wheel-fill" /></h1>
                                             <Detakred fill="blue"  className='detak'/>
                                     </div>
                                             <p className='text-center fwb700 tt xl'>Driver</p>
@@ -381,7 +381,7 @@ function MainNew() {
                     <Dropdown.Toggle className='dropdown-main' id="dropdown-basic">
                         <div className='header-total-ticket '>
                             <div className='upper-hr gap-3'>
-                                <h1 className='xl tg'>12</h1>
+                                <h1 className='xl tg'>{Operator.length}</h1>
                                 <div className='text-yellow'>
                                     <div className='icon-ticket gap-2'>
                                         <h1 className='md'><Icon icon="ic:round-support-agent" /></h1>
@@ -463,10 +463,10 @@ function MainNew() {
             <div className='main-new-bottom px-5'>
                 <div className='main-new-bottom-left'>
                     <div className='main-parent-ticket-border gap-4'>
-                        <h1 className='md fwb text-blue'><Icon icon="ion:log-in-outline" /></h1>
+                        <h1 className='xl fwb text-blue'><Icon icon="ion:log-in-outline" /></h1>
                         <div className='count-ticket-border'>
-                            <h1 className='sm fwb'>{openWeek.value}</h1>
-                            <p className='xl'>Open</p>
+                            <h1 className='md fwb'>{openWeek.value}</h1>
+                            <h2>Open</h2>
                         </div>
                     </div>
                     {/* <div className='main-parent-ticket-border d-none gap-4'>
@@ -477,10 +477,10 @@ function MainNew() {
                         </div>
                     </div> */}
                     <div className='main-parent-ticket-border gap-4'>
-                        <h1 className='md fwb text-lime'><Icon icon="clarity:process-on-vm-line" /></h1>
+                        <h1 className='xl fwb text-lime'><Icon icon="clarity:process-on-vm-line" /></h1>
                         <div className='count-ticket-border'>
-                            <h1 className='sm fwb'>{ProsesWeek.value}</h1>
-                            <p className='xl'>Proses</p>
+                            <h1 className='md fwb'>{ProsesWeek.value}</h1>
+                            <h2>Proses</h2>
                         </div>
                     </div>
                     {/* <div className='main-parent-ticket-border d-none gap-4'>
@@ -491,17 +491,17 @@ function MainNew() {
                         </div>
                     </div> */}
                     <div className='main-parent-ticket-border gap-4'>
-                        <h1 className='md fwb text-cyan'><Icon icon="material-symbols:done" /></h1>
+                        <h1 className='xl fwb text-cyan'><Icon icon="material-symbols:done" /></h1>
                         <div className='count-ticket-border'>
-                            <h1 className='sm fwb'>{DoneWeek.value}</h1>
-                            <p className='xl'>Done</p>
+                            <h1 className='md fwb'>{DoneWeek.value}</h1>
+                            <h2>Done</h2>
                         </div>
                     </div>
                     <div className='main-parent-ticket-border gap-4'>
-                        <h1 className='md fwb text-red'><Icon icon="jam:shield-close" /></h1>
+                        <h1 className='xl fwb text-red'><Icon icon="jam:shield-close" /></h1>
                         <div className='count-ticket-border'>
-                            <h1 className='sm fwb'>{CloseWeek.value}</h1>
-                            <p className='xl'>Closed</p>
+                            <h1 className='md fwb'>{CloseWeek.value}</h1>
+                            <h2>Closed</h2>
                         </div>
                     </div>
                 </div>
@@ -600,7 +600,7 @@ function MainNew() {
                     <Dropdown.Toggle className='dropdown-main' id="dropdown-basic">
                         <div className='header-total-ticket '>
                             <div className='upper-hr gap-3'>
-                                <h1 className='xl tg'>12</h1>
+                                <h1 className='xl tg'>{Operator.length}</h1>
                                 <div className='text-yellow'>
                                     <div className='icon-ticket gap-2'>
                                         <h1 className='md'><Icon icon="ic:round-support-agent" /></h1>
@@ -682,10 +682,10 @@ function MainNew() {
             <div className='main-new-bottom px-5'>
                 <div className='main-new-bottom-left'>
                     <div className='main-parent-ticket-border gap-4'>
-                        <h1 className='md fwb text-blue'><Icon icon="ion:log-in-outline" /></h1>
+                        <h1 className='xl fwb text-blue'><Icon icon="ion:log-in-outline" /></h1>
                         <div className='count-ticket-border'>
                             <h1 className='sm fwb'>{openMonth.value}</h1>
-                            <p className='xl'>Open</p>
+                            <h2>Open</h2>
                         </div>
                     </div>
                     {/* <div className='main-parent-ticket-border d-none gap-4'>
@@ -696,10 +696,10 @@ function MainNew() {
                         </div>
                     </div> */}
                     <div className='main-parent-ticket-border gap-4'>
-                        <h1 className='md fwb text-lime'><Icon icon="clarity:process-on-vm-line" /></h1>
+                        <h1 className='xl fwb text-lime'><Icon icon="clarity:process-on-vm-line" /></h1>
                         <div className='count-ticket-border'>
-                            <h1 className='sm fwb'>{ProsesMonth.value}</h1>
-                            <p className='xl'>Proses</p>
+                            <h1 className='md fwb'>{ProsesMonth.value}</h1>
+                            <h2>Proses</h2>
                         </div>
                     </div>
                     {/* <div className='main-parent-ticket-border d-none gap-4'>
@@ -710,17 +710,17 @@ function MainNew() {
                         </div>
                     </div> */}
                     <div className='main-parent-ticket-border gap-4'>
-                        <h1 className='md fwb text-cyan'><Icon icon="material-symbols:done" /></h1>
+                        <h1 className='xl fwb text-cyan'><Icon icon="material-symbols:done" /></h1>
                         <div className='count-ticket-border'>
-                            <h1 className='sm fwb'>{DoneMonth.value}</h1>
-                            <p className='xl'>Done</p>
+                            <h1 className='md fwb'>{DoneMonth.value}</h1>
+                            <h2>Done</h2>
                         </div>
                     </div>
                     <div className='main-parent-ticket-border gap-4'>
-                        <h1 className='md fwb text-red'><Icon icon="jam:shield-close" /></h1>
+                        <h1 className='xl fwb text-red'><Icon icon="jam:shield-close" /></h1>
                         <div className='count-ticket-border'>
-                            <h1 className='sm fwb'>{CloseMonth.value}</h1>
-                            <p className='xl'>Closed</p>
+                            <h1 className='md fwb'>{CloseMonth.value}</h1>
+                            <h2>Closed</h2>
                         </div>
                     </div>
                 </div>
@@ -819,7 +819,7 @@ function MainNew() {
                     <Dropdown.Toggle className='dropdown-main' id="dropdown-basic">
                         <div className='header-total-ticket '>
                             <div className='upper-hr gap-3'>
-                                <h1 className='xl tg'>12</h1>
+                                <h1 className='xl tg'>{Operator.length}</h1>
                                 <div className='text-yellow'>
                                     <div className='icon-ticket gap-2'>
                                         <h1 className='md'><Icon icon="ic:round-support-agent" /></h1>
@@ -901,45 +901,45 @@ function MainNew() {
             <div className='main-new-bottom px-5'>
                 <div className='main-new-bottom-left'>
                     <div className='main-parent-ticket-border gap-4'>
-                        <h1 className='md fwb text-blue'><Icon icon="ion:log-in-outline" /></h1>
+                        <h1 className='xl fwb text-blue'><Icon icon="ion:log-in-outline" /></h1>
                         <div className='count-ticket-border'>
-                            <h1 className='sm fwb'>{openYear.value}</h1>
-                            <p className='xl'>Open</p>
+                            <h1 className='md fwb'>{openYear.value}</h1>
+                            <h2>Open</h2>
                         </div>
                     </div>
                     {/* <div className='main-parent-ticket-border d-none gap-4'>
-                        <h1 className='md fwb text-yellow'><Icon icon="material-symbols:forward" /></h1>
+                        <h1 className='xl fwb text-yellow'><Icon icon="material-symbols:forward" /></h1>
                         <div className='count-ticket-border'>
-                            <h1 className='sm fwb'>{Forwarding.value}</h1>
-                            <p className='xl'>Forwarding</p>
+                            <h1 className='md fwb'>{Forwarding.value}</h1>
+                            <h2>Forwarding</h2>
                         </div>
                     </div> */}
                     <div className='main-parent-ticket-border gap-4'>
-                        <h1 className='md fwb text-lime'><Icon icon="clarity:process-on-vm-line" /></h1>
+                        <h1 className='xl fwb text-lime'><Icon icon="clarity:process-on-vm-line" /></h1>
                         <div className='count-ticket-border'>
-                            <h1 className='sm fwb'>{ProsesYear.value}</h1>
-                            <p className='xl'>Proses</p>
+                            <h1 className='md fwb'>{ProsesYear.value}</h1>
+                            <h2>Proses</h2>
                         </div>
                     </div>
                     {/* <div className='main-parent-ticket-border d-none gap-4'>
-                        <h1 className='md fwb text-purple'><Icon icon="material-symbols:reopen-window" /></h1>
+                        <h1 className='xl fwb text-purple'><Icon icon="material-symbols:reopen-window" /></h1>
                         <div className='count-ticket-border'>
-                            <h1 className='sm fwb'>{Reopen.value}</h1>
-                            <p className='xl'>Re-Open</p>
+                            <h1 className='md fwb'>{Reopen.value}</h1>
+                            <h2>Re-Open</h2>
                         </div>
                     </div> */}
                     <div className='main-parent-ticket-border gap-4'>
-                        <h1 className='md fwb text-cyan'><Icon icon="material-symbols:done" /></h1>
+                        <h1 className='xl fwb text-cyan'><Icon icon="material-symbols:done" /></h1>
                         <div className='count-ticket-border'>
-                            <h1 className='sm fwb'>{DoneYear.value}</h1>
-                            <p className='xl'>Done</p>
+                            <h1 className='md fwb'>{DoneYear.value}</h1>
+                            <h2>Done</h2>
                         </div>
                     </div>
                     <div className='main-parent-ticket-border gap-4'>
-                        <h1 className='md fwb text-red'><Icon icon="jam:shield-close" /></h1>
+                        <h1 className='xl fwb text-red'><Icon icon="jam:shield-close" /></h1>
                         <div className='count-ticket-border'>
-                            <h1 className='sm fwb'>{CloseYear.value}</h1>
-                            <p className='xl'>Closed</p>
+                            <h1 className='md fwb'>{CloseYear.value}</h1>
+                            <h2>Closed</h2>
                         </div>
                     </div>
                 </div>
@@ -1038,7 +1038,7 @@ function MainNew() {
                     <Dropdown.Toggle className='dropdown-main' id="dropdown-basic">
                         <div className='header-total-ticket '>
                             <div className='upper-hr gap-3'>
-                                <h1 className='xl tg'>12</h1>
+                                <h1 className='xl tg'>{Operator.length}</h1>
                                 <div className='text-yellow'>
                                     <div className='icon-ticket gap-2'>
                                         <h1 className='md'><Icon icon="ic:round-support-agent" /></h1>

@@ -2,7 +2,7 @@
 import ReactApexChart from 'react-apexcharts';
 import axios from 'axios';
 import { useState, useEffect } from 'react';
-import Form from 'react-bootstrap/Form';
+// import Form from 'react-bootstrap/Form';
 import Loading from '../../Parts/Loading';
 
 
@@ -16,7 +16,7 @@ const MultiAxisLineChart = () => {
     const token = sessionStorage.getItem("jwttoken");
      axios.get('https://apipatra.spero-lab.id/api/dashboard/ticket/each-province', { headers: {"Authorization" : `Bearer ${token}`} })
       .then((result) => {
-        // console.log(result);
+        console.log('okkkkkkkkkkkkkkkkkk',result.data.data);
         setDataPerProvinsi(result.data.data);
         setLoading(false);
       })
@@ -26,16 +26,25 @@ const MultiAxisLineChart = () => {
     }, []);
 
     let provinsi = [];
-    let count = [];
+    let open = [];
+    let forwarding = [];
+    let process = [];
+    let reopen = [];
+    let done = [];
+    let closed = [];
     DataPerProvinsi.map((el) => {
       provinsi.push(el.province);
-      count.push(el.count);
+      open.push(el.count.open);
+      forwarding.push(el.count.forwarding);
+      process.push(el.count.process);
+      reopen.push(el.count.reopen);
+      done.push(el.count.done);
+      closed.push(el.count.closed);
     });
-
-    console.log(count)
+    // console.log('OENNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN',open)
     
   const options = {
-    colors : ['#1767B3'],
+    colors : ['#1767B3', '#7AC241', '#EC2028', '#FFB800', '#00F9F9', '#AA00E6'],
     stroke: {
       curve: 'smooth',
       // width: 2
@@ -62,8 +71,38 @@ const MultiAxisLineChart = () => {
     {
       name: 'Open ',
       type: 'line',
-      data: count,
+      data: open,
       yaxisIndex: 1, // Use the secondary Y-Axis
+    },
+    {
+      name: 'Proses',
+      type: 'line',
+      data: process,
+      yaxisIndex: 2, // Use the secondary Y-Axis
+    },
+    {
+      name: 'Closed',
+      type: 'line',
+      data: closed,
+      yaxisIndex: 3, // Use the secondary Y-Axis
+    },
+    {
+      name: 'Forwarding',
+      type: 'line',
+      data: forwarding,
+      yaxisIndex: 3, // Use the secondary Y-Axis
+    },
+    {
+      name: 'Done',
+      type: 'line',
+      data: done,
+      yaxisIndex: 3, // Use the secondary Y-Axis
+    },
+    {
+      name: 'Re-Open',
+      type: 'line',
+      data: reopen,
+      yaxisIndex: 3, // Use the secondary Y-Axis
     },
   ];
 
@@ -76,12 +115,6 @@ const MultiAxisLineChart = () => {
       <ReactApexChart options={options} series={series} type="line" height={250} />
       <div className='title-multi-axis px-5'>
                     <p>Grafik Per Provinsi</p>
-                    <Form.Select size="sm" aria-label="Default select example" className='select-multi-axis text-white'>
-                      <option>Open this select menu</option>
-                      <option value="2021">2021</option>
-                      <option value="2022">2022</option>
-                      <option value="2023">2023</option>
-                    </Form.Select>
                   </div>
     </div>
     )}

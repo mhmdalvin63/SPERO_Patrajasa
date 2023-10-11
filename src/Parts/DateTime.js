@@ -27,8 +27,12 @@ function DateTime(){
   const currentMonthName = monthNames[currentDate.getMonth()];
   const day = currentDate.getDate();
 
+  const marginBottomValue = '4rem'; // You can set your desired margin value here
+  const style = {
+    marginBottom: marginBottomValue,
+  };
   return(
-    <div>
+    <div style={style}>
         <h1 className=''>{`${day} ${currentMonthName} ${year}`}</h1>
         <p className='my-2 text-end xl'>{currentTime.toLocaleTimeString()} WIB</p>
     </div>

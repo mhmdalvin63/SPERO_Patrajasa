@@ -124,8 +124,8 @@ const MultiAxisLineChart = () => {
       <ReactApexChart options={options} series={series} type="line" height={250} />
       <div className='title-multi-axis px-5'>
                     <p>Grafik Per Bulan</p>
-                    <Form.Select size="sm" aria-label="Default select example" className='select-multi-axis text-white'>
-                      <option>Open this select menu</option>
+                    <Form.Select size="xl" aria-label="Default select example" className='select-multi-axis'>
+                      <option>Pilih Kategori</option>
                       <option value="2021">2021</option>
                       <option value="2022">2022</option>
                       <option value="2023">2023</option>
