@@ -13,7 +13,7 @@ function App() {
     <div id='body'>
       <Navbar />
        <Routes>
-        <Route path='/' element={<Login />}/>
+        <Route path='/' exact element={<Login />}/>
         <Route path='/main' element={<Main />}/>
         <Route path='/tracking' element={<Tracking />}/>
         <Route path='/ticket' element={<Ticket />}/>
