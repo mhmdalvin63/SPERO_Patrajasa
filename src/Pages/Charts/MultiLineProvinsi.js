@@ -3,9 +3,11 @@ import ReactApexChart from 'react-apexcharts';
 import axios from 'axios';
 import { useState, useEffect } from 'react';
 import Form from 'react-bootstrap/Form';
+import Loading from '../../Parts/Loading';
 
 
 const MultiAxisLineChart = () => {
+  const [loading, setLoading] = useState(true);
     // D R I V E R
   const [DataPerProvinsi, setDataPerProvinsi] = useState([]);
 
@@ -16,8 +18,11 @@ const MultiAxisLineChart = () => {
       .then((result) => {
         // console.log(result);
         setDataPerProvinsi(result.data.data);
+        setLoading(false);
       })
-      .catch((error) => console.log(error));
+      .catch((error) => {
+        console.log(error)
+        setLoading(false);});
     }, []);
 
     let provinsi = [];
@@ -63,7 +68,11 @@ const MultiAxisLineChart = () => {
   ];
 
   return (
-    <div className="multi-axis pt-4">
+    <div>
+    {loading ? (
+      <Loading/>
+    ) : (
+      <div className="multi-axis pt-4">
       <ReactApexChart options={options} series={series} type="line" height={250} />
       <div className='title-multi-axis px-5'>
                     <p>Grafik Per Provinsi</p>
@@ -75,6 +84,9 @@ const MultiAxisLineChart = () => {
                     </Form.Select>
                   </div>
     </div>
+    )}
+  </div>
+   
   );
 };
 

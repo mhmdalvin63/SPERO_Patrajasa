@@ -24,10 +24,12 @@ import ChartHari from './Charts/MultiLineHari'
 import ChartBulan from './Charts/MultiLineBulan'
 import ChartProvinsi from './Charts/MultiLineProvinsi'
 import axios from 'axios';
+import Loading from '../Parts/Loading';
 
 
 
 function PageTicket() {
+    const [loading, setLoading] = useState(true);
 
       // T I C K E T   S U M M A R Y
   const [posts, setPosts] = useState([]);
@@ -36,18 +38,10 @@ function PageTicket() {
   const [openlow, setopenlow] = useState([]);
   const [openmedium, setopenmedium] = useState([]);
   const [openhigh, setopenhigh] = useState([]);
-//   const [Forwarding, setForwarding] = useState([]);
-//   const [forwardinglow, setforwardinglow] = useState([]);
-//   const [forwardingmedium, setforwardingmedium] = useState([]);
-//   const [forwardinghigh, setforwardinghigh] = useState([]);
   const [Proses, setProses] = useState([]);
   const [processlow, setprocesslow] = useState([]);
   const [processmedium, setprocessmedium] = useState([]);
   const [processhigh, setprocesshigh] = useState([]);
-//   const [Reopen, setReopen] = useState([]);
-//   const [reopenlow, setreopenlow] = useState([]);
-//   const [reopenmedium, setreopenmedium] = useState([]);
-//   const [reopenhigh, setreopenhigh] = useState([]);
   const [Done, setDone] = useState([]);
   const [DoneLow, setDoneLow] = useState([]);
   const [DoneMedium, setDoneMedium] = useState([]);
@@ -89,14 +83,21 @@ function PageTicket() {
         setclosedlow(result.data.data.status.closed.priority[0].value);
         setclosedmedium(result.data.data.status.closed.priority[1].value);
         setclosedhigh(result.data.data.status.closed.priority[2].value);
+        setLoading(false);
       })
-      .catch((error) => console.log(error));
+      .catch((error) => {
+        console.log(error)
+    setLoading(false);});
+
      axios.get('https://apipatra.spero-lab.id/api/dashboard/ticket', { headers: {"Authorization" : `Bearer ${token}`} })
       .then((result) => {
         console.log('TICKETTTTT', result.data.data);
         setTicket(result.data.data);
+        setLoading(false);
       })
-      .catch((error) => console.log(error));
+      .catch((error) => {
+        console.log(error)
+    setLoading(false);});
   }, []);
 
   let dataOpen = Ticket.filter(item => item.activity.name === 'open');
@@ -159,7 +160,11 @@ function PageTicket() {
     // END CHECKBOX FILTER
 
     return (
-        <div className='PageTicket'>
+        <div>
+      {loading ? (
+        <Loading />
+      ) : (
+          <div className='PageTicket'>
             <div className='main-new-header align-items-start px-5'>
                 <div className='header-logo-prima'>
                     <img className='LogoPatra' src={LogoPatra} alt="LogoPatra" />
@@ -783,7 +788,10 @@ function PageTicket() {
                 </Row>
                 
             </div>
-        </div>
+            </div>
+      )}
+    </div>
+        
     )
 }
 

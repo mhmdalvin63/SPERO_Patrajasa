@@ -14,10 +14,12 @@ import { Icon } from '@iconify/react';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import DateTime from '../Parts/DateTime';
+import Loading from '../Parts/Loading';
 
 
 
 function Tracking() {
+    const [loading, setLoading] = useState(true);
     const [isChecked, setIsChecked] = useState(false);
 
     const handleCheckboxChange = (e) => {
@@ -59,15 +61,21 @@ useEffect(() => {
   .then((result) => {
     console.log('TICKETT WOIIIIIIIIIII', result.data.data);
     setTicket(result.data.data);
+    setLoading(false);
   })
-  .catch((error) => console.log(error));
+  .catch((error) => {
+    console.log(error)
+setLoading(false);});
 
    axios.get('https://apipatra.spero-lab.id/api/dashboard/driver', { headers: {"Authorization" : `Bearer ${token}`} })
     .then((result) => {
       console.log('driverrrrrrrrrrrrrrrrrrrrrrrrrrrrr', result.data.data.drivers);
       setDriver(result.data.data.drivers);
+      setLoading(false);
     })
-    .catch((error) => console.log(error));
+    .catch((error) => {
+        console.log(error)
+    setLoading(false);});
 }, []);
 
 const mergedData = {...Ticket, ...Driver};
@@ -95,6 +103,10 @@ console.log('DATA GABUNGANNNN', mergedData)
 
 
     return (
+        <div>
+      {loading ? (
+        <Loading/>
+      ) : (
         <div className='PageTracking'>
             <div className='track-maps'>
                 <Maps />
@@ -190,6 +202,9 @@ console.log('DATA GABUNGANNNN', mergedData)
                 </div>
             </div>
         </div>
+      )}
+    </div>
+        
     )
 }
 

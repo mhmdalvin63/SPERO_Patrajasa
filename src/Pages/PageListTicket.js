@@ -10,11 +10,13 @@ import {Table} from 'react-bootstrap';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import DateTime from '../Parts/DateTime';
+import Loading from '../Parts/Loading';
 
 
 
 
 function PageTicket() {
+    const [loading, setLoading] = useState(true);
 
     // T I C K E T
   const [Ticket, setTicket] = useState([]);
@@ -26,11 +28,18 @@ function PageTicket() {
             console.log('DATAAAAA',result.data.data);
             setTicket(result.data.data);
             setDetailTicket(result.data.data);
+            setLoading(false);
           })
-          .catch((error) => console.log(error));
+          .catch((error) => {
+            console.log(error)
+            setLoading(false);});
       }, []);
 
     return (
+        <div>
+      {loading ? (
+        <Loading/>
+      ) : (
         <div className='PageListTicket'>
             <div className='main-new-header px-5 pt-2'>
                 <div className='header-logo-prima'>
@@ -112,6 +121,9 @@ function PageTicket() {
             </Table>
             </div>
         </div>
+      )}
+    </div>
+        
     )
 }
 

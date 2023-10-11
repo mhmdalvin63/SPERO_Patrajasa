@@ -24,11 +24,13 @@ import Tab from 'react-bootstrap/Tab';
 import { Icon } from '@iconify/react';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
+import Loading from '../Parts/Loading';
 // import { useState } from 'react';
 
 
 
 function MainNew() {
+    const [loading, setLoading] = useState(true);
 
     // T I C K E T   S U M M A R Y
   const [posts, setPosts] = useState([]);
@@ -86,8 +88,12 @@ function MainNew() {
         setProses(result.data.data.status.process);
         setDone(result.data.data.status.done);
         setClose(result.data.data.status.closed);
+        setLoading(false);
       })
-      .catch((error) => console.log(error));
+      .catch((error) => {
+        console.log(error)
+        setLoading(false);
+    });
 
      axios.get('https://apipatra.spero-lab.id/api/ticket/summary?filter=week', { headers: {"Authorization" : `Bearer ${token}`} })
       .then((result) => {
@@ -98,8 +104,11 @@ function MainNew() {
         setProsesWeek(result.data.data.status.process);
         setDoneWeek(result.data.data.status.done);
         setCloseWeek(result.data.data.status.closed);
+        setLoading(false);
       })
-      .catch((error) => console.log(error));
+      .catch((error) => {
+        console.log(error)
+        setLoading(false);});
 
      axios.get('https://apipatra.spero-lab.id/api/ticket/summary?filter=month', { headers: {"Authorization" : `Bearer ${token}`} })
       .then((result) => {
@@ -110,8 +119,11 @@ function MainNew() {
         setProsesMonth(result.data.data.status.process);
         setDoneMonth(result.data.data.status.done);
         setCloseMonth(result.data.data.status.closed);
+        setLoading(false);
       })
-      .catch((error) => console.log(error));
+      .catch((error) => {
+        console.log(error)
+        setLoading(false);});
 
      axios.get('https://apipatra.spero-lab.id/api/ticket/summary?filter=year', { headers: {"Authorization" : `Bearer ${token}`} })
       .then((result) => {
@@ -122,8 +134,11 @@ function MainNew() {
         setProsesYear(result.data.data.status.process);
         setDoneYear(result.data.data.status.done);
         setCloseYear(result.data.data.status.closed);
+        setLoading(false);
       })
-      .catch((error) => console.log(error));
+      .catch((error) => {
+        console.log(error)
+        setLoading(false);});
 
       axios.get('https://apipatra.spero-lab.id/api/dashboard/driver', { headers: {"Authorization" : `Bearer ${token}`} })
        .then((result) => {
@@ -131,38 +146,53 @@ function MainNew() {
          setDriver(result.data.data.count);
          setDriverList(result.data.data.drivers)
          console.log(setDriverList);
+         setLoading(false);
        })
-      //  .catch((error) => console.log(error));
-       console.log(DriverList)
+       .catch((error) => {
+        console.log(error)
+        setLoading(false);});
+    //    console.log(DriverList)
 
       axios.get('https://apipatra.spero-lab.id/api/dashboard/operator', { headers: {"Authorization" : `Bearer ${token}`} })
        .then((result) => {
          console.log('OPERATORRRR',result.data.data.operator);
          SetOperator(result.data.data.operator);
+         setLoading(false);
        })
-      //  .catch((error) => console.log(error));
-       console.log(DriverList)
+       .catch((error) => {
+        console.log(error)
+        setLoading(false);});
+    //    console.log(DriverList)
 
      axios.get('https://apipatra.spero-lab.id/api/dashboard/process-owner', { headers: {"Authorization" : `Bearer ${token}`} })
       .then((result) => {
         // console.log('PROSES OWNER COIIII',result.data.data);
         setPo(result.data.data);
         setPoList(result.data.data.process_owner)
+        setLoading(false);
       })
-      .catch((error) => console.log(error));
+      .catch((error) => {
+        console.log(error)
+        setLoading(false);});
 
      axios.get('https://apipatra.spero-lab.id/api/dashboard/ticket', { headers: {"Authorization" : `Bearer ${token}`} })
       .then((result) => {
         // console.log(result.data.data);
         setTicket(result.data.data);
+        setLoading(false);
       })
-      .catch((error) => console.log(error));
+      .catch((error) => {
+        console.log(error)
+        setLoading(false);});
   }, []);
 
 
     return (
-        
-        <div className='PageMainNew'>
+        <div>
+        {loading ? (
+           <Loading/>
+        ) : (
+            <div className='PageMainNew'>
            <Tabs defaultActiveKey="first" className='nav-tabs-main'> 
                 <Tab eventKey="first" title="Harian"> 
                 <div className='main-new-header px-5'>
@@ -1041,7 +1071,10 @@ function MainNew() {
             </div>
                 </Tab> 
             </Tabs>
+            </div>
+        )}
         </div>
+        
     )
 }
 

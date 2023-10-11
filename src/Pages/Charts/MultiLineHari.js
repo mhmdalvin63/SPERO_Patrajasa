@@ -3,9 +3,12 @@ import ReactApexChart from 'react-apexcharts';
 import axios from 'axios';
 import { useState, useEffect } from 'react';
 import Form from 'react-bootstrap/Form';
+import Loading from '../../Parts/Loading';
 
 
 const MultiAxisLineChart = () => {
+
+  const [loading, setLoading] = useState(true);
     // D R I V E R
   const [Data, setData] = useState([]);
 
@@ -16,8 +19,11 @@ const MultiAxisLineChart = () => {
       .then((result) => {
         // console.log(result.data.data.days);
         setData(result.data.data.days);
+        setLoading(false);
       })
-      .catch((error) => console.log(error));
+      .catch((error) => {
+        console.log(error)
+        setLoading(false);});
     }, []);
 
     
@@ -115,7 +121,11 @@ const MultiAxisLineChart = () => {
   ];
 
   return (
-    <div className="multi-axis pt-4">
+    <div>
+    {loading ? (
+      <Loading/>
+    ) : (
+         <div className="multi-axis pt-4">
       <ReactApexChart options={options} series={series} type="line" height={250} />
       <div className='title-multi-axis px-5'>
                     <p>Grafik Status Ticket Per Hari</p>
@@ -136,6 +146,9 @@ const MultiAxisLineChart = () => {
                     </Form.Select>
                   </div>
     </div>
+    )}
+  </div>
+   
   );
 };
 

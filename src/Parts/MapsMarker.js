@@ -13,12 +13,14 @@ import {
   useLoadScript,
 } from "@react-google-maps/api";
 import axios from "axios";
+import Loading from "./Loading";
 
 // import "./App.css";
 
 
 
 function App() {
+  const [loading, setLoading] = useState(true);
 
   function getRandomFloat(min, max, decimals) {
     const str = (Math.random() * (max - min) + min).toFixed(
@@ -57,15 +59,19 @@ function App() {
           }
         }
       }
+      setLoading(false);
       SetMarkers(markers)
     })
-    .catch((error) => console.log(error));
+    .catch((error) => {
+      console.log(error)
+      setLoading(false);});
 
    
     axios.get('https://apipatra.spero-lab.id/api/dashboard/driver/log-today', { headers: {"Authorization" : `Bearer ${token}`} })
     .then((result) => {
       console.log('DRIVERRRRR',result.data.data);
       SetListDriver('DRIVERRRRR',result.data);
+       setLoading(false);
       // for (let index = 0; index < result.data.data.length; index++) {
       //   if (result.data.data[index].detail_ticket !== null) {
       //     let latData = (result.data.data[index].detail_ticket.lat === null ? getRandomFloat(-6, -7, 15) : result.data.data[index].detail_ticket.lat)
@@ -84,6 +90,9 @@ function App() {
       // }
       setDriver(markersDriver)
     })
+    .catch((error) => {
+      console.log(error)
+      setLoading(false);});
   }, []);
 
   function getRandomFloat(min, max, decimals) {
@@ -111,7 +120,12 @@ function App() {
   };
 
   return (
-    <Fragment>
+    <div>
+    {loading ? (
+      <Loading/>
+    ) : (
+      <div>
+        <Fragment>
         <div style={{ height: "100vh", width: "100vw" }}>
           {isLoaded ? (
             <GoogleMap
@@ -196,6 +210,10 @@ Interdum et malesuada fames ac ante ipsum primis in faucibus. Nullam quis purus 
           ) : null}
         </div>
     </Fragment>
+      </div>
+    )}
+  </div>
+    
   );
 }
 
