@@ -12,7 +12,9 @@
 }
 
 .menu-dropdown-table-ticket{
-    width: 90vw !important;
+    width: 75vw !important;
+    height: 50vh !important;
+    overflow: auto;
     margin-bottom: 0 !important;
     border-radius: 0 !important;
 }
@@ -66,7 +68,6 @@
 .chart-status .header-total-ticket:nth-child(6){
     grid-area: htt6;
 } */
-
 
 .multi-axis{
     position: relative;
