@@ -80,10 +80,10 @@
     width: 100% !important;
 }
 .select-multi-axis{
-    background-color: #1767B3 !important;
-    color: white !important;
-    border-radius: 5px !important;
-    width: 25% !important;
+    background-color: none !important;
+    color: grey !important;
+    border-radius: 10px !important;
+    width: max-content !important;
 }
 
 

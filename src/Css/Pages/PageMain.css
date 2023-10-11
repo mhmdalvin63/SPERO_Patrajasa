@@ -63,7 +63,7 @@
     left: 7.5rem;
 }
 .header-total-ticket{
-    margin-top: 3% !important;
+    margin-top: 1% !important;
 }
 .upper-hr{
     display: flex;
@@ -106,12 +106,12 @@
 }
 
 .main-new-bottom-left{
-    transform: translateX(5rem);
+    /* transform: translateX(5rem); */
     display: grid;
     /* grid-template-columns: max-content max-content max-content; */
     grid-template-columns: max-content max-content;
     grid-template-rows: auto auto;
-    gap: 2rem;
+    gap: 3rem;
     grid-template-areas: 
     "mptb1  mptb3"
     "mptb5 mptb6";
@@ -139,7 +139,10 @@
     text-align: center;
 }
 .count-ticket-border{
-    line-height: 85%;
+    line-height: 25% !important;
+}
+.count-ticket-border h2{
+    line-height: .5;
 }
 
 .main-new-bottom{

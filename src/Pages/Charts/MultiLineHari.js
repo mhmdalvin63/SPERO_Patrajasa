@@ -5,6 +5,7 @@ import { useState, useEffect } from 'react';
 import Form from 'react-bootstrap/Form';
 import Loading from '../../Parts/Loading';
 
+import { Icon } from '@iconify/react';
 
 const MultiAxisLineChart = () => {
 
@@ -129,8 +130,8 @@ const MultiAxisLineChart = () => {
       <ReactApexChart options={options} series={series} type="line" height={250} />
       <div className='title-multi-axis px-5'>
                     <p>Grafik Status Ticket Per Hari</p>
-                    <Form.Select size="sm" aria-label="Default select example" className='select-multi-axis text-white'>
-                      <option>Open this select menu</option>
+                    <Form.Select size="xl" aria-label="Default select example" className='select-multi-axis '>
+                      <option>Pilih Bulan</option>
                       <option value="Januari">Januari</option>
                       <option value="Februari">Februari</option>
                       <option value="Maret">Maret</option>
