@@ -65,12 +65,33 @@ useEffect(() => {
    axios.get('https://apipatra.spero-lab.id/api/dashboard/driver', { headers: {"Authorization" : `Bearer ${token}`} })
     .then((result) => {
       console.log('driverrrrrrrrrrrrrrrrrrrrrrrrrrrrr', result.data.data.drivers);
-      setDriver(result.data.data);
+      setDriver(result.data.data.drivers);
     })
     .catch((error) => console.log(error));
 }, []);
 
+const mergedData = {...Ticket, ...Driver};
+console.log('DATA GABUNGANNNN', mergedData)
+
 // const mergeData = mergeData(data1, data2);
+
+// PAGINATION
+// Sample data (you can replace this with your actual data)
+  const allData = Ticket;
+  // Pagination variables
+  const itemsPerPage = 12; // Number of items to display per page
+  const [currentPage, setCurrentPage] = useState(1);
+  // Calculate the index range for the current page
+  const startIndex = (currentPage - 1) * itemsPerPage;
+  const endIndex = startIndex + itemsPerPage;
+  // Slice the data to display only the items for the current page
+  const paginatedData = allData.slice(startIndex, endIndex);
+  // Function to handle page change
+  const handlePageChange = (pageNumber) => {
+    setCurrentPage(pageNumber);
+  };
+
+    
 
 
     return (
@@ -119,6 +140,7 @@ useEffect(() => {
                 <div className='header-list-td'>
                     <img className='LogoPatraBottom' src={LogoPatra} alt="LogoPatra" />
                     <p className='xl text-blue fwb'>LIST TICKET & DRIVER</p>
+                    {/* <h1>13.27 54%</h1> */}
                     <Form className='search-bottom d-flex align-items-center'>
                         <Button className='icon'><Icon icon="ri:search-line" /></Button>
                         <FormControl type="text" placeholder="Search" className="icon2 mr-sm-2" />
@@ -126,109 +148,46 @@ useEffect(() => {
                 </div>
                 <hr className='hr-bottom' />
                 <Row>
-                    <Col sm={3} className='px-3 py-2'>
+                {paginatedData.map((item, index) => (
+                    <Col sm={3} className='px-3 py-2' key={index}>
                         <div className='col-item d-flex align-items-start gap-3'>
                             <h1 className='fwb text-blue d-flex align-items-start'><Icon icon="ion:log-in-outline" /></h1>
                             <div>
-                                <p className='xl fwb tg2'>Nama Ticket</p>
+                                <p className='xl fwb tg2'>{item.ticket_code}</p>
                                 <p className='md2'>11/09/2023</p>
-                                <p className='xl fwb text-blue'>Open</p>
+                                <p className='xl fwb' style={{color: item.activity.color}}>{item.activity.name}</p>
                             </div>
                         </div>
                     </Col>
-                    <Col sm={3} className='px-3 py-2'>
+                ))}
+                
+                {/* {Driver.map((item, index) => (
+                    <Col sm={3} className='px-3 py-2' key={index}>
                         <div className='col-item d-flex align-items-start gap-3'>
-                            <h1 className='fwb text-blue d-flex align-items-start'><Icon icon="twemoji:motor-scooter" /></h1>
+                            <h1 className='fwb text-blue d-flex align-items-start'><Icon icon="ion:log-in-outline" /></h1>
                             <div>
-                                <p className='xl fwb tg2'>Driver Jakarta</p>
+                                <p className='xl fwb tg2'>{item.name}</p>
                                 <p className='md2'>11/09/2023</p>
-                                <div className='d-flex align-items-center gap-3'>
-                                    <h1 className='text-lime'><Icon icon="icon-park-outline:dot" /></h1>
-                                    <h2 className='text-blue'><Icon icon="fontisto:motorcycle" /></h2>
-                                    <h2><Icon icon="fa-solid:parking" /></h2>
-                                    <h2 className='text-blue'><Icon icon="ic:outline-wifi" /></h2>
-                                </div>
+                                <p className='xl fwb'>{item.id}</p>
                             </div>
                         </div>
                     </Col>
-                    <Col sm={3} className='px-3 py-2'>
-                        <div className='col-item d-flex align-items-start gap-3'>
-                            <h1 className='fwb text-yellow d-flex align-items-start'><Icon icon="material-symbols:forward" /></h1>
-                            <div>
-                                <p className='xl fwb tg2'>Nama Ticket</p>
-                                <p className='md2'>11/09/2023</p>
-                                <p className='xl fwb text-yellow'>Forwarding</p>
-                            </div>
-                        </div>
-                    </Col>
-                    <Col sm={3} className='px-3 py-2'>
-                        <div className='col-item d-flex align-items-start gap-3'>
-                            <h1 className='md fwb text-blue d-flex align-items-start'><Icon icon="openmoji:police-car" /></h1>
-                            <div>
-                                <p className='xl fwb tg2'>Driver Jakarta</p>
-                                <p className='md2'>11/09/2023</p>
-                                <div className='d-flex align-items-center gap-3'>
-                                    <h1 className='text-red'><Icon icon="icon-park-outline:dot" /></h1>
-                                    <h2><Icon icon="fa6-solid:car" /></h2>
-                                    <h2><Icon icon="fa-solid:parking" /></h2>
-                                    <h2><Icon icon="ic:outline-wifi" /></h2>
-                                </div>
-                            </div>
-                        </div>
-                    </Col>
-                    <Col sm={3} className='px-3 py-2'>
-                        <div className='col-item d-flex align-items-start gap-3'>
-                            <h1 className='fwb text-lime d-flex align-items-start'><Icon icon="clarity:process-on-vm-line" /></h1>
-                            <div>
-                                <p className='xl fwb tg2'>Nama Ticket</p>
-                                <p className='md2'>11/09/2023</p>
-                                <p className='xl fwb text-lime'>Proses</p>
-                            </div>
-                        </div>
-                    </Col>
-                    <Col sm={3} className='px-3 py-2'>
-                        <div className='col-item d-flex align-items-start gap-3'>
-                            <h1 className='fwb text-blue d-flex align-items-start'><Icon icon="twemoji:motor-scooter" /></h1>
-                            <div>
-                                <p className='xl fwb tg2'>Driver Jakarta</p>
-                                <p className='md2'>11/09/2023</p>
-                                <div className='d-flex align-items-center gap-3'>
-                                    <h1 className='text-red'><Icon icon="icon-park-outline:dot" /></h1>
-                                    <h2><Icon icon="fontisto:motorcycle" /></h2>
-                                    <h2 className='text-red'><Icon icon="fa-solid:parking" /></h2>
-                                    <h2><Icon icon="ic:outline-wifi" /></h2>
-                                </div>
-                            </div>
-                        </div>
-                    </Col>
-                    <Col sm={3} className='px-3 py-2'>
-                        <div className='col-item d-flex align-items-start gap-3'>
-                            <h1 className='fwb text-purple d-flex align-items-start'><Icon icon="material-symbols:reopen-window" /></h1>
-                            <div>
-                                <p className='xl fwb tg2'>Nama Ticket</p>
-                                <p className='md2'>11/09/2023</p>
-                                <p className='xl fwb text-purple'>Re-Open</p>
-                            </div>
-                        </div>
-                    </Col>
-                    <Col sm={3} className='px-3 py-2'>
-                        <div className='col-item d-flex align-items-start gap-3'>
-                            <h1 className='md fwb text-blue d-flex align-items-start'><Icon icon="openmoji:police-car" /></h1>
-                            <div>
-                                <p className='xl fwb tg2'>Driver Jakarta</p>
-                                <p className='md2'>11/09/2023</p>
-                                <div className='d-flex align-items-center gap-3'>
-                                    <h1 className='text-red'><Icon icon="icon-park-outline:dot" /></h1>
-                                    <h2><Icon icon="fa6-solid:car" /></h2>
-                                    <h2><Icon icon="fa-solid:parking" /></h2>
-                                    <h2><Icon icon="ic:outline-wifi" /></h2>
-                                </div>
-                            </div>
-                        </div>
-                    </Col>
+                ))} */}
                 </Row>
                 <hr className='hr-bottom' />
-
+                <div className='pagination-tracking mt-3'>
+                    <nav className='d-flex justify-content-center'>
+                        <ul className="pagination">
+                        {Array.from({ length: Math.ceil(allData.length / itemsPerPage) }).map((_, index) => (
+                            <li key={index} className={`page-item ${index + 1 === currentPage ? 'active' : ''}`}>
+                            <button className="page-link" onClick={() => handlePageChange(index + 1)}>
+                                {index + 1}
+                            </button>
+                            </li>
+                        ))}
+                        </ul>
+                    </nav>
+                </div>
             </div>
         </div>
     )

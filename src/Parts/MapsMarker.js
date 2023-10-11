@@ -1,6 +1,5 @@
-import { Fragment, useState } from "react";
+import { Fragment, useEffect, useState } from "react";
 import MarkerHelm from '../Images/markerHelm.png';
-import MarkerMotor from '../Images/markerMotor.png';
 import Profile from '../Images/MotorIcon.png';
 import Kendala from '../Images/banmotor.jpg';
 import '../Css/Parts/MapsMarker.css';
@@ -13,33 +12,98 @@ import {
   MarkerF,
   useLoadScript,
 } from "@react-google-maps/api";
+import axios from "axios";
 
 // import "./App.css";
 
-const markers = [
-  {
-    id: 1,
-    role: 'driver-mobil',
-    name: "Taman Sukatani",
-    position: { lat: -6.39850806754815, lng: 106.88613027971365 },
-  },
-  {
-    id: 2,
-    role: 'ticket',
-    name: "Taman Merdeka",
-    position: { lat: -6.396625090723208, lng: 106.8366856932065 },
-  }
-];
+
 
 function App() {
-  const { isLoaded } = useLoadScript({
-    // googleMapsApiKey:  process.env.PUBLIC_GOOGLE_MAPS_API_KEY
-    googleMapsApiKey: "AIzaSyBoIAb25f1-LUjLVkl6hRl8S_iBeaAEmxU"
+
+  function getRandomFloat(min, max, decimals) {
+    const str = (Math.random() * (max - min) + min).toFixed(
+      decimals,
+    );
+  
+    return parseFloat(str);
+  }
+
+  let [ListTicket, SetListTicket,] = useState([]);
+  let [Markers, SetMarkers,] = useState([]);
+  let [ListDriver, SetListDriver,] = useState([]);
+  let [Driver, setDriver,] = useState([]);
+  let markers = [];
+  let markersDriver = [];
+  useEffect(() => {
+    let token = sessionStorage.getItem("jwttoken");
+    axios.get('https://apipatra.spero-lab.id/api/dashboard/ticket', { headers: {"Authorization" : `Bearer ${token}`} })
+    .then((result) => {
+      // console.log('DATA TICKETTTTTTT', result.data.data);
+      SetListTicket(result.data.data);
+      for (let index = 0; index < result.data.data.length; index++) {
+        if (result.data.data[index].detail_ticket !== null) {
+          // console.log('wooooo', result.data.data.length)
+          let latData = (result.data.data[index].detail_ticket.lat === null ? getRandomFloat(-6, -7, 15) : result.data.data[index].detail_ticket.lat)
+          let longData = (result.data.data[index].detail_ticket.long === null ? getRandomFloat(106.1, 106.3, 15) : result.data.data[index].detail_ticket.long)
+          markers[index] = 
+          {
+            id: result.data.data[index].id,
+            position: { lat: parseFloat(latData), lng: parseFloat(longData) },
+            ticketcode: result.data.data[index].ticket_code,
+            proses: result.data.data[index].activity.name,
+            informasi: result.data.data[index].detail_ticket.content,
+            color: result.data.data[index].activity.color,
+            tanggal: "19-03-2023",
+          }
+        }
+      }
+      SetMarkers(markers)
+    })
+    .catch((error) => console.log(error));
+
+   
+    axios.get('https://apipatra.spero-lab.id/api/dashboard/driver/log-today', { headers: {"Authorization" : `Bearer ${token}`} })
+    .then((result) => {
+      console.log('DRIVERRRRR',result.data.data);
+      SetListDriver('DRIVERRRRR',result.data);
+      // for (let index = 0; index < result.data.data.length; index++) {
+      //   if (result.data.data[index].detail_ticket !== null) {
+      //     let latData = (result.data.data[index].detail_ticket.lat === null ? getRandomFloat(-6, -7, 15) : result.data.data[index].detail_ticket.lat)
+      //     let longData = (result.data.data[index].detail_ticket.long === null ? getRandomFloat(106.1, 106.3, 15) : result.data.data[index].detail_ticket.long)
+      //     markersDriver[index] = 
+      //     {
+      //       id: result.data.data[index].id,
+      //       position: { lat: parseFloat(latData), lng: parseFloat(longData) },
+      //       ticketcode: result.data.data[index].ticket_code,
+      //       proses: result.data.data[index].activity.name,
+      //       informasi: result.data.data[index].detail_ticket.content,
+      //       color: result.data.data[index].activity.color,
+      //       tanggal: "19-03-2023",
+      //     }
+      //   }
+      // }
+      setDriver(markersDriver)
+    })
+  }, []);
+
+  function getRandomFloat(min, max, decimals) {
+  const str = (Math.random() * (max - min) + min).toFixed(
+    decimals,
+  );
+
+  return parseFloat(str);
+}
+  
+  // console.log('wwww', Markers);
+
+
+  let { isLoaded } = useLoadScript({
+    googleMapsApiKey:'AIzaSyBoIAb25f1-LUjLVkl6hRl8S_iBeaAEmxU'
   });
 
-  const [activeMarker, setActiveMarker] = useState(null);
+  let [activeMarker, setActiveMarker] = useState(null);
 
-  const handleActiveMarker = (marker) => {
+  let handleActiveMarker = (marker) => {
     if (marker === activeMarker) {
       return;
     }
@@ -48,16 +112,15 @@ function App() {
 
   return (
     <Fragment>
-      {/* <h1 className="text-center">Vite + React | Google Map Markers</h1> */}
-      <div style={{ height: "100vh", width: "100vw" }}>
+        <div style={{ height: "100vh", width: "100vw" }}>
           {isLoaded ? (
             <GoogleMap
               center={{ lat: -6.39850806754815, lng: 106.88613027971365 }}
-              zoom={6}
+              zoom={10}
               onClick={() => setActiveMarker(null)}
-              mapContainerStyle={{ width: "100%", height: "100vh" }}
+              mapContainerStyle={{ width: "100vw", height: "100vh" }}
             >
-              {markers.map(({ id, role, name, position }) => (
+              {Markers.map(({ id, position, ticketcode, proses, informasi, tanggal, color }) => (
                 <MarkerF
                   key={id}
                   position={position}
@@ -65,6 +128,11 @@ function App() {
                   icon={{
                     url: MarkerHelm,
                   }}
+                  ticketcode={ticketcode}
+                  proses={proses}
+                  informasi={informasi}
+                  tanggal={tanggal}
+                  color={color}
                 >
                   {activeMarker === id ? (
                     <InfoWindowF onCloseClick={() => setActiveMarker(null)}>
@@ -74,11 +142,11 @@ function App() {
                             <div className="header-maps-image p-2">
                               <img className='Profile' height={'25px'} src={Profile} alt="Profile" />
                             </div>
-                            <h3 className="text-white">{name}</h3>
+                            <h3 className="text-white">{ticketcode}</h3>
                           </div>
                           <div className="header-maps-right">
-                            <div className="border-status-maps px-3 py-1">
-                              <p>Open</p>
+                            <div className="border-status-maps px-3 py-1" style={{backgroundColor: color}}>
+                              <p>{proses}</p>
                             </div>
                           </div>
                         </div>
@@ -99,20 +167,20 @@ function App() {
                             </thead>
                             <tbody>
                               <tr>
-                                <td colSpan={2}><h3>Nama</h3></td>
-                                <td><h3>: Jaha Mulyadi</h3></td>
+                                <td><h3>Nama</h3></td>
+                                <td colSpan={2}><h3>: {ticketcode}</h3></td>
                               </tr>
                               <tr>
-                                <td colSpan={2}><h3>Company</h3></td>
-                                <td><h3>: PT Patra Jasa</h3></td>
+                                <td><h3>Company</h3></td>
+                                <td colSpan={2}><h3>: {proses}</h3></td>
                               </tr>
                               <tr>
-                                <td colSpan={2}><h3>Informasi</h3></td>
-                                <td><h3>: Kendaraan Terbalik</h3></td>
+                                <td><h3>Informasi</h3></td>
+                                <td colSpan={2}><h3>: {informasi}</h3></td>
                               </tr>
                               <tr>
-                                <td colSpan={2}><h3>Tanggal</h3></td>
-                                <td><h3>: Thursday 30 Juli 2023</h3></td>
+                                <td><h3>Tanggal</h3></td>
+                                <td colSpan={2}><h3>: {tanggal}</h3></td>
                               </tr>
                             </tbody>
                           </Table>
