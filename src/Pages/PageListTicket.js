@@ -1,16 +1,18 @@
 import '../Css/Pages/PageTicket.css';
 import '../Css/Parts/Font.css'; 
 
-import SvgLogo from '../Parts/SvgLogo';
 
 import {Dropdown, Form,  FormControl, Button} from 'react-bootstrap';
 
 import { Icon } from '@iconify/react';
 
+import { Link } from 'react-router-dom';
+
 import {Table} from 'react-bootstrap';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import DateTime from '../Parts/DateTime';
+import SvgLogo from '../Parts/SvgLogo';
 import Loading from '../Parts/Loading';
 
 
@@ -19,8 +21,12 @@ import Loading from '../Parts/Loading';
 function PageTicket() {
     const [loading, setLoading] = useState(true);
 
+    const [search, setSearch] = useState('');
+  const [filteredData, setFilteredData] = useState([]);
+
     // T I C K E T
   const [Ticket, setTicket] = useState([]);
+  const [Activity, setActivity] = useState([]);
   const [DetailTicket, setDetailTicket] = useState([]);
     useEffect(() => {
         const token = sessionStorage.getItem("jwttoken");
@@ -28,13 +34,34 @@ function PageTicket() {
           .then((result) => {
             console.log('DATAAAAA',result.data.data);
             setTicket(result.data.data);
+            setActivity(result.data.data);
             setDetailTicket(result.data.data);
+            setFilteredData(result.data.data);
             setLoading(false);
           })
           .catch((error) => {
             console.log(error)
             setLoading(false);});
       }, []);
+
+      useEffect(() => {
+        const filtered = Ticket.filter((item) => {
+          const searchData = search.toLowerCase().trim();
+          if (searchData === '') {
+            return true; // Return true for all items if the search input is empty
+          }
+          // Split the search input into words
+          const searchWords = searchData.split(' ');
+          // Check if any word in the search input matches any property in the item
+          return searchWords.some((word) =>
+            Object.values(item).some((value) =>
+              String(value).toLowerCase().includes(word)
+            )
+          );
+        });
+        setFilteredData(filtered);
+      }, [search, Ticket]);
+    
 
     return (
         <div>
@@ -74,7 +101,11 @@ function PageTicket() {
                 </Form.Group>
                 </div>
                 <Form className='search-bottom d-flex align-items-center'>
-                    <FormControl type="text" placeholder="Search" className="icon2 mr-sm-2" />
+                    <FormControl
+                      type="text"
+                      placeholder="Search..."
+                      value={search}
+                      onChange={(e) => setSearch(e.target.value)} className="icon2 mr-sm-2" />
                     <Button className='icon'><Icon icon="ri:search-line" /></Button>
                 </Form>
             </div>
@@ -93,7 +124,7 @@ function PageTicket() {
                 </tr>
                 </thead>
                 <tbody id='page-ticket-bottom-tbody'>
-                {Ticket.map((item) => (
+                {filteredData.map((item) => (
                     <tr className='text-center'>
                     <td>{item.id}</td>
                     <td>{item.ticket_code}</td>
@@ -115,7 +146,7 @@ function PageTicket() {
                     <td>
                         <p style={{ color: item.activity.color}}>{item.activity.name}</p>
                     </td>
-                    <td><h3><Icon icon="mdi:eye" /></h3></td>
+                    <td><Link to={`/list-ticket/${item.id}`}><Icon icon="mdi:eye" /></Link></td>
                     </tr>
                 ))}
                 </tbody>

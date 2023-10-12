@@ -7,6 +7,7 @@ import Main from './Pages/PageMain';
 import Tracking from './Pages/PageTracking';
 import Ticket from './Pages/PageTicket';
 import ListTicket from './Pages/PageListTicket';
+import DetailTicket from './Pages/PageDetailTicket';
 
 function App() {
   return (
@@ -18,6 +19,7 @@ function App() {
         <Route path='/tracking' element={<Tracking />}/>
         <Route path='/ticket' element={<Ticket />}/>
         <Route path='/list-ticket' element={<ListTicket />}/>
+        <Route path='/list-ticket/:id' element={<DetailTicket />}/>
       </Routes>
     </div>
   );
