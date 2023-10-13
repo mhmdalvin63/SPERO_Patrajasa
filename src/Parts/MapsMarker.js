@@ -1,5 +1,5 @@
 import { Fragment, useEffect, useState } from "react";
-import MarkerHelm from '../Images/markerHelm.png';
+import MarkerHelm from '../Images/MarkerStir.png';
 import Profile from '../Images/MotorIcon.png';
 import Kendala from '../Images/banmotor.jpg';
 import '../Css/Parts/MapsMarker.css';
