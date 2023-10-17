@@ -1,5 +1,10 @@
 import { Fragment, useEffect, useState } from "react";
-import MarkerHelm from '../Images/MarkerStir.png';
+// import { useParams } from 'react-router-dom';
+
+import MarkerOpen from '../Images/MarkerOpen.png';
+import MarkerProcess from '../Images/MarkerProcess.png';
+import MarkerDone from '../Images/MarkerDone.png';
+import MarkerClosed from '../Images/MarkerClosed.png';
 import Profile from '../Images/MotorIcon.png';
 import Kendala from '../Images/banmotor.jpg';
 import '../Css/Parts/MapsMarker.css';
@@ -21,6 +26,8 @@ import Loading from "./Loading";
 
 function App() {
   const [loading, setLoading] = useState(true);
+  // const { id } = useParams();
+
 
   function getRandomFloat(min, max, decimals) {
     const str = (Math.random() * (max - min) + min).toFixed(
@@ -31,6 +38,7 @@ function App() {
   }
 
   let [ListTicket, SetListTicket,] = useState([]);
+  let [Activity, SetActivity,] = useState([]);
   let [Markers, SetMarkers,] = useState([]);
   let [ListDriver, SetListDriver,] = useState([]);
   let [Driver, setDriver,] = useState([]);
@@ -40,8 +48,9 @@ function App() {
     let token = sessionStorage.getItem("jwttoken");
     axios.get('https://apipatra.spero-lab.id/api/dashboard/ticket', { headers: {"Authorization" : `Bearer ${token}`} })
     .then((result) => {
-      // console.log('DATA TICKETTTTTTT', result.data.data);
+      console.log('DATA TICKETTTTTTT', result.data.data);
       SetListTicket(result.data.data);
+      SetActivity(result.data.data.activity);
       for (let index = 0; index < result.data.data.length; index++) {
         if (result.data.data[index].detail_ticket !== null) {
           // console.log('wooooo', result.data.data.length)
@@ -119,6 +128,26 @@ function App() {
     setActiveMarker(marker);
   };
 
+  const getMarkerIcon = (Activity) => {
+    if (Activity.name === 'open') {
+      return MarkerOpen; // Replace with the path to your first icon
+    } else if (Activity.name === 'process') {
+      return MarkerProcess; // Replace with the path to your second icon
+    } else if (Activity.name === 'done') {
+      return MarkerClosed // Replace with the path to your third icon
+    } else {
+      return MarkerClosed; // Replace with a default icon path
+    }
+  };
+  // console.log(getMarkerIcon);
+          // let iconUrl;
+          // if (Activity.name === 'open') {
+          //   iconUrl = 'MarkerOpen';
+          // } else if (Activity.name === 'process') {
+          //   iconUrl = 'MarkerProses';
+          // } else {
+          //   iconUrl = 'URL_TO_DEFAULT_ICON';
+          // }
   return (
     <div>
     {loading ? (
@@ -135,13 +164,25 @@ function App() {
               mapContainerStyle={{ width: "100vw", height: "100vh" }}
             >
               {Markers.map(({ id, position, ticketcode, proses, informasi, tanggal, color }) => (
+                // let getMarkerIcon = (proses) => {
+                //   if (proses === 'open') {
+                //     return MarkerOpen; // Replace with the path to your first icon
+                //   } else if (proses === 'process') {
+                //     return MarkerProcess; // Replace with the path to your second icon
+                //   } else if (proses === 'done') {
+                //     return MarkerClosed // Replace with the path to your third icon
+                //   } else {
+                //     return MarkerClosed; // Replace with a default icon path
+                //   }
+                // };
                 <MarkerF
                   key={id}
                   position={position}
                   onClick={() => handleActiveMarker(id)}
                   icon={{
-                    url: MarkerHelm,
+                    url: MarkerClosed,
                   }}
+                  // icon= {getMarkerIcon}
                   ticketcode={ticketcode}
                   proses={proses}
                   informasi={informasi}

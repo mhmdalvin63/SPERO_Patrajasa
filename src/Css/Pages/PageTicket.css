@@ -112,9 +112,18 @@
     border: none !important;
 }
 
+#filtering-logo svg{
+    position: inherit !important;
+    width: 100px !important;
+}
+
 
 
 
 .table-list-ticket{
     margin-top: 10%;
 }
+/* tbody#page-ticket-bottom-tbody{
+    height: 50vh !important;
+    overflow: auto !important;
+} */

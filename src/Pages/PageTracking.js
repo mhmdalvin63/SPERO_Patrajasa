@@ -2,6 +2,7 @@ import '../Css/Pages/PageTracking.css';
 import '../Css/Parts/Font.css'; 
 
 import Maps from '../Parts/MapsMarker'
+import Filter from '../Parts/Filter'
 import LogoPatra from '../Images/Logo-Prima.png';
 
 import {Dropdown, Form,  FormControl, Button, Row, Col} from 'react-bootstrap';
@@ -15,35 +16,36 @@ import Loading from '../Parts/Loading';
 
 
 
-function Tracking() {
+function Tracking({ filters }) {
+
     const [loading, setLoading] = useState(true);
     const [isChecked, setIsChecked] = useState(false);
 
-    const handleCheckboxChange = (e) => {
-      setIsChecked(e.target.checked);
-    };
-    let status = ['Open', 'Proses', 'Closed', 'Forwarding', 'Done', 'Re-Open']
-    let listStatusFilter = status.map((index)=>
-        <Form.Check
-        key={index}
-        type="checkbox"
-        label= {index}
-        id="myCheckbox"
-        checked={isChecked.index}
-        onChange={handleCheckboxChange}
-        />
-    )
-    let statusDriver = ['Online', 'Offline']
-    let listStatusDriverFilter = statusDriver.map((index)=>
-    <Form.Check
-    key={index}
-    type="checkbox"
-    label= {index}
-    id="myCheckbox"
-    checked={isChecked.index}
-    onChange={handleCheckboxChange}
-    />
-)
+//     const handleCheckboxChange = (e) => {
+//       setIsChecked(e.target.checked);
+//     };
+//     let status = ['Open', 'Proses', 'Closed', 'Forwarding', 'Done', 'Re-Open']
+//     let listStatusFilter = status.map((index)=>
+//         <Form.Check
+//         key={index}
+//         type="checkbox"
+//         label= {index}
+//         id="myCheckbox"
+//         checked={isChecked.index}
+//         onChange={handleCheckboxChange}
+//         />
+//     )
+//     let statusDriver = ['Online', 'Offline']
+//     let listStatusDriverFilter = statusDriver.map((index)=>
+//     <Form.Check
+//     key={index}
+//     type="checkbox"
+//     label= {index}
+//     id="myCheckbox"
+//     checked={isChecked.index}
+//     onChange={handleCheckboxChange}
+//     />
+// )
     
 
 // T I C K E T
@@ -84,7 +86,7 @@ console.log('DATA GABUNGANNNN', mergedData)
 // Sample data (you can replace this with your actual data)
   const allData = Ticket;
   // Pagination variables
-  const itemsPerPage = 12; // Number of items to display per page
+  const itemsPerPage = 8; // Number of items to display per page
   const [currentPage, setCurrentPage] = useState(1);
   // Calculate the index range for the current page
   const startIndex = (currentPage - 1) * itemsPerPage;
@@ -96,7 +98,19 @@ console.log('DATA GABUNGANNNN', mergedData)
     setCurrentPage(pageNumber);
   };
 
-    
+  const [filterOptions, setFilterOptions] = useState({
+    open: true,
+    process: true,
+    done: true,
+    closed: true,
+  });
+
+  const handleCheckboxChange = (status) => {
+    setFilterOptions({
+      ...filterOptions,
+      [status]: !filterOptions[status],
+    });
+  };
 
 
     return (
@@ -129,10 +143,48 @@ console.log('DATA GABUNGANNNN', mergedData)
                     </div>
                     <hr />
                     <Form className='my-4'>
-                        {listStatusFilter}
+                    <div className="filter-component">
+        <label>
+          <input
+            type="checkbox"
+            checked={filterOptions.open}
+            onChange={() => handleCheckboxChange('open')}
+          />
+          open
+        </label>
+
+        <label>
+          <input
+            type="checkbox"
+            checked={filterOptions.process}
+            onChange={() => handleCheckboxChange('process')}
+          />
+          process
+        </label>
+
+        <label>
+          <input
+            type="checkbox"
+            checked={filterOptions.done}
+            onChange={() => handleCheckboxChange('done')}
+          />
+          done
+        </label>
+
+        <label>
+          <input
+            type="checkbox"
+            checked={filterOptions.closed}
+            onChange={() => handleCheckboxChange('closed')}
+          />
+          closed
+        </label>
+      </div>
+                        {/* {listStatusFilter} */}
+                        {/* <Filter /> */}
                     </Form>
                     <Form className='my-4'>
-                        {listStatusDriverFilter}
+                        {/* {listStatusDriverFilter} */}
                     </Form>
                     <Form.Group className='select-date d-flex align-items-center my-2 gap-2' controlId="sd">
                         <Form.Label><p className='nw'>Start Date</p></Form.Label>
@@ -157,10 +209,14 @@ console.log('DATA GABUNGANNNN', mergedData)
                 </div>
                 <hr className='hr-bottom' />
                 <Row>
-                {paginatedData.map((item, index) => (
-                    <Col sm={3} className='px-3 py-2' key={index}>
-                        <div className='col-item d-flex align-items-start gap-3'>
-                            <h1 className='fwb text-blue d-flex align-items-start'><Icon icon="ion:log-in-outline" /></h1>
+                {paginatedData.map((item, id) => (
+                    <Col sm={3} className='px-3 py-2' key={id} style={{
+                        display:
+                          filterOptions[item.activity.name] ? 'block' : 'none',
+                      }}>
+                        <div className='col-item d-flex align-items-start gap-5'>
+                            {/* <h1 className='fwb text-blue d-flex align-items-start'> dangerouslySetInnerHTML={{ __html: {item.category.icon_url} }}</h1> */}
+                            <h1 style={{fill: item.activity.color}} className='fwb d-flex align-items-start mt-2' dangerouslySetInnerHTML={{ __html: item.category.icon_url }}></h1>
                             <div>
                                 <p className='xl fwb tg2'>{item.ticket_code}</p>
                                 <p className='md2'>11/09/2023</p>

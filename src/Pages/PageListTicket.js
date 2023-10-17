@@ -61,6 +61,16 @@ function PageTicket() {
         });
         setFilteredData(filtered);
       }, [search, Ticket]);
+
+
+      const formatDateLong = (dateString) => {
+        const options = { year: 'numeric', month: 'long', day: 'numeric' };
+        return new Date(dateString).toLocaleDateString(undefined, options);
+        };
+        const getTimeFromData = (timeString) => {
+          const date = new Date(timeString);
+          return date.toLocaleTimeString();
+        };
     
 
     return (
@@ -123,26 +133,37 @@ function PageTicket() {
                     <th>Action</th>
                 </tr>
                 </thead>
-                <tbody id='page-ticket-bottom-tbody'>
+                <tbody className='page-ticket-bottom-tbody'>
                 {filteredData.map((item) => (
                     <tr className='text-center'>
                     <td>{item.id}</td>
                     <td>{item.ticket_code}</td>
-                    <td>{item.activity.name}</td>
+                    <td>{item.category.name}</td>
                     <td>
-                        <p>{item.start_time}</p>
+                        <p>{formatDateLong(item.created_at)}</p>
+                        <p className='text-red'>{getTimeFromData(item.created_at)} WIB</p>
                         {/* <p className='text-red'>11 : 14 WIB</p> */}
                     </td>
                     <td>
-                        <p>12 Sept’ 2023</p>
-                        <p className='text-red'>11 : 14 WIB</p>
+                        <p>{formatDateLong(item.range_time)}</p>
+                        <p className='text-red'>{getTimeFromData(item.range_time)} WIB</p>
                     </td>
                     <td>
                         <p className='text-red'>59 Detik </p>
                     </td>
-                    <td className='text-blue'>
-                        <p>Kategori 1</p>
-                    </td>
+                    {item.priority_id === 1 ? (
+                      <td>
+                      <p  className='fwb text-lime'>Low</p>
+                      </td>
+                    ) : item.priority_id === 2  ? (
+                     <td>
+                      <p className='fwb text-blue'>Medium</p>
+                      </td>
+                    ) : (
+                      <td>
+                      <p className='fwb text-red'>High</p>
+                      </td>
+                    )}
                     <td>
                         <p style={{ color: item.activity.color}}>{item.activity.name}</p>
                     </td>

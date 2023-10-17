@@ -246,24 +246,24 @@ function PageTicket() {
                             </Dropdown.Toggle>
 
                             <Dropdown.Menu className='menu-dropdown-tracking px-4'>
-                                <div className='filter-header d-flex align-items-end justify-content-between'>
+                                <div className='filter-header d-flex align-items-center justify-content-between my-1'>
                                     <div className='d-flex align-items-center'>
-                                        <p><Icon icon="mdi:filter" /></p>
-                                        <p>Filter</p>
+                                        <p className='md'><Icon icon="mdi:filter" /></p>
+                                        <p className='md'>Filter</p>
                                     </div>
-                                    <div className='d-flex justify-content-end'>
-                                        <SvgLogo></SvgLogo>
+                                    <div className='d-flex justify-content-end' id='filtering-logo'>
+                                        <SvgLogo/>
                                     </div>
                                 </div>
                                 <hr />
                                 <Form className='my-4'>
-                                    {listStatusFilter}
+                                    <p className='md'>{listStatusFilter}</p>
                                 </Form>
                                 <Form className='my-4'>
-                                    {listKategoriFilter}
+                                    <p className='md'>{listKategoriFilter}</p>
                                 </Form>
                                 <Form className='my-4'>
-                                    {listPriorityFilter}
+                                    <p className='md'>{listPriorityFilter}</p>
                                 </Form>
                                 <Form.Group className='select-date d-flex align-items-center my-2 gap-2' controlId="sd">
                                     <Form.Label><p className='nw'>Start Date</p></Form.Label>
