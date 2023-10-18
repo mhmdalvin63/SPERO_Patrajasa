@@ -1,8 +1,8 @@
 import '../Css/Pages/PageTracking.css';
 import '../Css/Parts/Font.css'; 
 
-import Maps from '../Parts/MapsMarker'
-import Filter from '../Parts/Filter'
+import Maps from '../Parts/Marker2'
+// import Filter from '../Parts/Filter'
 import LogoPatra from '../Images/Logo-Prima.png';
 
 import {Dropdown, Form,  FormControl, Button, Row, Col} from 'react-bootstrap';
@@ -21,33 +21,6 @@ function Tracking({ filters }) {
     const [loading, setLoading] = useState(true);
     const [isChecked, setIsChecked] = useState(false);
 
-//     const handleCheckboxChange = (e) => {
-//       setIsChecked(e.target.checked);
-//     };
-//     let status = ['Open', 'Proses', 'Closed', 'Forwarding', 'Done', 'Re-Open']
-//     let listStatusFilter = status.map((index)=>
-//         <Form.Check
-//         key={index}
-//         type="checkbox"
-//         label= {index}
-//         id="myCheckbox"
-//         checked={isChecked.index}
-//         onChange={handleCheckboxChange}
-//         />
-//     )
-//     let statusDriver = ['Online', 'Offline']
-//     let listStatusDriverFilter = statusDriver.map((index)=>
-//     <Form.Check
-//     key={index}
-//     type="checkbox"
-//     label= {index}
-//     id="myCheckbox"
-//     checked={isChecked.index}
-//     onChange={handleCheckboxChange}
-//     />
-// )
-    
-
 // T I C K E T
 const [Ticket, setTicket,] = useState([]);
 
@@ -56,7 +29,7 @@ const [Driver, setDriver,] = useState([]);
 
 useEffect(() => {
   const token = sessionStorage.getItem("jwttoken");
-  axios.get('https://apipatra.spero-lab.id/api/dashboard/ticket', { headers: {"Authorization" : `Bearer ${token}`} })
+  axios.get('https://apipatra.spero-lab.id/api/dashboard/tracking', { headers: {"Authorization" : `Bearer ${token}`} })
   .then((result) => {
     console.log('TICKETT WOIIIIIIIIIII', result.data.data);
     setTicket(result.data.data);
@@ -65,20 +38,10 @@ useEffect(() => {
   .catch((error) => {
     console.log(error)
 setLoading(false);});
-
-   axios.get('https://apipatra.spero-lab.id/api/dashboard/driver', { headers: {"Authorization" : `Bearer ${token}`} })
-    .then((result) => {
-      console.log('driverrrrrrrrrrrrrrrrrrrrrrrrrrrrr', result.data.data.drivers);
-      setDriver(result.data.data.drivers);
-      setLoading(false);
-    })
-    .catch((error) => {
-        console.log(error)
-    setLoading(false);});
 }, []);
 
-const mergedData = {...Ticket, ...Driver};
-console.log('DATA GABUNGANNNN', mergedData)
+// const mergedData = {...Ticket, ...Driver};
+// console.log('DATA GABUNGANNNN', mergedData)
 
 // const mergeData = mergeData(data1, data2);
 
@@ -98,11 +61,21 @@ console.log('DATA GABUNGANNNN', mergedData)
     setCurrentPage(pageNumber);
   };
 
+  console.log('PAGINATEDDDDDDDD', paginatedData)
+
   const [filterOptions, setFilterOptions] = useState({
     open: true,
+    forwarding: true,
     process: true,
     done: true,
+    reopen: true,
     closed: true,
+    online: true,
+    offline: true,
+  });
+  const [filterDriver, setfilterDriver] = useState({
+    online: true,
+    offline: true,
   });
 
   const handleCheckboxChange = (status) => {
@@ -111,6 +84,16 @@ console.log('DATA GABUNGANNNN', mergedData)
       [status]: !filterOptions[status],
     });
   };
+  const handleCheckboxChangeDriver = (status) => {
+    setfilterDriver({
+      ...filterDriver,
+      [status]: !filterDriver[status],
+    });
+  };
+
+
+  // FITUR SEARCH
+
 
 
     return (
@@ -144,47 +127,78 @@ console.log('DATA GABUNGANNNN', mergedData)
                     <hr />
                     <Form className='my-4'>
                     <div className="filter-component">
-        <label>
+        <label className='d-flex gap-2'>
           <input
             type="checkbox"
             checked={filterOptions.open}
             onChange={() => handleCheckboxChange('open')}
           />
-          open
+          <p>open</p>
+        </label>
+        <label className='d-flex gap-2'>
+          <input
+            type="checkbox"
+            checked={filterOptions.forwarding}
+            onChange={() => handleCheckboxChange('forwarding')}
+          />
+          <p>forwarding</p>
         </label>
 
-        <label>
+        <label className='d-flex gap-2'>
           <input
             type="checkbox"
             checked={filterOptions.process}
             onChange={() => handleCheckboxChange('process')}
           />
-          process
+          <p>process</p>
         </label>
 
-        <label>
+        <label className='d-flex gap-2'>
           <input
             type="checkbox"
             checked={filterOptions.done}
             onChange={() => handleCheckboxChange('done')}
           />
-          done
+          <p>done</p>
+        </label>
+        <label className='d-flex gap-2'>
+          <input
+            type="checkbox"
+            checked={filterOptions.reopen}
+            onChange={() => handleCheckboxChange('reopen')}
+          />
+          <p>reopen</p>
         </label>
 
-        <label>
+        <label className='d-flex gap-2'>
           <input
             type="checkbox"
             checked={filterOptions.closed}
             onChange={() => handleCheckboxChange('closed')}
           />
-          closed
+          <p>closed</p>
         </label>
       </div>
                         {/* {listStatusFilter} */}
                         {/* <Filter /> */}
                     </Form>
                     <Form className='my-4'>
-                        {/* {listStatusDriverFilter} */}
+                    <label className='d-flex gap-2'>
+                      <input
+                        type="checkbox"
+                        checked={filterDriver.online}
+                        onChange={() => handleCheckboxChangeDriver('online')}
+                      />
+                      <p>online</p>
+                    </label>
+                    <label className='d-flex gap-2'>
+                      <input
+                        type="checkbox"
+                        checked={filterDriver.offline}
+                        onChange={() => handleCheckboxChangeDriver('offline')}
+                      />
+                      <p>offline</p>
+                    </label>
                     </Form>
                     <Form.Group className='select-date d-flex align-items-center my-2 gap-2' controlId="sd">
                         <Form.Label><p className='nw'>Start Date</p></Form.Label>
@@ -201,7 +215,6 @@ console.log('DATA GABUNGANNNN', mergedData)
                 <div className='header-list-td'>
                     <img className='LogoPatraBottom' src={LogoPatra} alt="LogoPatra" />
                     <p className='xl text-blue fwb'>LIST TICKET & DRIVER</p>
-                    {/* <h1>13.27 54%</h1> */}
                     <Form className='search-bottom d-flex align-items-center'>
                         <Button className='icon'><Icon icon="ri:search-line" /></Button>
                         <FormControl type="text" placeholder="Search" className="icon2 mr-sm-2" />
@@ -209,35 +222,27 @@ console.log('DATA GABUNGANNNN', mergedData)
                 </div>
                 <hr className='hr-bottom' />
                 <Row>
+                <div id="map">
+                    <div class="marker" data-lat="40.7128" data-lng="-74.0060">
+                        <svg class="marker-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+                        </svg>
+                    </div>
+                </div>
                 {paginatedData.map((item, id) => (
-                    <Col sm={3} className='px-3 py-2' key={id} style={{
-                        display:
-                          filterOptions[item.activity.name] ? 'block' : 'none',
+                  <Col sm={3} className='px-3 py-2' key={id} style={{
+                      display: 
+                      filterOptions[item.activity ? item.activity.name : '-' || item.name ? item.name : '-'] ? 'block' : 'none',
                       }}>
-                        <div className='col-item d-flex align-items-start gap-5'>
-                            {/* <h1 className='fwb text-blue d-flex align-items-start'> dangerouslySetInnerHTML={{ __html: {item.category.icon_url} }}</h1> */}
-                            <h1 style={{fill: item.activity.color}} className='fwb d-flex align-items-start mt-2' dangerouslySetInnerHTML={{ __html: item.category.icon_url }}></h1>
-                            <div>
-                                <p className='xl fwb tg2'>{item.ticket_code}</p>
-                                <p className='md2'>11/09/2023</p>
-                                <p className='xl fwb' style={{color: item.activity.color}}>{item.activity.name}</p>
-                            </div>
-                        </div>
-                    </Col>
+                    <div className='col-item d-flex align-items-start gap-4'>
+                          <h1 style={{fill: item.activity ? item.activity.color : '-'}} className='fwb d-flex align-items-start mt-2' dangerouslySetInnerHTML={{ __html: item.icon }}></h1>
+                          <div>
+                              <p className='xl fwb tg2'>{item.subject}</p>
+                              <p className='md2'>{item.created_at}</p>
+                                <p className='xl fwb' style={{color: item.activity ? item.activity.color : '-'}}>{item.activity ? item.activity.name : '-'}</p>
+                          </div>
+                      </div>
+                  </Col>
                 ))}
-                
-                {/* {Driver.map((item, index) => (
-                    <Col sm={3} className='px-3 py-2' key={index}>
-                        <div className='col-item d-flex align-items-start gap-3'>
-                            <h1 className='fwb text-blue d-flex align-items-start'><Icon icon="ion:log-in-outline" /></h1>
-                            <div>
-                                <p className='xl fwb tg2'>{item.name}</p>
-                                <p className='md2'>11/09/2023</p>
-                                <p className='xl fwb'>{item.id}</p>
-                            </div>
-                        </div>
-                    </Col>
-                ))} */}
                 </Row>
                 <hr className='hr-bottom' />
                 <div className='pagination-tracking mt-3'>
