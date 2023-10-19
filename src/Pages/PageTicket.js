@@ -440,40 +440,40 @@ function PageTicket() {
                                     </Form>
                                 </div>
                             <Table responsive>
-            <thead className='bg-blue w-100' id='page-ticket-bottom-thead'>
-              <tr className='text-center text-white'>
-                <th className='text-center'>NO</th>
-                <th>ID Ticket</th>
-                <th>Title</th>
-                <th>Ticket Masuk</th>
-                <th>Dateline Ticket</th>
-                <th>Prioritas</th>
-                <th>Status</th>
-              </tr>
-            </thead>
-            <tbody id='page-ticket-bottom-tbody'>
-            {dataforwarding.map((item, index) => (
-                <tr className='text-center' key={index}>
-                  <td>{index+1}</td>
-                  <td>{item.id}</td>
-                  <td>Tukar Armada</td>
-                  <td>
-                    <p>12 Sept’ 2023</p>
-                    <p className='text-red'>11 : 14 WIB</p>
-                  </td>
-                  <td>
-                    <p>12 Sept’ 2023</p>
-                    <p className='text-red'>11 : 14 WIB</p>
-                  </td>
-                  <td className='text-blue'>
-                    <p>{item.category.name}</p>
-                  </td>
-                  <td className='text-blue'>
-                    <p style={{color: item.activity.color}}>{item.activity.name}</p>
-                  </td>
-                </tr>
-            ))}
-            </tbody>
+                            <thead className='bg-blue w-100' id='page-ticket-bottom-thead'>
+                            <tr className='text-center text-white'>
+                                <th className='text-center'>NO</th>
+                                <th>ID Ticket</th>
+                                <th>Title</th>
+                                <th>Ticket Masuk</th>
+                                <th>Dateline Ticket</th>
+                                <th>Prioritas</th>
+                                <th>Status</th>
+                            </tr>
+                            </thead>
+                            <tbody id='page-ticket-bottom-tbody'>
+                            {dataforwarding.map((item, index) => (
+                                <tr className='text-center' key={index}>
+                                <td>{index+1}</td>
+                                <td>{item.id}</td>
+                                <td>Tukar Armada</td>
+                                <td>
+                                    <p>12 Sept’ 2023</p>
+                                    <p className='text-red'>11 : 14 WIB</p>
+                                </td>
+                                <td>
+                                    <p>12 Sept’ 2023</p>
+                                    <p className='text-red'>11 : 14 WIB</p>
+                                </td>
+                                <td className='text-blue'>
+                                    <p>{item.category.name}</p>
+                                </td>
+                                <td className='text-blue'>
+                                    <p style={{color: item.activity.color}}>{item.activity.name}</p>
+                                </td>
+                                </tr>
+                            ))}
+                            </tbody>
                             </Table>
                             </Dropdown.Menu>
                                                     </Dropdown>

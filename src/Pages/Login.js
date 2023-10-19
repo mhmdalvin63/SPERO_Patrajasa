@@ -99,17 +99,17 @@ sessionStorage.clear();
                             <h2 className="text-center my-5">Login Dashboard</h2>
                         </div>
                         <div className="body">
-                            <div className="form-group mt-3">
-                                <label>User Name <span className="errmsg text-red">*</span></label>
-                                <input value={email} onChange={e => emailupdate(e.target.value)} className="form-control"></input>
+                            <div className="form-group input-group-lg mt-3" >
+                                <label><h3>User Name <span className="errmsg text-red">*</span></h3></label>
+                                <input value={email} onChange={e => emailupdate(e.target.value)} className="form-control my-3" size="lg"></input>
                             </div>
-                            <div className="form-group mt-3">
-                                <label>Password <span className="errmsg text-red">*</span></label>
-                                <input type="password" value={password} onChange={e => passwordupdate(e.target.value)} className="form-control"></input>
+                            <div className="form-group input-group-lg mt-4" >
+                                <label><h3>Password <span className="errmsg text-red">*</span></h3></label>
+                                <input type="password" value={password} onChange={e => passwordupdate(e.target.value)} className="form-control my-3" size="lg"></input>
                             </div>
                         </div>
                         <div className="footer text-center mt-5">
-                            <button type="submit" className="btn w-50 btn-primary">Login</button> 
+                            <button type="submit" className="btn w-50 bg-blue text-white fwb">Login</button> 
                         </div>
                     </div>
                 </form>

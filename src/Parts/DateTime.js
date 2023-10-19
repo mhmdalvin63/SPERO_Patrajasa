@@ -27,13 +27,20 @@ function DateTime(){
   const currentMonthName = monthNames[currentDate.getMonth()];
   const day = currentDate.getDate();
 
+  const getCurrentDay = () => {
+    const daysOfWeek = ["Minggu", "Senin", "Selasa", "Rabu", "Kamis", "Jumat", "Sabtu"];
+    const today = new Date();
+    const currentDay = today.getDay();
+    return daysOfWeek[currentDay];
+  };
+
   const marginBottomValue = '4rem'; // You can set your desired margin value here
   const style = {
     marginBottom: marginBottomValue,
   };
   return(
     <div style={style}>
-        <h1 className=''>{`${day} ${currentMonthName} ${year}`}</h1>
+        <h1 className=''>{getCurrentDay()}, {`${day} ${currentMonthName} ${year}`}</h1>
         <p className='my-2 text-end xl'>{currentTime.toLocaleTimeString()} WIB</p>
     </div>
   )

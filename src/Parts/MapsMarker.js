@@ -81,22 +81,6 @@ function App() {
       console.log('DRIVERRRRR',result.data.data);
       SetListDriver('DRIVERRRRR',result.data);
        setLoading(false);
-      // for (let index = 0; index < result.data.data.length; index++) {
-      //   if (result.data.data[index].detail_ticket !== null) {
-      //     let latData = (result.data.data[index].detail_ticket.lat === null ? getRandomFloat(-6, -7, 15) : result.data.data[index].detail_ticket.lat)
-      //     let longData = (result.data.data[index].detail_ticket.long === null ? getRandomFloat(106.1, 106.3, 15) : result.data.data[index].detail_ticket.long)
-      //     markersDriver[index] = 
-      //     {
-      //       id: result.data.data[index].id,
-      //       position: { lat: parseFloat(latData), lng: parseFloat(longData) },
-      //       ticketcode: result.data.data[index].ticket_code,
-      //       proses: result.data.data[index].activity.name,
-      //       informasi: result.data.data[index].detail_ticket.content,
-      //       color: result.data.data[index].activity.color,
-      //       tanggal: "19-03-2023",
-      //     }
-      //   }
-      // }
       setDriver(markersDriver)
     })
     .catch((error) => {
@@ -139,15 +123,6 @@ function App() {
       return MarkerClosed; // Replace with a default icon path
     }
   };
-  // console.log(getMarkerIcon);
-          // let iconUrl;
-          // if (Activity.name === 'open') {
-          //   iconUrl = 'MarkerOpen';
-          // } else if (Activity.name === 'process') {
-          //   iconUrl = 'MarkerProses';
-          // } else {
-          //   iconUrl = 'URL_TO_DEFAULT_ICON';
-          // }
   return (
     <div>
     {loading ? (
@@ -164,17 +139,6 @@ function App() {
               mapContainerStyle={{ width: "100vw", height: "100vh" }}
             >
               {Markers.map(({ id, position, ticketcode, proses, informasi, tanggal, color }) => (
-                // let getMarkerIcon = (proses) => {
-                //   if (proses === 'open') {
-                //     return MarkerOpen; // Replace with the path to your first icon
-                //   } else if (proses === 'process') {
-                //     return MarkerProcess; // Replace with the path to your second icon
-                //   } else if (proses === 'done') {
-                //     return MarkerClosed // Replace with the path to your third icon
-                //   } else {
-                //     return MarkerClosed; // Replace with a default icon path
-                //   }
-                // };
                 <MarkerF
                   key={id}
                   position={position}

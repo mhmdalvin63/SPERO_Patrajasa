@@ -26,6 +26,8 @@ function PageTicket() {
 
     // T I C K E T
   const [Ticket, setTicket] = useState([]);
+  const [endTime, setEndTime] = useState(null);
+  const [timeRemaining, setTimeRemaining] = useState({ days: 0, hours: 0, minutes: 0 });
   const [Activity, setActivity] = useState([]);
   const [DetailTicket, setDetailTicket] = useState([]);
     useEffect(() => {
@@ -37,12 +39,17 @@ function PageTicket() {
             setActivity(result.data.data);
             setDetailTicket(result.data.data);
             setFilteredData(result.data.data);
+            const eventEndTime = new Date(result.data.data.category.range_time);
+            setEndTime(eventEndTime);
             setLoading(false);
           })
           .catch((error) => {
             console.log(error)
             setLoading(false);});
       }, []);
+
+      console.log('ENDDDDDDDDDDDDDD', endTime)
+
 
       useEffect(() => {
         const filtered = Ticket.filter((item) => {
@@ -72,6 +79,26 @@ function PageTicket() {
           return date.toLocaleTimeString();
         };
     
+        useEffect(() => {
+          const interval = setInterval(() => {
+            if (endTime) {
+              const currentTime = new Date();
+              const timeDiff = endTime - currentTime;
+      
+              if (timeDiff <= 0) {
+                // Event has ended
+                clearInterval(interval);
+              } else {
+                const days = Math.floor(timeDiff / (1000 * 60 * 60 * 24));
+                const hours = Math.floor((timeDiff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                const minutes = Math.floor((timeDiff % (1000 * 60 * 60)) / (1000 * 60));
+                setTimeRemaining({ days, hours, minutes });
+              }
+            }
+          }, 1000);
+      
+          return () => clearInterval(interval);
+        }, [endTime]);
 
     return (
         <div>
@@ -150,6 +177,7 @@ function PageTicket() {
                     </td>
                     <td>
                         <p className='text-red'>59 Detik </p>
+                        <p className='text-red'>{timeRemaining.days} {timeRemaining.hours} {timeRemaining.minutes} </p>
                     </td>
                     {item.priority_id === 1 ? (
                       <td>

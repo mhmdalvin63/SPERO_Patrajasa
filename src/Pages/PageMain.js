@@ -74,6 +74,7 @@ function MainNew() {
 
   // P R O C E S S   O W N E R
   const [Operator, SetOperator] = useState([]);
+  const [OperatorCount, SetOperatorCount] = useState([]);
 
 
   // T I C K E T   S U M M A R Y
@@ -155,8 +156,9 @@ function MainNew() {
 
       axios.get('https://apipatra.spero-lab.id/api/dashboard/operator', { headers: {"Authorization" : `Bearer ${token}`} })
        .then((result) => {
-         console.log('OPERATORRRR',result.data.data.operator);
-         SetOperator(result.data.data.operator);
+         console.log('OPERATORRRR',result.data.data);
+         SetOperator(result.data.data.operators);
+         SetOperatorCount(result.data.data.count);
          setLoading(false);
        })
        .catch((error) => {
@@ -167,8 +169,8 @@ function MainNew() {
      axios.get('https://apipatra.spero-lab.id/api/dashboard/process-owner', { headers: {"Authorization" : `Bearer ${token}`} })
       .then((result) => {
         // console.log('PROSES OWNER COIIII',result.data.data);
-        setPo(result.data.data);
-        setPoList(result.data.data.process_owner)
+        setPo(result.data.data.count);
+        setPoList(result.data.data.process_owners)
         setLoading(false);
       })
       .catch((error) => {
@@ -281,7 +283,7 @@ function MainNew() {
                     <Dropdown.Toggle className='dropdown-main' id="dropdown-basic">
                         <div className='header-total-ticket '>
                             <div className='upper-hr gap-3'>
-                                <h1 className='xl tg'>{Po.count}</h1>
+                                <h1 className='xl tg'>{Po.total}</h1>
                                 <div className='text-lime'>
                                     <div className='icon-ticket gap-2'>
                                         <h1 className='md'><Icon icon="clarity:administrator-solid" /></h1>
@@ -292,9 +294,9 @@ function MainNew() {
                             </div>
                             <div className='hr-main tg'></div>
                             <div className='lower-hr gap-3 tg'>
-                                <p className='xl'>Online <span className='fwb700'>3</span></p>
+                                <p className='xl'>Online <span className='fwb700'>{Po.online}</span></p>
                                 <div className='vl'></div>
-                                <p className='xl'>Offline <span className='fwb700'>0</span></p>
+                                <p className='xl'>Offline <span className='fwb700'>{Po.offline}</span></p>
                             </div>
                         </div>
                     </Dropdown.Toggle>
@@ -311,8 +313,8 @@ function MainNew() {
                             </tr>
                         </thead>
                         <tbody>
-                        {PoList.map((item, index) => (
-                            <tr key={index}>
+                        {PoList.map((item, id) => (
+                            <tr key={id}>
                             <td colSpan={5}>{item.name}</td>
                             <td className='text-center'>{new Date(item.created_at).toLocaleDateString()}</td>
                             </tr>
@@ -336,9 +338,9 @@ function MainNew() {
                             </div>
                             <div className='hr-main tg'></div>
                             <div className='lower-hr gap-3 tg'>
-                                <p className='xl '>Online <span className='fwb700'>3</span></p>
+                                <p className='xl '>Online <span className='fwb700'>{Driver.online}</span></p>
                                 <div className='vl'></div>
-                                <p className='xl '>Offline <span className='fwb700'>0</span></p>
+                                <p className='xl '>Offline <span className='fwb700'>{Driver.offline}</span></p>
                             </div>
                         </div>
                     </Dropdown.Toggle>
@@ -370,7 +372,7 @@ function MainNew() {
                     <Dropdown.Toggle className='dropdown-main' id="dropdown-basic">
                         <div className='header-total-ticket '>
                             <div className='upper-hr gap-3'>
-                                <h1 className='xl tg'>{Operator.length}</h1>
+                                <h1 className='xl tg'>{OperatorCount.total}</h1>
                                 <div className='text-yellow'>
                                     <div className='icon-ticket gap-2'>
                                         <h1 className='md'><Icon icon="ic:round-support-agent" /></h1>
@@ -381,9 +383,9 @@ function MainNew() {
                             </div>
                             <div className='hr-main tg'></div>
                             <div className='lower-hr gap-3 tg'>
-                                <p className='xl'>Online <span className='fwb700'>7</span></p>
+                               <p className='xl'>Online <span className='fwb700'>{OperatorCount.online}</span></p>
                                 <div className='vl'></div>
-                                <p className='xl'>Offline <span className='fwb700'>5</span></p>
+                                <p className='xl'>Offline <span className='fwb700'>{OperatorCount.offline}</span></p>
                             </div>
                         </div>
                     </Dropdown.Toggle>
@@ -500,7 +502,7 @@ function MainNew() {
                     <Dropdown.Toggle className='dropdown-main' id="dropdown-basic">
                         <div className='header-total-ticket '>
                             <div className='upper-hr gap-3'>
-                                <h1 className='xl tg'>{Po.count}</h1>
+                                <h1 className='xl tg'>{Po.total}</h1>
                                 <div className='text-lime'>
                                     <div className='icon-ticket gap-2'>
                                         <h1 className='md'><Icon icon="clarity:administrator-solid" /></h1>
@@ -511,9 +513,9 @@ function MainNew() {
                             </div>
                             <div className='hr-main tg'></div>
                             <div className='lower-hr gap-3 tg'>
-                                <p className='xl'>Online <span className='fwb700'>3</span></p>
+                                <p className='xl'>Online <span className='fwb700'>{Po.online}</span></p>
                                 <div className='vl'></div>
-                                <p className='xl'>Offline <span className='fwb700'>0</span></p>
+                                <p className='xl'>Offline <span className='fwb700'>{Po.offline}</span></p>
                             </div>
                         </div>
                     </Dropdown.Toggle>
@@ -555,9 +557,9 @@ function MainNew() {
                             </div>
                             <div className='hr-main tg'></div>
                             <div className='lower-hr gap-3 tg'>
-                                <p className='xl '>Online <span className='fwb700'>3</span></p>
+                            <p className='xl '>Online <span className='fwb700'>{Driver.online}</span></p>
                                 <div className='vl'></div>
-                                <p className='xl '>Offline <span className='fwb700'>0</span></p>
+                                <p className='xl '>Offline <span className='fwb700'>{Driver.offline}</span></p>
                             </div>
                         </div>
                     </Dropdown.Toggle>
@@ -589,7 +591,7 @@ function MainNew() {
                     <Dropdown.Toggle className='dropdown-main' id="dropdown-basic">
                         <div className='header-total-ticket '>
                             <div className='upper-hr gap-3'>
-                                <h1 className='xl tg'>{Operator.length}</h1>
+                                <h1 className='xl tg'>{OperatorCount.total}</h1>
                                 <div className='text-yellow'>
                                     <div className='icon-ticket gap-2'>
                                         <h1 className='md'><Icon icon="ic:round-support-agent" /></h1>
@@ -600,9 +602,9 @@ function MainNew() {
                             </div>
                             <div className='hr-main tg'></div>
                             <div className='lower-hr gap-3 tg'>
-                                <p className='xl'>Online <span className='fwb700'>7</span></p>
+                               <p className='xl'>Online <span className='fwb700'>{OperatorCount.online}</span></p>
                                 <div className='vl'></div>
-                                <p className='xl'>Offline <span className='fwb700'>5</span></p>
+                                <p className='xl'>Offline <span className='fwb700'>{OperatorCount.offline}</span></p>
                             </div>
                         </div>
                     </Dropdown.Toggle>
@@ -719,7 +721,7 @@ function MainNew() {
                     <Dropdown.Toggle className='dropdown-main' id="dropdown-basic">
                         <div className='header-total-ticket '>
                             <div className='upper-hr gap-3'>
-                                <h1 className='xl tg'>{Po.count}</h1>
+                                <h1 className='xl tg'>{Po.total}</h1>
                                 <div className='text-lime'>
                                     <div className='icon-ticket gap-2'>
                                         <h1 className='md'><Icon icon="clarity:administrator-solid" /></h1>
@@ -730,9 +732,9 @@ function MainNew() {
                             </div>
                             <div className='hr-main tg'></div>
                             <div className='lower-hr gap-3 tg'>
-                                <p className='xl'>Online <span className='fwb700'>3</span></p>
+                                <p className='xl'>Online <span className='fwb700'>{Po.online}</span></p>
                                 <div className='vl'></div>
-                                <p className='xl'>Offline <span className='fwb700'>0</span></p>
+                                <p className='xl'>Offline <span className='fwb700'>{Po.offline}</span></p>
                             </div>
                         </div>
                     </Dropdown.Toggle>
@@ -774,9 +776,9 @@ function MainNew() {
                             </div>
                             <div className='hr-main tg'></div>
                             <div className='lower-hr gap-3 tg'>
-                                <p className='xl '>Online <span className='fwb700'>3</span></p>
+                            <p className='xl '>Online <span className='fwb700'>{Driver.online}</span></p>
                                 <div className='vl'></div>
-                                <p className='xl '>Offline <span className='fwb700'>0</span></p>
+                                <p className='xl '>Offline <span className='fwb700'>{Driver.offline}</span></p>
                             </div>
                         </div>
                     </Dropdown.Toggle>
@@ -808,7 +810,7 @@ function MainNew() {
                     <Dropdown.Toggle className='dropdown-main' id="dropdown-basic">
                         <div className='header-total-ticket '>
                             <div className='upper-hr gap-3'>
-                                <h1 className='xl tg'>{Operator.length}</h1>
+                                <h1 className='xl tg'>{OperatorCount.total}</h1>
                                 <div className='text-yellow'>
                                     <div className='icon-ticket gap-2'>
                                         <h1 className='md'><Icon icon="ic:round-support-agent" /></h1>
@@ -819,9 +821,9 @@ function MainNew() {
                             </div>
                             <div className='hr-main tg'></div>
                             <div className='lower-hr gap-3 tg'>
-                                <p className='xl'>Online <span className='fwb700'>7</span></p>
+                               <p className='xl'>Online <span className='fwb700'>{OperatorCount.online}</span></p>
                                 <div className='vl'></div>
-                                <p className='xl'>Offline <span className='fwb700'>5</span></p>
+                                <p className='xl'>Offline <span className='fwb700'>{OperatorCount.offline}</span></p>
                             </div>
                         </div>
                     </Dropdown.Toggle>
@@ -938,7 +940,7 @@ function MainNew() {
                     <Dropdown.Toggle className='dropdown-main' id="dropdown-basic">
                         <div className='header-total-ticket '>
                             <div className='upper-hr gap-3'>
-                                <h1 className='xl tg'>{Po.count}</h1>
+                                <h1 className='xl tg'>{Po.total}</h1>
                                 <div className='text-lime'>
                                     <div className='icon-ticket gap-2'>
                                         <h1 className='md'><Icon icon="clarity:administrator-solid" /></h1>
@@ -949,9 +951,9 @@ function MainNew() {
                             </div>
                             <div className='hr-main tg'></div>
                             <div className='lower-hr gap-3 tg'>
-                                <p className='xl'>Online <span className='fwb700'>3</span></p>
+                                <p className='xl'>Online <span className='fwb700'>{Po.online}</span></p>
                                 <div className='vl'></div>
-                                <p className='xl'>Offline <span className='fwb700'>0</span></p>
+                                <p className='xl'>Offline <span className='fwb700'>{Po.offline}</span></p>
                             </div>
                         </div>
                     </Dropdown.Toggle>
@@ -993,9 +995,9 @@ function MainNew() {
                             </div>
                             <div className='hr-main tg'></div>
                             <div className='lower-hr gap-3 tg'>
-                                <p className='xl '>Online <span className='fwb700'>3</span></p>
+                            <p className='xl '>Online <span className='fwb700'>{Driver.online}</span></p>
                                 <div className='vl'></div>
-                                <p className='xl '>Offline <span className='fwb700'>0</span></p>
+                                <p className='xl '>Offline <span className='fwb700'>{Driver.offline}</span></p>
                             </div>
                         </div>
                     </Dropdown.Toggle>
@@ -1027,7 +1029,7 @@ function MainNew() {
                     <Dropdown.Toggle className='dropdown-main' id="dropdown-basic">
                         <div className='header-total-ticket '>
                             <div className='upper-hr gap-3'>
-                                <h1 className='xl tg'>{Operator.length}</h1>
+                                <h1 className='xl tg'>{OperatorCount.total}</h1>
                                 <div className='text-yellow'>
                                     <div className='icon-ticket gap-2'>
                                         <h1 className='md'><Icon icon="ic:round-support-agent" /></h1>
@@ -1038,9 +1040,9 @@ function MainNew() {
                             </div>
                             <div className='hr-main tg'></div>
                             <div className='lower-hr gap-3 tg'>
-                                <p className='xl'>Online <span className='fwb700'>7</span></p>
+                               <p className='xl'>Online <span className='fwb700'>{OperatorCount.online}</span></p>
                                 <div className='vl'></div>
-                                <p className='xl'>Offline <span className='fwb700'>5</span></p>
+                                <p className='xl'>Offline <span className='fwb700'>{OperatorCount.offline}</span></p>
                             </div>
                         </div>
                     </Dropdown.Toggle>
