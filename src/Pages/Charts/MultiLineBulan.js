@@ -11,10 +11,18 @@ const MultiAxisLineChart = () => {
     // D R I V E R
   const [DataPerBulan, setDataPerBulan] = useState([]);
 
+  const [Kategori, setKategori] = useState([]);
+
+  const [selectedOption, setSelectedOption] = useState('1'); // Nilai awal pilihan
+
+  let handleChange = (e) => {
+    setSelectedOption(e.target.value);
+  };
+
   // D R I V E R
   useEffect(() => {
     const token = sessionStorage.getItem("jwttoken");
-     axios.get('https://apipatra.spero-lab.id/api/dashboard/ticket/monthly', { headers: {"Authorization" : `Bearer ${token}`} })
+     axios.get(`https://apipatra.spero-lab.id/api/dashboard/ticket/monthly?category_id=${selectedOption}`, { headers: {"Authorization" : `Bearer ${token}`} })
       .then((result) => {
         // console.log(result.data.data.months);
         setDataPerBulan(result.data.data.months);
@@ -23,7 +31,17 @@ const MultiAxisLineChart = () => {
       .catch((error) => {
         console.log(error)
         setLoading(false);});
-    }, []);
+
+     axios.get('https://apipatra.spero-lab.id/api/dashboard/ticket/get-categories', { headers: {"Authorization" : `Bearer ${token}`} })
+      .then((result) => {
+        console.log('KATEGORI BRO',result.data.data);
+        setKategori(result.data.data);
+        setLoading(false);
+      })
+      .catch((error) => {
+        console.log(error)
+        setLoading(false);});
+    }, [selectedOption]);
 
     // console.log('data bulanan', DataPerBulan)
 
@@ -124,12 +142,13 @@ const MultiAxisLineChart = () => {
       <ReactApexChart options={options} series={series} type="line" height={250} />
       <div className='title-multi-axis px-5'>
                     <p>Grafik Per Bulan</p>
-                    <Form.Select size="xl" aria-label="Default select example" className='select-multi-axis'>
+                    <select value={selectedOption} onChange={handleChange}  size="xl" aria-label="Default select example" className='select-multi-axis'>
                       <option>Pilih Kategori</option>
-                      <option value="2021">2021</option>
-                      <option value="2022">2022</option>
-                      <option value="2023">2023</option>
-                    </Form.Select>
+                      {Kategori.map((item, id) => (
+                        <option key={id} value={item.id}>{item.name}</option>
+                      ))}
+                    </select>
+                    {/* <p>selected : {selectedOption}</p> */}
                   </div>
     </div>
       )}

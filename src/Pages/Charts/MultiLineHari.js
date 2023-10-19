@@ -13,19 +13,25 @@ const MultiAxisLineChart = () => {
     // D R I V E R
   const [Data, setData] = useState([]);
 
+  const [selectedOption, setSelectedOption] = useState('january'); // Nilai awal pilihan
+
+  const handleChange = (e) => {
+    setSelectedOption(e.target.value);
+  };
+
   // D R I V E R
   useEffect(() => {
     const token = sessionStorage.getItem("jwttoken");
-     axios.get('https://apipatra.spero-lab.id/api/dashboard/ticket/daily', { headers: {"Authorization" : `Bearer ${token}`} })
+     axios.get(`https://apipatra.spero-lab.id/api/dashboard/ticket/daily?month=${selectedOption}`, { headers: {"Authorization" : `Bearer ${token}`} })
       .then((result) => {
-        // console.log(result.data.data.days);
+        console.log('DATA BULANNNNNNNNNNNN',result.data.data);
         setData(result.data.data.days);
         setLoading(false);
       })
       .catch((error) => {
         console.log(error)
         setLoading(false);});
-    }, []);
+    }, [selectedOption]);
 
     
     // for(const i in Data){
@@ -130,9 +136,9 @@ const MultiAxisLineChart = () => {
       <ReactApexChart options={options} series={series} type="line" height={250} />
       <div className='title-multi-axis px-5'>
                     <p>Grafik Status Ticket Per Hari</p>
-                    <Form.Select size="xl" aria-label="Default select example" className='select-multi-axis '>
+                    <select value={selectedOption} onChange={handleChange} size="xl" aria-label="Default select example" className='select-multi-axis '>
                       <option>Pilih Bulan</option>
-                      <option value="Januari">Januari</option>
+                      <option value="january">Januari</option>
                       <option value="Februari">Februari</option>
                       <option value="Maret">Maret</option>
                       <option value="April">April</option>
@@ -141,10 +147,11 @@ const MultiAxisLineChart = () => {
                       <option value="Juli">Juli</option>
                       <option value="Agustus">Agustus</option>
                       <option value="September">September</option>
-                      <option value="Oktober">Oktober</option>
+                      <option value="october">Oktober</option>
                       <option value="November">November</option>
                       <option value="Desember">Desember</option>
-                    </Form.Select>
+                    </select>
+                    {/* <p>selected : {selectedOption}</p> */}
                   </div>
     </div>
     )}
