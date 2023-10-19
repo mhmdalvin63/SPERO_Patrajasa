@@ -123,6 +123,11 @@
 .table-list-ticket{
     margin-top: 10%;
 }
+.button-eye{
+    background-color: blue;
+    color: white;
+    border-radius: 10px;
+}
 /* tbody#page-ticket-bottom-tbody{
     height: 50vh !important;
     overflow: auto !important;

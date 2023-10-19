@@ -195,7 +195,7 @@ function PageTicket() {
                     <td>
                         <p style={{ color: item.activity.color}}>{item.activity.name}</p>
                     </td>
-                    <td><Link to={`/list-ticket/${item.id}`}><Icon icon="mdi:eye" /></Link></td>
+                    <td><Link to={`/list-ticket/${item.id}`} className='button-eye py-2 px-3'><Icon icon="mdi:eye" /></Link></td>
                     </tr>
                 ))}
                 </tbody>

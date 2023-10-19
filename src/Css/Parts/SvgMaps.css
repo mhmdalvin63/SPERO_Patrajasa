@@ -1,0 +1,9 @@
+.pop-up-svg{
+    width: max-content;
+    padding: .5rem 2rem;
+    background-color: #1767B3;
+    color: white;
+    font-weight: bold;
+    border-radius: 10px;
+    z-index: 99;
+}
