@@ -50,6 +50,8 @@ function PageTicket() {
   const [closedlow, setclosedlow] = useState([]);
   const [closedmedium, setclosedmedium] = useState([]);
   const [closedhigh, setclosedhigh] = useState([]);
+  
+  const [Kategori, setKategori] = useState([]);
 
   const [Ticket, setTicket] = useState([]);
     useEffect(() => {
@@ -63,18 +65,10 @@ function PageTicket() {
         setopenlow(result.data.data.status.open.priority[0].value);
         setopenmedium(result.data.data.status.open.priority[1].value);
         setopenhigh(result.data.data.status.open.priority[2].value);
-        // setForwarding(result.data.data.status.forwarding);
-        // setforwardinglow(result.data.data.status.forwarding.priority[0].value);
-        // setforwardingmedium(result.data.data.status.forwarding.priority[1].value);
-        // setforwardinghigh(result.data.data.status.forwarding.priority[2].value);
         setProses(result.data.data.status.process);
         setprocesslow(result.data.data.status.process.priority[0].value);
         setprocessmedium(result.data.data.status.process.priority[1].value);
         setprocesshigh(result.data.data.status.process.priority[2].value);
-        // setReopen(result.data.data.status.reopen);
-        // setreopenlow(result.data.data.status.reopen.priority[0].value);
-        // setreopenmedium(result.data.data.status.reopen.priority[1].value);
-        // setreopenhigh(result.data.data.status.reopen.priority[2].value);
         setDone(result.data.data.status.done);
         setDoneLow(result.data.data.status.done.priority[0].value);
         setDoneMedium(result.data.data.status.done.priority[1].value);
@@ -98,14 +92,25 @@ function PageTicket() {
       .catch((error) => {
         console.log(error)
     setLoading(false);});
+
+    axios.get('https://apipatra.spero-lab.id/api/dashboard/ticket/get-categories', { headers: {"Authorization" : `Bearer ${token}`} })
+          .then((result) => {
+            console.log('KATTTT',result.data.data);
+            setKategori(result.data.data);
+            setLoading(false);
+          })
+          .catch((error) => {
+            console.log(error)
+            setLoading(false);});
   }, []);
 
-  let dataOpen = Ticket.filter(item => item.activity.name === 'open');
+  let DataOpen = Ticket.filter(item => item.activity.name === 'open');
 //   let openColor = ['color'];
 //   let dataforwarding = Ticket.filter(item => item.activity.name === 'forwarding');
-  let dataprocess = Ticket.filter(item => item.activity.name === 'process');
-  let datadone = Ticket.filter(item => item.activity.name === 'done');
-  console.log('DATAAAAAA', dataOpen)
+  let DataProcess = Ticket.filter(item => item.activity.name === 'process');
+  let DataDone = Ticket.filter(item => item.activity.name === 'done');
+  let DataClosed = Ticket.filter(item => item.activity.name === 'closed');
+  console.log('DATAAAAAA', DataOpen)
 
 
 // CHECKBOX FILTER
@@ -158,6 +163,134 @@ function PageTicket() {
     />
     )
     // END CHECKBOX FILTER
+
+    const formatDateLong = (dateString) => {
+        const options = { year: 'numeric', month: 'long', day: 'numeric' };
+        return new Date(dateString).toLocaleDateString(undefined, options);
+        };
+        const getTimeFromData = (timeString) => {
+          const date = new Date(timeString);
+          return date.toLocaleTimeString();
+        };
+        
+        const [startDate, setStartDate] = useState('');
+        const [endDate, setEndDate] = useState('');
+        const [search, setSearch] = useState('');
+        const [selectedCategoryId, setSelectedCategoryId] = useState('');
+      
+        const filteredTicketOpen= DataOpen.filter((item) => {
+            // Filter by time range
+        const startTime = new Date(item.start_time);
+        const endTime = new Date(item.range_time);
+
+        if (
+          (startDate && startTime < new Date(startDate)) ||
+          (endDate && endTime > new Date(endDate))
+        ) {
+          return false;
+        }
+
+        // Filter by search input
+        if (search && !item.ticket_code.toLowerCase().includes(search.toLowerCase())) {
+          return false;
+        }
+           
+        // Filter by selected category
+        
+        if (
+          (selectedCategoryId && item.category.name !== selectedCategoryId)
+        ) {
+          return false;
+        }
+
+    
+        return true;
+        });
+        const filteredTicketProcess= DataProcess.filter((item) => {
+            // Filter by time range
+        const startTime = new Date(item.start_time);
+        const endTime = new Date(item.range_time);
+
+        if (
+          (startDate && startTime < new Date(startDate)) ||
+          (endDate && endTime > new Date(endDate))
+        ) {
+          return false;
+        }
+
+        // Filter by search input
+        if (search && !item.ticket_code.toLowerCase().includes(search.toLowerCase())) {
+          return false;
+        }
+           
+        // Filter by selected category
+        
+        if (
+          (selectedCategoryId && item.category.name !== selectedCategoryId)
+        ) {
+          return false;
+        }
+
+    
+        return true;
+        });
+        const filteredTicketDone= DataDone.filter((item) => {
+            // Filter by time range
+        const startTime = new Date(item.start_time);
+        const endTime = new Date(item.range_time);
+
+        if (
+          (startDate && startTime < new Date(startDate)) ||
+          (endDate && endTime > new Date(endDate))
+        ) {
+          return false;
+        }
+
+        // Filter by search input
+        if (search && !item.ticket_code.toLowerCase().includes(search.toLowerCase())) {
+          return false;
+        }
+           
+        // Filter by selected category
+        
+        if (
+          (selectedCategoryId && item.category.name !== selectedCategoryId)
+        ) {
+          return false;
+        }
+
+    
+        return true;
+        });
+        const filteredTicketClosed= DataClosed.filter((item) => {
+            // Filter by time range
+        const startTime = new Date(item.start_time);
+        const endTime = new Date(item.range_time);
+
+        if (
+          (startDate && startTime < new Date(startDate)) ||
+          (endDate && endTime > new Date(endDate))
+        ) {
+          return false;
+        }
+
+        // Filter by search input
+        if (search && !item.ticket_code.toLowerCase().includes(search.toLowerCase())) {
+          return false;
+        }
+           
+        // Filter by selected category
+        
+        if (
+          (selectedCategoryId && item.category.name !== selectedCategoryId)
+        ) {
+          return false;
+        }
+
+    
+        return true;
+        });
+
 
     return (
         <div>
@@ -324,67 +457,113 @@ function PageTicket() {
                                                         <p className='sm'>List Ticket</p>
                                                         </Dropdown.Toggle>
                                                         <Dropdown.Menu className='menu-dropdown-table-ticket'>
-                                <div className='filtering-table-dropdown-ticket px-3 my-3'>
-                                    <div className='d-flex gap-4 align-items-end'>
-                                                <Form.Group className='select-date' controlId="sd">
-                                        <Form.Label><p className='nw'><Icon icon="bx:calendar" /> Start Date</p></Form.Label>
-                                        <Form.Control type="date" name="sd" placeholder="Start Date" />
-                                    </Form.Group>
-                                    <Form.Group className='select-date' controlId="ed">
-                                        <Form.Label><p className='nw'><Icon icon="bx:calendar" /> End Date</p></Form.Label>
-                                        <Form.Control type="date" name="ed" placeholder="End Date" />
-                                    </Form.Group>
-                                    <Form.Group className='select-date' controlId="ed">
-                                        <Form.Label><p className='nw'><Icon icon="material-symbols:border-all" /> Kategori</p></Form.Label>
-                                        <Form.Select aria-label="Default select example">
-                                        <option>Open this select menu</option>
-                                        <option value="1">One</option>
-                                        <option value="2">Two</option>
-                                        <option value="3">Three</option>
-                                        </Form.Select>
-                                    </Form.Group>
-                                    </div>
-                                    <Form className='search-bottom d-flex align-items-center'>
-                                        <FormControl type="text" placeholder="Search" className="icon2 mr-sm-2" />
-                                        <Button className='icon'><Icon icon="ri:search-line" /></Button>
-                                    </Form>
-                                </div>
-                            <Table responsive>
-            <thead className='bg-blue w-100' id='page-ticket-bottom-thead'>
-              <tr className='text-center text-white'>
-                <th className='text-center'>NO</th>
-                <th>ID Ticket</th>
-                <th>Title</th>
-                <th>Ticket Masuk</th>
-                <th>Dateline Ticket</th>
-                <th>Prioritas</th>
-                <th>Status</th>
-              </tr>
-            </thead>
-            <tbody id='page-ticket-bottom-tbody'>
-            {dataOpen.map((item, index) => (
-                <tr className='text-center' key={index}>
-                  <td>{index+1}</td>
-                  <td>{item.id}</td>
-                  <td>Tukar Armada</td>
-                  <td>
-                    <p>12 Sept’ 2023</p>
-                    <p className='text-red'>11 : 14 WIB</p>
-                  </td>
-                  <td>
-                    <p>12 Sept’ 2023</p>
-                    <p className='text-red'>11 : 14 WIB</p>
-                  </td>
-                  <td className='text-blue'>
-                    <p>{item.category.name}</p>
-                  </td>
-                  <td className='text-blue'>
-                    <p style={{color: item.activity.color}}>{item.activity.name}</p>
-                  </td>
+                                                        <div className='table-list-ticket px-5'>
+            <div className='filtering-table-dropdown-ticket px-3 my-3'>
+                <div className='d-flex align-items-center gap-5'>
+                <Form.Group className='select-date' controlId="sd">
+                    <Form.Label><p className='nw'><Icon icon="bx:calendar" /> Start Date</p></Form.Label>
+                    {/* <Form.Control type="date" name="sd" placeholder="Start Date" /> */}
+                    
+          <input
+          type="date"
+          placeholder="Start Date"
+          value={startDate}
+          onChange={(e) => setStartDate(e.target.value)}
+        />
+                </Form.Group>
+                <Form.Group className='select-date' controlId="ed">
+                    <Form.Label><p className='nw'><Icon icon="bx:calendar" /> End Date</p></Form.Label>
+                    {/* <Form.Control type="date" name="ed" placeholder="End Date" /> */}
+                    <input
+          type="date"
+          placeholder="End Date"
+          value={endDate}
+          onChange={(e) => setEndDate(e.target.value)}
+        />
+                </Form.Group>
+                <Form.Group className='select-date' controlId="ed">
+                    <Form.Label><p className='nw'><Icon icon="material-symbols:border-all" /> Kategori</p></Form.Label>
+                    <Form.Select onChange={(e) => setSelectedCategoryId(e.target.value)}
+                    value={selectedCategoryId} aria-label="Default select example">
+                    <option value=''>Open this select menu</option>
+                    {Kategori.map((item) => (
+                    <option value={item.name}>{item.name}</option>
+                    ))}
+                    </Form.Select>
+                    {/* <p>selected : {selectedCategoryId}</p> */}
+                </Form.Group>
+                </div>
+                <Form className='search-bottom d-flex align-items-center'>
+                    {/* <FormControl
+                      type="text"
+                      placeholder="Search..."
+                      value={search}
+                      onChange={(e) => setSearch(e.target.value)} className="icon2 mr-sm-2" /> */}
+                      
+          <input
+          type="text"
+          placeholder="Search"
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
+        />
+                    <Button className='icon'><Icon icon="ri:search-line" /></Button>
+                </Form>
+            </div>
+            <Table responsive>
+                <thead className='bg-blue w-100' id='page-ticket-bottom-thead'>
+                <tr className='text-center text-white'>
+                    <th className='text-center'>NO</th>
+                    <th>ID Ticket</th>
+                    <th>Title</th>
+                    <th>Ticket Masuk</th>
+                    <th>Dateline Ticket</th>
+                    <th>Timecode</th>
+                    <th>Prioritas</th>
+                    <th>Status</th>
+                    <th>Action</th>
                 </tr>
-            ))}
-            </tbody>
-                            </Table>
+                </thead>
+                <tbody className='page-ticket-bottom-tbody'>
+                {filteredTicketOpen.map((item, id) => (
+                    <tr className='text-center'>
+                    <td>{item.id}</td>
+                    <td>{item.ticket_code}</td>
+                    <td>{item.category.name}</td>
+                    <td>
+                        <p>{formatDateLong(item.start_time)}</p>
+                        {/* <p className='text-red'>{getTimeFromData(item.start_time)} WIB</p> */}
+                        {/* <p className='text-red'>11 : 14 WIB</p> */}
+                    </td>
+                    <td>
+                        <p>{formatDateLong(item.range_time)}</p>
+                        {/* <p className='text-red'>{getTimeFromData(item.range_time)} WIB</p> */}
+                    </td>
+                    <td>
+                        <p className='text-red'>59 Detik </p>
+                        {/* <p className='text-red'>{timeRemaining.days} {timeRemaining.hours} {timeRemaining.minutes} </p> */}
+                    </td>
+                    {item.priority_id === 1 ? (
+                      <td>
+                      <p  className='fwb text-lime'>Low</p>
+                      </td>
+                    ) : item.priority_id === 2  ? (
+                     <td>
+                      <p className='fwb text-blue'>Medium</p>
+                      </td>
+                    ) : (
+                      <td>
+                      <p className='fwb text-red'>High</p>
+                      </td>
+                    )}
+                    <td>
+                        <p style={{ color: item.activity.color}}>{item.activity.name}</p>
+                    </td>
+                    {/* <td><Link to={`/list-ticket/${item.id}`} className='button-eye py-2 px-3'><Icon icon="mdi:eye" /></Link></td> */}
+                    </tr>
+                ))}
+                </tbody>
+            </Table>
+            </div>
                             </Dropdown.Menu>
                                                     </Dropdown>
                                                 </div>
@@ -397,96 +576,6 @@ function PageTicket() {
                                     <p>High <span>{openhigh}</span></p>
                                 </div>
                     </div>
-                    {/* <div className='header-total-ticket'>
-                                <div className='upper-hr align-items-start gap-3'>
-                                    <h1 className='md text-black'>{Forwarding.value}</h1>
-                                    <div className='text-yellow'>
-                                        <div className='icon-ticket gap-2'>
-                                            <h1><Icon icon="material-symbols:forward" /></h1>
-                                                <Svgkuning fill="blue" />
-                                        </div>
-                                    </div>
-                                </div>
-                                <div className='d-flex justify-content-end gap-2 my-1'>
-                                                    <p className='text-start'>Forward</p>
-                                                    <Dropdown drop="down">
-                                                        <Dropdown.Toggle className='dropdown-list-ticket bg-orange' >
-                                                        <p className='sm'>List Ticket</p>
-                                                        </Dropdown.Toggle>
-
-                                                        <Dropdown.Menu className='menu-dropdown-table-ticket'>
-                                <div className='filtering-table-dropdown-ticket px-3 my-3'>
-                                     className='d-flex gap-3 align-items-end'<div>
-                                    </div>                                  <Form.Group className='select-date' controlId="sd">
-                                        <Form.Label><p className='nw'><Icon icon="bx:calendar" /> Start Date</p></Form.Label>
-                                        <Form.Control type="date" name="sd" placeholder="Start Date" />
-                                    </Form.Group>
-                                    <Form.Group className='select-date' controlId="ed">
-                                        <Form.Label><p className='nw'><Icon icon="bx:calendar" /> End Date</p></Form.Label>
-                                        <Form.Control type="date" name="ed" placeholder="End Date" />
-                                    </Form.Group>
-                                    <Form.Group className='select-date' controlId="ed">
-                                        <Form.Label><p className='nw'><Icon icon="material-symbols:border-all" /> Kategori</p></Form.Label>
-                                        <Form.Select aria-label="Default select example">
-                                        <option>Open this select menu</option>
-                                        <option value="1">One</option>
-                                        <option value="2">Two</option>
-                                        <option value="3">Three</option>
-                                        </Form.Select>
-                                    </Form.Group>
-                                    <Form className='search-bottom d-flex align-items-center'>
-                                        <FormControl type="text" placeholder="Search" className="icon2 mr-sm-2" />
-                                        <Button className='icon'><Icon icon="ri:search-line" /></Button>
-                                    </Form>
-                                </div>
-                            <Table responsive>
-                            <thead className='bg-blue w-100' id='page-ticket-bottom-thead'>
-                            <tr className='text-center text-white'>
-                                <th className='text-center'>NO</th>
-                                <th>ID Ticket</th>
-                                <th>Title</th>
-                                <th>Ticket Masuk</th>
-                                <th>Dateline Ticket</th>
-                                <th>Prioritas</th>
-                                <th>Status</th>
-                            </tr>
-                            </thead>
-                            <tbody id='page-ticket-bottom-tbody'>
-                            {dataforwarding.map((item, index) => (
-                                <tr className='text-center' key={index}>
-                                <td>{index+1}</td>
-                                <td>{item.id}</td>
-                                <td>Tukar Armada</td>
-                                <td>
-                                    <p>12 Sept’ 2023</p>
-                                    <p className='text-red'>11 : 14 WIB</p>
-                                </td>
-                                <td>
-                                    <p>12 Sept’ 2023</p>
-                                    <p className='text-red'>11 : 14 WIB</p>
-                                </td>
-                                <td className='text-blue'>
-                                    <p>{item.category.name}</p>
-                                </td>
-                                <td className='text-blue'>
-                                    <p style={{color: item.activity.color}}>{item.activity.name}</p>
-                                </td>
-                                </tr>
-                            ))}
-                            </tbody>
-                            </Table>
-                            </Dropdown.Menu>
-                                                    </Dropdown>
-                                                </div>
-                                <div className='hr-main text-black'></div>
-                                <div className='lower-hr gap-2 text-black'>
-                                    <p>Low <span>{forwardinglow}</span></p>
-                                    <div className='vl'></div>
-                                    <p>Medium <span>{forwardingmedium}</span></p>
-                                    <div className='vl'></div>
-                                    <p>High <span>{forwardinghigh}</span></p>
-                                </div>
-                    </div> */}
                     <div className='header-total-ticket'>
                                 <div className='upper-hr align-items-start gap-3'>
                                     <h1 className='md text-black'>{Proses.value}</h1>
@@ -505,67 +594,113 @@ function PageTicket() {
                                                         </Dropdown.Toggle>
 
                                                         <Dropdown.Menu className='menu-dropdown-table-ticket'>
-                                <div className='filtering-table-dropdown-ticket px-3 my-3'>
-                                    <div className='d-flex gap-4 align-items-end'>
-                                                    <Form.Group className='select-date' controlId="sd">
-                                        <Form.Label><p className='nw'><Icon icon="bx:calendar" /> Start Date</p></Form.Label>
-                                        <Form.Control type="date" name="sd" placeholder="Start Date" />
-                                    </Form.Group>
-                                    <Form.Group className='select-date' controlId="ed">
-                                        <Form.Label><p className='nw'><Icon icon="bx:calendar" /> End Date</p></Form.Label>
-                                        <Form.Control type="date" name="ed" placeholder="End Date" />
-                                    </Form.Group>
-                                    <Form.Group className='select-date' controlId="ed">
-                                        <Form.Label><p className='nw'><Icon icon="material-symbols:border-all" /> Kategori</p></Form.Label>
-                                        <Form.Select aria-label="Default select example">
-                                        <option>Open this select menu</option>
-                                        <option value="1">One</option>
-                                        <option value="2">Two</option>
-                                        <option value="3">Three</option>
-                                        </Form.Select>
-                                    </Form.Group>
-                                    </div>
-                                    <Form className='search-bottom d-flex align-items-center'>
-                                        <FormControl type="text" placeholder="Search" className="icon2 mr-sm-2" />
-                                        <Button className='icon'><Icon icon="ri:search-line" /></Button>
-                                    </Form>
-                                </div>
-                            <Table responsive>
-            <thead className='bg-blue w-100' id='page-ticket-bottom-thead'>
-              <tr className='text-center text-white'>
-                <th className='text-center'>NO</th>
-                <th>ID Ticket</th>
-                <th>Title</th>
-                <th>Ticket Masuk</th>
-                <th>Dateline Ticket</th>
-                <th>Prioritas</th>
-                <th>Status</th>
-              </tr>
-            </thead>
-            <tbody id='page-ticket-bottom-tbody'>
-            {dataprocess.map((item, index) => (
-                <tr className='text-center' key={index}>
-                  <td>{index+1}</td>
-                  <td>{item.id}</td>
-                  <td>Tukar Armada</td>
-                  <td>
-                    <p>12 Sept’ 2023</p>
-                    <p className='text-red'>11 : 14 WIB</p>
-                  </td>
-                  <td>
-                    <p>12 Sept’ 2023</p>
-                    <p className='text-red'>11 : 14 WIB</p>
-                  </td>
-                  <td className='text-blue'>
-                    <p>{item.category.name}</p>
-                  </td>
-                  <td className='text-blue'>
-                    <p style={{color: item.activity.color}}>{item.activity.name}</p>
-                  </td>
+                                                        <div className='table-list-ticket px-5'>
+            <div className='filtering-table-dropdown-ticket px-3 my-3'>
+                <div className='d-flex align-items-center gap-5'>
+                <Form.Group className='select-date' controlId="sd">
+                    <Form.Label><p className='nw'><Icon icon="bx:calendar" /> Start Date</p></Form.Label>
+                    {/* <Form.Control type="date" name="sd" placeholder="Start Date" /> */}
+                    
+          <input
+          type="date"
+          placeholder="Start Date"
+          value={startDate}
+          onChange={(e) => setStartDate(e.target.value)}
+        />
+                </Form.Group>
+                <Form.Group className='select-date' controlId="ed">
+                    <Form.Label><p className='nw'><Icon icon="bx:calendar" /> End Date</p></Form.Label>
+                    {/* <Form.Control type="date" name="ed" placeholder="End Date" /> */}
+                    <input
+          type="date"
+          placeholder="End Date"
+          value={endDate}
+          onChange={(e) => setEndDate(e.target.value)}
+        />
+                </Form.Group>
+                <Form.Group className='select-date' controlId="ed">
+                    <Form.Label><p className='nw'><Icon icon="material-symbols:border-all" /> Kategori</p></Form.Label>
+                    <Form.Select onChange={(e) => setSelectedCategoryId(e.target.value)}
+                    value={selectedCategoryId} aria-label="Default select example">
+                    <option value=''>Open this select menu</option>
+                    {Kategori.map((item) => (
+                    <option value={item.name}>{item.name}</option>
+                    ))}
+                    </Form.Select>
+                    {/* <p>selected : {selectedCategoryId}</p> */}
+                </Form.Group>
+                </div>
+                <Form className='search-bottom d-flex align-items-center'>
+                    {/* <FormControl
+                      type="text"
+                      placeholder="Search..."
+                      value={search}
+                      onChange={(e) => setSearch(e.target.value)} className="icon2 mr-sm-2" /> */}
+                      
+          <input
+          type="text"
+          placeholder="Search"
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
+        />
+                    <Button className='icon'><Icon icon="ri:search-line" /></Button>
+                </Form>
+            </div>
+            <Table responsive>
+                <thead className='bg-blue w-100' id='page-ticket-bottom-thead'>
+                <tr className='text-center text-white'>
+                    <th className='text-center'>NO</th>
+                    <th>ID Ticket</th>
+                    <th>Title</th>
+                    <th>Ticket Masuk</th>
+                    <th>Dateline Ticket</th>
+                    <th>Timecode</th>
+                    <th>Prioritas</th>
+                    <th>Status</th>
+                    <th>Action</th>
                 </tr>
-            ))}
-            </tbody>
-                            </Table>
+                </thead>
+                <tbody className='page-ticket-bottom-tbody'>
+                {filteredTicketProcess.map((item, id) => (
+                    <tr className='text-center'>
+                    <td>{item.id}</td>
+                    <td>{item.ticket_code}</td>
+                    <td>{item.category.name}</td>
+                    <td>
+                        <p>{formatDateLong(item.start_time)}</p>
+                        {/* <p className='text-red'>{getTimeFromData(item.start_time)} WIB</p> */}
+                        {/* <p className='text-red'>11 : 14 WIB</p> */}
+                    </td>
+                    <td>
+                        <p>{formatDateLong(item.range_time)}</p>
+                        {/* <p className='text-red'>{getTimeFromData(item.range_time)} WIB</p> */}
+                    </td>
+                    <td>
+                        <p className='text-red'>59 Detik </p>
+                        {/* <p className='text-red'>{timeRemaining.days} {timeRemaining.hours} {timeRemaining.minutes} </p> */}
+                    </td>
+                    {item.priority_id === 1 ? (
+                      <td>
+                      <p  className='fwb text-lime'>Low</p>
+                      </td>
+                    ) : item.priority_id === 2  ? (
+                     <td>
+                      <p className='fwb text-blue'>Medium</p>
+                      </td>
+                    ) : (
+                      <td>
+                      <p className='fwb text-red'>High</p>
+                      </td>
+                    )}
+                    <td>
+                        <p style={{ color: item.activity.color}}>{item.activity.name}</p>
+                    </td>
+                    {/* <td><Link to={`/list-ticket/${item.id}`} className='button-eye py-2 px-3'><Icon icon="mdi:eye" /></Link></td> */}
+                    </tr>
+                ))}
+                </tbody>
+            </Table>
+            </div>
                             </Dropdown.Menu>
                                                     </Dropdown>
                                                 </div>
@@ -578,60 +713,6 @@ function PageTicket() {
                                     <p>High <span>{processhigh}</span></p>
                                 </div>
                     </div>
-                    {/* <div className='header-total-ticket'>
-                                <div className='upper-hr align-items-start gap-3'>
-                                    <h1 className='md text-black'>{Reopen.value}</h1>
-                                    <div className='text-purple'>
-                                        <div className='icon-ticket gap-2'>
-                                            <h1><Icon icon="material-symbols:reopen-window" /></h1>
-                                                <Svgungu fill="blue" />
-                                        </div>
-                                    </div>
-                                </div>
-                                <div className='d-flex justify-content-end gap-2 my-1'>
-                                                    <p className='text-start'>Re-Open</p>
-                                                    <Dropdown drop="down">
-                                                        <Dropdown.Toggle className='dropdown-list-ticket bg-purple' >
-                                                        <p className='sm'>List Ticket</p>
-                                                        </Dropdown.Toggle>
-
-                                                        <Dropdown.Menu className='menu-dropdown-tracking px-4'>
-                                                            <div className='filter-header d-flex align-items-end justify-content-between'>
-                                                                <div className='d-flex align-items-center'>
-                                                                    <p><Icon icon="mdi:filter" /></p>
-                                                                    <p>Filter</p>
-                                                                </div>
-                                                                <div className='d-flex justify-content-end'>
-                                                                    <SvgLogo></SvgLogo>
-                                                                </div>
-                                                            </div>
-                                                            <hr />
-                                                            <Form className='my-4'>
-                                                                {listStatusFilter}
-                                                            </Form>
-                                                            <Form className='my-4'>
-                                                                {listStatusDriverFilter}
-                                                            </Form>
-                                                            <Form.Group className='select-date d-flex align-items-center my-2 gap-2' controlId="sd">
-                                                                <Form.Label><p className='nw'>Start Date</p></Form.Label>
-                                                                <Form.Control type="date" name="sd" placeholder="Start Date" />
-                                                            </Form.Group>
-                                                            <Form.Group className='select-date d-flex align-items-center my-2 gap-3' controlId="sd">
-                                                                <Form.Label><p className='nw'>End Date</p></Form.Label>
-                                                                <Form.Control type="date" name="sd" placeholder="End Date" />
-                                                            </Form.Group>
-                                                        </Dropdown.Menu>
-                                                    </Dropdown>
-                                                </div>
-                                <div className='hr-main text-black'></div>
-                                <div className='lower-hr gap-2 text-black'>
-                                    <p>Low <span>{reopenlow}</span></p>
-                                    <div className='vl'></div>
-                                    <p>Medium <span>{reopenmedium}</span></p>
-                                    <div className='vl'></div>
-                                    <p>High <span>{reopenhigh}</span></p>
-                                </div>
-                    </div> */}
                     <div className='header-total-ticket'>
                                 <div className='upper-hr align-items-start gap-3'>
                                     <h1 className='md text-black'>{Done.value}</h1>
@@ -650,67 +731,113 @@ function PageTicket() {
                                                         </Dropdown.Toggle>
 
                                                         <Dropdown.Menu className='menu-dropdown-table-ticket'>
-                                <div className='filtering-table-dropdown-ticket px-3 my-3'>
-                                    <div className='d-flex gap-4 align-items-end'>
-                                                    <Form.Group className='select-date' controlId="sd">
-                                        <Form.Label><p className='nw'><Icon icon="bx:calendar" /> Start Date</p></Form.Label>
-                                        <Form.Control type="date" name="sd" placeholder="Start Date" />
-                                    </Form.Group>
-                                    <Form.Group className='select-date' controlId="ed">
-                                        <Form.Label><p className='nw'><Icon icon="bx:calendar" /> End Date</p></Form.Label>
-                                        <Form.Control type="date" name="ed" placeholder="End Date" />
-                                    </Form.Group>
-                                    <Form.Group className='select-date' controlId="ed">
-                                        <Form.Label><p className='nw'><Icon icon="material-symbols:border-all" /> Kategori</p></Form.Label>
-                                        <Form.Select aria-label="Default select example">
-                                        <option>Open this select menu</option>
-                                        <option value="1">One</option>
-                                        <option value="2">Two</option>
-                                        <option value="3">Three</option>
-                                        </Form.Select>
-                                    </Form.Group>
-                                    </div>
-                                    <Form className='search-bottom d-flex align-items-center'>
-                                        <FormControl type="text" placeholder="Search" className="icon2 mr-sm-2" />
-                                        <Button className='icon'><Icon icon="ri:search-line" /></Button>
-                                    </Form>
-                                </div>
-                            <Table responsive>
-            <thead className='bg-blue w-100' id='page-ticket-bottom-thead'>
-              <tr className='text-center text-white'>
-                <th className='text-center'>NO</th>
-                <th>ID Ticket</th>
-                <th>Title</th>
-                <th>Ticket Masuk</th>
-                <th>Dateline Ticket</th>
-                <th>Prioritas</th>
-                <th>Status</th>
-              </tr>
-            </thead>
-            <tbody id='page-ticket-bottom-tbody'>
-            {datadone.map((item, index) => (
-                <tr className='text-center' key={index}>
-                  <td>{index+1}</td>
-                  <td>{item.id}</td>
-                  <td>Tukar Armada</td>
-                  <td>
-                    <p>12 Sept’ 2023</p>
-                    <p className='text-red'>11 : 14 WIB</p>
-                  </td>
-                  <td>
-                    <p>12 Sept’ 2023</p>
-                    <p className='text-red'>11 : 14 WIB</p>
-                  </td>
-                  <td className='text-blue'>
-                    <p>{item.category.name}</p>
-                  </td>
-                  <td className='text-blue'>
-                    <p style={{color: item.activity.color}}>{item.activity.name}</p>
-                  </td>
+                                                        <div className='table-list-ticket px-5'>
+            <div className='filtering-table-dropdown-ticket px-3 my-3'>
+                <div className='d-flex align-items-center gap-5'>
+                <Form.Group className='select-date' controlId="sd">
+                    <Form.Label><p className='nw'><Icon icon="bx:calendar" /> Start Date</p></Form.Label>
+                    {/* <Form.Control type="date" name="sd" placeholder="Start Date" /> */}
+                    
+          <input
+          type="date"
+          placeholder="Start Date"
+          value={startDate}
+          onChange={(e) => setStartDate(e.target.value)}
+        />
+                </Form.Group>
+                <Form.Group className='select-date' controlId="ed">
+                    <Form.Label><p className='nw'><Icon icon="bx:calendar" /> End Date</p></Form.Label>
+                    {/* <Form.Control type="date" name="ed" placeholder="End Date" /> */}
+                    <input
+          type="date"
+          placeholder="End Date"
+          value={endDate}
+          onChange={(e) => setEndDate(e.target.value)}
+        />
+                </Form.Group>
+                <Form.Group className='select-date' controlId="ed">
+                    <Form.Label><p className='nw'><Icon icon="material-symbols:border-all" /> Kategori</p></Form.Label>
+                    <Form.Select onChange={(e) => setSelectedCategoryId(e.target.value)}
+                    value={selectedCategoryId} aria-label="Default select example">
+                    <option value=''>Open this select menu</option>
+                    {Kategori.map((item) => (
+                    <option value={item.name}>{item.name}</option>
+                    ))}
+                    </Form.Select>
+                    {/* <p>selected : {selectedCategoryId}</p> */}
+                </Form.Group>
+                </div>
+                <Form className='search-bottom d-flex align-items-center'>
+                    {/* <FormControl
+                      type="text"
+                      placeholder="Search..."
+                      value={search}
+                      onChange={(e) => setSearch(e.target.value)} className="icon2 mr-sm-2" /> */}
+                      
+          <input
+          type="text"
+          placeholder="Search"
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
+        />
+                    <Button className='icon'><Icon icon="ri:search-line" /></Button>
+                </Form>
+            </div>
+            <Table responsive>
+                <thead className='bg-blue w-100' id='page-ticket-bottom-thead'>
+                <tr className='text-center text-white'>
+                    <th className='text-center'>NO</th>
+                    <th>ID Ticket</th>
+                    <th>Title</th>
+                    <th>Ticket Masuk</th>
+                    <th>Dateline Ticket</th>
+                    <th>Timecode</th>
+                    <th>Prioritas</th>
+                    <th>Status</th>
+                    <th>Action</th>
                 </tr>
-            ))}
-            </tbody>
-                            </Table>
+                </thead>
+                <tbody className='page-ticket-bottom-tbody'>
+                {filteredTicketDone.map((item, id) => (
+                    <tr className='text-center'>
+                    <td>{item.id}</td>
+                    <td>{item.ticket_code}</td>
+                    <td>{item.category.name}</td>
+                    <td>
+                        <p>{formatDateLong(item.start_time)}</p>
+                        {/* <p className='text-red'>{getTimeFromData(item.start_time)} WIB</p> */}
+                        {/* <p className='text-red'>11 : 14 WIB</p> */}
+                    </td>
+                    <td>
+                        <p>{formatDateLong(item.range_time)}</p>
+                        {/* <p className='text-red'>{getTimeFromData(item.range_time)} WIB</p> */}
+                    </td>
+                    <td>
+                        <p className='text-red'>59 Detik </p>
+                        {/* <p className='text-red'>{timeRemaining.days} {timeRemaining.hours} {timeRemaining.minutes} </p> */}
+                    </td>
+                    {item.priority_id === 1 ? (
+                      <td>
+                      <p  className='fwb text-lime'>Low</p>
+                      </td>
+                    ) : item.priority_id === 2  ? (
+                     <td>
+                      <p className='fwb text-blue'>Medium</p>
+                      </td>
+                    ) : (
+                      <td>
+                      <p className='fwb text-red'>High</p>
+                      </td>
+                    )}
+                    <td>
+                        <p style={{ color: item.activity.color}}>{item.activity.name}</p>
+                    </td>
+                    {/* <td><Link to={`/list-ticket/${item.id}`} className='button-eye py-2 px-3'><Icon icon="mdi:eye" /></Link></td> */}
+                    </tr>
+                ))}
+                </tbody>
+            </Table>
+            </div>
                             </Dropdown.Menu>
                                                     </Dropdown>
                                                 </div>
@@ -740,32 +867,115 @@ function PageTicket() {
                                                         <p className='sm'>List Ticket</p>
                                                         </Dropdown.Toggle>
 
-                                                        <Dropdown.Menu className='menu-dropdown-tracking px-4'>
-                                                            <div className='filter-header d-flex align-items-end justify-content-between'>
-                                                                <div className='d-flex align-items-center'>
-                                                                    <p><Icon icon="mdi:filter" /></p>
-                                                                    <p>Filter</p>
-                                                                </div>
-                                                                <div className='d-flex justify-content-end'>
-                                                                    <SvgLogo></SvgLogo>
-                                                                </div>
-                                                            </div>
-                                                            <hr />
-                                                            <Form className='my-4'>
-                                                                {listStatusFilter}
-                                                            </Form>
-                                                            <Form className='my-4'>
-                                                                {listStatusDriverFilter}
-                                                            </Form>
-                                                            <Form.Group className='select-date d-flex align-items-center my-2 gap-2' controlId="sd">
-                                                                <Form.Label><p className='nw'>Start Date</p></Form.Label>
-                                                                <Form.Control type="date" name="sd" placeholder="Start Date" />
-                                                            </Form.Group>
-                                                            <Form.Group className='select-date d-flex align-items-center my-2 gap-3' controlId="sd">
-                                                                <Form.Label><p className='nw'>End Date</p></Form.Label>
-                                                                <Form.Control type="date" name="sd" placeholder="End Date" />
-                                                            </Form.Group>
-                                                        </Dropdown.Menu>
+                                                        <Dropdown.Menu className='menu-dropdown-table-ticket'>
+                                                        <div className='table-list-ticket px-5'>
+            <div className='filtering-table-dropdown-ticket px-3 my-3'>
+                <div className='d-flex align-items-center gap-5'>
+                <Form.Group className='select-date' controlId="sd">
+                    <Form.Label><p className='nw'><Icon icon="bx:calendar" /> Start Date</p></Form.Label>
+                    {/* <Form.Control type="date" name="sd" placeholder="Start Date" /> */}
+                    
+          <input
+          type="date"
+          placeholder="Start Date"
+          value={startDate}
+          onChange={(e) => setStartDate(e.target.value)}
+        />
+                </Form.Group>
+                <Form.Group className='select-date' controlId="ed">
+                    <Form.Label><p className='nw'><Icon icon="bx:calendar" /> End Date</p></Form.Label>
+                    {/* <Form.Control type="date" name="ed" placeholder="End Date" /> */}
+                    <input
+          type="date"
+          placeholder="End Date"
+          value={endDate}
+          onChange={(e) => setEndDate(e.target.value)}
+        />
+                </Form.Group>
+                <Form.Group className='select-date' controlId="ed">
+                    <Form.Label><p className='nw'><Icon icon="material-symbols:border-all" /> Kategori</p></Form.Label>
+                    <Form.Select onChange={(e) => setSelectedCategoryId(e.target.value)}
+                    value={selectedCategoryId} aria-label="Default select example">
+                    <option value=''>Open this select menu</option>
+                    {Kategori.map((item) => (
+                    <option value={item.name}>{item.name}</option>
+                    ))}
+                    </Form.Select>
+                    {/* <p>selected : {selectedCategoryId}</p> */}
+                </Form.Group>
+                </div>
+                <Form className='search-bottom d-flex align-items-center'>
+                    {/* <FormControl
+                      type="text"
+                      placeholder="Search..."
+                      value={search}
+                      onChange={(e) => setSearch(e.target.value)} className="icon2 mr-sm-2" /> */}
+                      
+          <input
+          type="text"
+          placeholder="Search"
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
+        />
+                    <Button className='icon'><Icon icon="ri:search-line" /></Button>
+                </Form>
+            </div>
+            <Table responsive>
+                <thead className='bg-blue w-100' id='page-ticket-bottom-thead'>
+                <tr className='text-center text-white'>
+                    <th className='text-center'>NO</th>
+                    <th>ID Ticket</th>
+                    <th>Title</th>
+                    <th>Ticket Masuk</th>
+                    <th>Dateline Ticket</th>
+                    <th>Timecode</th>
+                    <th>Prioritas</th>
+                    <th>Status</th>
+                    <th>Action</th>
+                </tr>
+                </thead>
+                <tbody className='page-ticket-bottom-tbody'>
+                {filteredTicketClosed.map((item, id) => (
+                    <tr className='text-center'>
+                    <td>{item.id}</td>
+                    <td>{item.ticket_code}</td>
+                    <td>{item.category.name}</td>
+                    <td>
+                        <p>{formatDateLong(item.start_time)}</p>
+                        {/* <p className='text-red'>{getTimeFromData(item.start_time)} WIB</p> */}
+                        {/* <p className='text-red'>11 : 14 WIB</p> */}
+                    </td>
+                    <td>
+                        <p>{formatDateLong(item.range_time)}</p>
+                        {/* <p className='text-red'>{getTimeFromData(item.range_time)} WIB</p> */}
+                    </td>
+                    <td>
+                        <p className='text-red'>59 Detik </p>
+                        {/* <p className='text-red'>{timeRemaining.days} {timeRemaining.hours} {timeRemaining.minutes} </p> */}
+                    </td>
+                    {item.priority_id === 1 ? (
+                      <td>
+                      <p  className='fwb text-lime'>Low</p>
+                      </td>
+                    ) : item.priority_id === 2  ? (
+                     <td>
+                      <p className='fwb text-blue'>Medium</p>
+                      </td>
+                    ) : (
+                      <td>
+                      <p className='fwb text-red'>High</p>
+                      </td>
+                    )}
+                    <td>
+                        <p style={{ color: item.activity.color}}>{item.activity.name}</p>
+                    </td>
+                    {/* <td><Link to={`/list-ticket/${item.id}`} className='button-eye py-2 px-3'><Icon icon="mdi:eye" /></Link></td> */}
+                    </tr>
+                ))}
+                </tbody>
+            </Table>
+            </div>
+                            </Dropdown.Menu>
                                                     </Dropdown>
                                                 </div>
                                 <div className='hr-main text-black'></div>

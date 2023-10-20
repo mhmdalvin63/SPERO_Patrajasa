@@ -20,12 +20,9 @@ import Loading from '../Parts/Loading';
 
 function PageTicket() {
     const [loading, setLoading] = useState(true);
-
-    const [search, setSearch] = useState('');
-  const [filteredData, setFilteredData] = useState([]);
-
     // T I C K E T
   const [Ticket, setTicket] = useState([]);
+  const [Kategori, setKategori] = useState([]);
   const [endTime, setEndTime] = useState(null);
   const [timeRemaining, setTimeRemaining] = useState({ days: 0, hours: 0, minutes: 0 });
   const [Activity, setActivity] = useState([]);
@@ -38,9 +35,19 @@ function PageTicket() {
             setTicket(result.data.data);
             setActivity(result.data.data);
             setDetailTicket(result.data.data);
-            setFilteredData(result.data.data);
+            // setFilteredData(result.data.data);
             const eventEndTime = new Date(result.data.data.category.range_time);
             setEndTime(eventEndTime);
+            setLoading(false);
+          })
+          .catch((error) => {
+            console.log(error)
+            setLoading(false);});
+
+         axios.get('https://apipatra.spero-lab.id/api/dashboard/ticket/get-categories', { headers: {"Authorization" : `Bearer ${token}`} })
+          .then((result) => {
+            console.log('KATTTT',result.data.data);
+            setKategori(result.data.data);
             setLoading(false);
           })
           .catch((error) => {
@@ -57,6 +64,40 @@ function PageTicket() {
           return date.toLocaleTimeString();
         };
 
+
+        const [startDate, setStartDate] = useState('');
+        const [endDate, setEndDate] = useState('');
+        const [search, setSearch] = useState('');
+        const [selectedCategoryId, setSelectedCategoryId] = useState('');
+      
+        const filteredData = Ticket.filter((item) => {
+              // Filter by time range
+          const startTime = new Date(item.start_time);
+          const endTime = new Date(item.range_time);
+
+          if (
+            (startDate && startTime < new Date(startDate)) ||
+            (endDate && endTime > new Date(endDate))
+          ) {
+            return false;
+          }
+
+          // Filter by search input
+          if (search && !item.ticket_code.toLowerCase().includes(search.toLowerCase())) {
+            return false;
+          }
+             
+          // Filter by selected category
+          
+          if (
+            (selectedCategoryId && item.category.name !== selectedCategoryId)
+          ) {
+            return false;
+          }
+
+      
+          return true;
+        });
     return (
         <div>
       {loading ? (
@@ -78,28 +119,50 @@ function PageTicket() {
                 <div className='d-flex align-items-center gap-5'>
                 <Form.Group className='select-date' controlId="sd">
                     <Form.Label><p className='nw'><Icon icon="bx:calendar" /> Start Date</p></Form.Label>
-                    <Form.Control type="date" name="sd" placeholder="Start Date" />
+                    {/* <Form.Control type="date" name="sd" placeholder="Start Date" /> */}
+                    
+          <input
+          type="date"
+          placeholder="Start Date"
+          value={startDate}
+          onChange={(e) => setStartDate(e.target.value)}
+        />
                 </Form.Group>
                 <Form.Group className='select-date' controlId="ed">
                     <Form.Label><p className='nw'><Icon icon="bx:calendar" /> End Date</p></Form.Label>
-                    <Form.Control type="date" name="ed" placeholder="End Date" />
+                    {/* <Form.Control type="date" name="ed" placeholder="End Date" /> */}
+                    <input
+          type="date"
+          placeholder="End Date"
+          value={endDate}
+          onChange={(e) => setEndDate(e.target.value)}
+        />
                 </Form.Group>
                 <Form.Group className='select-date' controlId="ed">
                     <Form.Label><p className='nw'><Icon icon="material-symbols:border-all" /> Kategori</p></Form.Label>
-                    <Form.Select aria-label="Default select example">
-                    <option>Open this select menu</option>
-                    <option value="1">One</option>
-                    <option value="2">Two</option>
-                    <option value="3">Three</option>
+                    <Form.Select onChange={(e) => setSelectedCategoryId(e.target.value)}
+                    value={selectedCategoryId} aria-label="Default select example">
+                    <option value=''>Open this select menu</option>
+                    {Kategori.map((item) => (
+                    <option value={item.name}>{item.name}</option>
+                    ))}
                     </Form.Select>
+                    {/* <p>selected : {selectedCategoryId}</p> */}
                 </Form.Group>
                 </div>
                 <Form className='search-bottom d-flex align-items-center'>
-                    <FormControl
+                    {/* <FormControl
                       type="text"
                       placeholder="Search..."
                       value={search}
-                      onChange={(e) => setSearch(e.target.value)} className="icon2 mr-sm-2" />
+                      onChange={(e) => setSearch(e.target.value)} className="icon2 mr-sm-2" /> */}
+                      
+          <input
+          type="text"
+          placeholder="Search"
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
+        />
                     <Button className='icon'><Icon icon="ri:search-line" /></Button>
                 </Form>
             </div>
@@ -118,19 +181,19 @@ function PageTicket() {
                 </tr>
                 </thead>
                 <tbody className='page-ticket-bottom-tbody'>
-                {filteredData.map((item) => (
+                {filteredData.map((item, id) => (
                     <tr className='text-center'>
                     <td>{item.id}</td>
                     <td>{item.ticket_code}</td>
                     <td>{item.category.name}</td>
                     <td>
-                        <p>{formatDateLong(item.created_at)}</p>
-                        <p className='text-red'>{getTimeFromData(item.created_at)} WIB</p>
+                        <p>{formatDateLong(item.start_time)}</p>
+                        {/* <p className='text-red'>{getTimeFromData(item.start_time)} WIB</p> */}
                         {/* <p className='text-red'>11 : 14 WIB</p> */}
                     </td>
                     <td>
                         <p>{formatDateLong(item.range_time)}</p>
-                        <p className='text-red'>{getTimeFromData(item.range_time)} WIB</p>
+                        {/* <p className='text-red'>{getTimeFromData(item.range_time)} WIB</p> */}
                     </td>
                     <td>
                         <p className='text-red'>59 Detik </p>
