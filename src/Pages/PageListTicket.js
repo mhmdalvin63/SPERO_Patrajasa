@@ -48,28 +48,6 @@ function PageTicket() {
             setLoading(false);});
       }, []);
 
-      console.log('ENDDDDDDDDDDDDDD', endTime)
-
-
-      useEffect(() => {
-        const filtered = Ticket.filter((item) => {
-          const searchData = search.toLowerCase().trim();
-          if (searchData === '') {
-            return true; // Return true for all items if the search input is empty
-          }
-          // Split the search input into words
-          const searchWords = searchData.split(' ');
-          // Check if any word in the search input matches any property in the item
-          return searchWords.some((word) =>
-            Object.values(item).some((value) =>
-              String(value).toLowerCase().includes(word)
-            )
-          );
-        });
-        setFilteredData(filtered);
-      }, [search, Ticket]);
-
-
       const formatDateLong = (dateString) => {
         const options = { year: 'numeric', month: 'long', day: 'numeric' };
         return new Date(dateString).toLocaleDateString(undefined, options);
@@ -78,27 +56,6 @@ function PageTicket() {
           const date = new Date(timeString);
           return date.toLocaleTimeString();
         };
-    
-        useEffect(() => {
-          const interval = setInterval(() => {
-            if (endTime) {
-              const currentTime = new Date();
-              const timeDiff = endTime - currentTime;
-      
-              if (timeDiff <= 0) {
-                // Event has ended
-                clearInterval(interval);
-              } else {
-                const days = Math.floor(timeDiff / (1000 * 60 * 60 * 24));
-                const hours = Math.floor((timeDiff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-                const minutes = Math.floor((timeDiff % (1000 * 60 * 60)) / (1000 * 60));
-                setTimeRemaining({ days, hours, minutes });
-              }
-            }
-          }, 1000);
-      
-          return () => clearInterval(interval);
-        }, [endTime]);
 
     return (
         <div>
