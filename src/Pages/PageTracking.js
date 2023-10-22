@@ -61,7 +61,7 @@ setLoading(false);});
     setCurrentPage(pageNumber);
   };
 
-  console.log('PAGINATEDDDDDDDD', paginatedData)
+  // console.log('PAGINATEDDDDDDDD', paginatedData)
 
   const [filterOptions, setFilterOptions] = useState({
     open: true,
@@ -91,9 +91,27 @@ setLoading(false);});
     });
   };
 
+  const maxWordsPerLine = 1;
+  const trackingSubject = {
+    width: '100%',
+    overflow: 'hidden',
+    textOverflow: 'ellipsis',
+    whiteSpace: 'nowrap',
+    wordWrap: 'break-word',
+    display: '-webkit-box',
+    WebkitLineClamp: maxWordsPerLine,
+    WebkitBoxOrient: 'vertical',
+    lineHeight: '1.2', // Adjust line height as needed
+  };
 
-  // FITUR SEARCH
+  const [dataToSend, setDataToSend] = useState();
 
+  const handleItemClick = (id_param) => {
+    // Handle the click event with the id parameter
+    console.log(`Item clicked with id ${id_param}`);
+    // You can perform any action you want with the id here.
+    setDataToSend(id_param);
+  };
 
 
     return (
@@ -103,7 +121,7 @@ setLoading(false);});
       ) : (
         <div className='PageTracking'>
             <div className='track-maps'>
-                <Maps />
+                <Maps data={dataToSend} />
             </div>
             <div className='track-filter text-end'>
                 <div className='text-white'>
@@ -179,8 +197,6 @@ setLoading(false);});
           <p>closed</p>
         </label>
       </div>
-                        {/* {listStatusFilter} */}
-                        {/* <Filter /> */}
                     </Form>
                     <Form className='my-4'>
                     <label className='d-flex gap-2'>
@@ -228,15 +244,15 @@ setLoading(false);});
                         </svg>
                     </div>
                 </div>
-                {paginatedData.map((item, id) => (
-                  <Col sm={3} className='px-3 py-2' key={id} style={{
-                      display: 
-                      filterOptions[item.activity ? item.activity.name : '-' || item.name ? item.name : '-'] ? 'block' : 'none',
-                      }}>
+                {paginatedData.map((item) => (
+                  <Col sm={3} className='px-3 py-2' key={item.ticket_id} onClick={() => handleItemClick(item.ticket_id)} style={{
+                      display:  
+                      filterOptions[item.activity ? item.activity.name : '-' || item.status ? item.status : '-'] ? 'block' : 'none',
+                      }} data-status={item.activity?.name ? item.activity.name : item.status}>
                     <div className='col-item d-flex align-items-start gap-4'>
                           <h1 style={{fill: item.activity ? item.activity.color : '-'}} className='fwb d-flex align-items-start mt-2' dangerouslySetInnerHTML={{ __html: item.icon }}></h1>
-                          <div>
-                              <p className='xl fwb tg2'>{item.subject}</p>
+                          <div className='subject-tracking-parent'>
+                              <p className='xl fwb tg2 subject-tracking'>{item.subject}</p>
                               <p className='md2'>{item.created_at}</p>
                                 <p className='xl fwb' style={{color: item.activity ? item.activity.color : '-'}}>{item.activity ? item.activity.name : '-'}</p>
                           </div>

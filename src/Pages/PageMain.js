@@ -230,7 +230,7 @@ function MainNew() {
             </div>
 
             <div className='SvgMaps'>
-                <SvgMaps />
+                <SvgMaps parameter = 'week'/>
             </div>
 
             <div className='main-new-bottom px-5'>
@@ -449,7 +449,7 @@ function MainNew() {
             </div>
 
             <div className='SvgMaps'>
-                <SvgMaps />
+                <SvgMaps parameter='week'/>
             </div>
 
             <div className='main-new-bottom px-5'>
@@ -668,7 +668,7 @@ function MainNew() {
             </div>
 
             <div className='SvgMaps'>
-                <SvgMaps />
+                <SvgMaps  parameter = 'month'/>
             </div>
 
             <div className='main-new-bottom px-5'>
@@ -676,7 +676,7 @@ function MainNew() {
                     <div className='main-parent-ticket-border gap-4'>
                         <h1 className='xl fwb text-blue'><Icon icon="ion:log-in-outline" /></h1>
                         <div className='count-ticket-border'>
-                            <h1 className='sm fwb'>{openMonth.value}</h1>
+                            <h1 className='md fwb'>{openMonth.value}</h1>
                             <h2>Open</h2>
                         </div>
                     </div>
@@ -887,7 +887,7 @@ function MainNew() {
             </div>
 
             <div className='SvgMaps'>
-                <SvgMaps />
+                <SvgMaps  parameter = 'year'/>
             </div>
 
             <div className='main-new-bottom px-5'>

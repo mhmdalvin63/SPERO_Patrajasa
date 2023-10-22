@@ -7,6 +7,7 @@ import SvgLogo from '../Parts/SvgLogo';
 import { Col, Row } from 'react-bootstrap';
 import { Icon } from '@iconify/react';
 import '../Css/Pages/PageDetailTicket.css';
+import ChatPage from '../Parts/Chat'
 // import Timeline from '../Parts/Timeline';
 // import { useHistory } from 'react-router-dom';
 
@@ -167,27 +168,36 @@ function DetailComponent() {
                                     <h3 className='text-blue'>Log</h3>
                                 </div>
                                 <hr />
-                            <div className='timeline-right'>
-                            <ul className="timeline px-3">
-                            {Log.map((item, id) => (
-                                <li key={id} className='my-2'>
-                                    <div className="direction-r">
-                                        <div className="flag-wrapper">
-                                        <span className="hexa" style={{backgroundColor: item.activity.color}}></span>
-                                        <div className="flag">
-                                            <h3 style={{color: item.activity.color}}>{item.activity.public_name}</h3>
-                                            <h4>{formatDate(item.created_at)} {getTimeFromData(item.created_at)}</h4>
+                                <div className='timeline-right'>
+                                <ul className="timeline">
+                                {Log.map((item, id) => (
+                                    <li key={id} className='my-2'>
+                                        <div className="direction-r">
+                                            <div className="flag-wrapper">
+                                            <span className="hexa" style={{backgroundColor: item.activity.color}}></span>
+                                            <div className="flag">
+                                                <h3 style={{color: item.activity.color}}>{item.activity.public_name}</h3>
+                                                <h4>{formatDate(item.created_at)} {getTimeFromData(item.created_at)}</h4>
+                                            </div>
+                                            </div>
+                                            <div className="desc">
+                                                <h4>{item.added_by.name}</h4>
+                                                <h4>Read By Operator</h4>
+                                            </div>
                                         </div>
-                                        </div>
-                                        <div className="desc">
-                                            <h4>{item.added_by.name}</h4>
-                                            <h4>Read By Operator</h4>
-                                        </div>
-                                    </div>
-                                </li>
-                            ))}
-                            </ul>
+                                    </li>
+                                ))}
+                                </ul>
+                                </div>
                             </div>
+                            <div className='data-chat px-5 py-3 my-4'>
+                                <div className='header-ticket pb-3'>
+                                    <h3 className='text-blue'>Chat</h3>
+                                </div>
+                                {/* <hr /> */}
+                                <div className='element-chat'>
+                                <ChatPage/>
+                                </div>
                             </div>
                         </Col>
                     </Row>

@@ -5,6 +5,8 @@ import Profile from '../Images/MarkerStir.png';
 import Kendala from '../Images/banmotor.jpg';
 import '../Css/Parts/MapsMarker.css';
 import Table from 'react-bootstrap/Table';
+import { useContext } from 'react';
+import Tracking from '../Pages/PageTracking';
 
 
 
@@ -17,7 +19,8 @@ import {
 import Loading from "./Loading";
 
 
-function App() {
+function App(props) {
+  let idParamDynamic = props.data;
   const [loading, setLoading] = useState(true);
   const [Maps, setMaps,] = useState([]);
   const [Markers, setMarkers,] = useState([]);
@@ -69,16 +72,16 @@ function App() {
     if (marker === activeMarker) {
       return;
     }
+    console.log(JSON.stringify(activeMarker))
     setActiveMarker(marker);
   };
   
-  const [activeDriver, setActiveDriver] = useState(null);
-  const handleActiveDriver = (Driver) => {
-    if (Driver === activeDriver) {
-      return;
-    }
-    setActiveDriver(Driver);
-  };
+  let id_param = useContext(Tracking);
+  // console.log(idParamDynamic)
+  
+  const [activeMarkerPosition, setActiveMarkerPosition] = useState(null);
+  const [activeMarkerZoom, setActiveMarkerZoom] = useState(12);
+
 
   return (
     <div>
@@ -89,16 +92,24 @@ function App() {
         <div style={{ height: "100vh", width: "100vw" }}>
           {isLoaded ? (
             <GoogleMap
-              center={{ lat: -6.39850806754815, lng: 106.88613027971365 }}
-              zoom={10}
-              onClick={() => setActiveMarker(null)}
+            center={activeMarkerPosition || { lat: -6.39850806754815, lng: 106.88613027971365 }}
+            zoom={activeMarkerZoom}
+            onClick={() => {
+              setActiveMarkerPosition(null); // Reset the active marker position when map is clicked
+              setActiveMarkerZoom(12); // Reset the zoom level
+            }}
               mapContainerStyle={{ width: "100vw", height: "100vh" }}
             >
               {Markers.map(({ ticketid, position, subject, icon, createdat }) => (
                 <MarkerF
                   key={ticketid}
                   position={position}
-                  onClick={() => handleActiveMarker(ticketid)}
+                  onClick={() => {
+                    setActiveMarkerPosition(position); // Set the active marker's position
+                    setActiveMarkerZoom(20); // Set the desired zoom level
+                    setActiveMarker(null);
+                    handleActiveMarker(ticketid);
+                  }}
                   icon={{
                     url: MarkerHelm,
                   }}
@@ -137,7 +148,7 @@ function App() {
                             <tbody>
                               <tr>
                                 <td colSpan={2}><h3>Nama</h3></td>
-                                <td><h3>: Jaha Mulyadi</h3></td>
+                                <td><h3>: {ticketid}</h3></td>
                               </tr>
                               <tr>
                                 <td colSpan={2}><h3>Company</h3></td>
@@ -159,31 +170,13 @@ Interdum et malesuada fames ac ante ipsum primis in faucibus. Nullam quis purus 
                       </div>
                     </InfoWindowF>
                   ) : null}
-                </MarkerF>
-              ))}
-            </GoogleMap>,
-            <GoogleMap
-              center={{ lat: -6.39850806754815, lng: 106.88613027971365 }}
-              zoom={10}
-              onClick={() => setActiveDriver(null)}
-              mapContainerStyle={{ width: "100vw", height: "100vh" }}
-            >
-              {Drivers.map(({ driverid, position, drivercode, name, createdat, status }) => (
-                <MarkerF
-                  key={driverid}
-                  position={position}
-                  onClick={() => handleActiveDriver(driverid)}
-                  icon={{
-                    url: Profile,
-                  }}
-                >
-                  {activeDriver === driverid ? (
-                    <InfoWindowF onCloseClick={() => setActiveDriver(null)}>
+                  {ticketid === idParamDynamic ? (
+                    <InfoWindowF onCloseClick={() => setActiveMarker(null)}>
                       <div className="maps-label">
                         <div className="header-maps py-2 px-3 gap-2">
                           <div className="header-maps-left gap-2">
                             <div className="header-maps-image p-2">
-                              <p>{name}</p>
+                              <p dangerouslySetInnerHTML={{ __html: icon }}></p>
                             </div>
                             <h3 className="text-white">hai</h3>
                           </div>
@@ -211,7 +204,7 @@ Interdum et malesuada fames ac ante ipsum primis in faucibus. Nullam quis purus 
                             <tbody>
                               <tr>
                                 <td colSpan={2}><h3>Nama</h3></td>
-                                <td><h3>: Jaha Mulyadi</h3></td>
+                                <td><h3>: {ticketid}</h3></td>
                               </tr>
                               <tr>
                                 <td colSpan={2}><h3>Company</h3></td>
@@ -237,6 +230,9 @@ Interdum et malesuada fames ac ante ipsum primis in faucibus. Nullam quis purus 
               ))}
             </GoogleMap>
           ) : null}
+            <div className="position-absolute top-0">
+             <h3> Nilai Parameter yang Diterima: {idParamDynamic}</h3>
+            </div>
         </div>
     </Fragment>
       )}

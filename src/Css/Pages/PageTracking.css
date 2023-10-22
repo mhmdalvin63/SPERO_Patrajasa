@@ -56,6 +56,26 @@ hr.hr-bottom {
     align-items: center;
 }
 
+/* .subject-tracking{
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+    white-space: nowrap !important;
+    word-wrap: break-word !important;
+    display: -webkit-box !important;
+    -webkit-line-clamp: maxWordsPerLine; !important
+    -webkit-box-orient: vertical !important;
+    line-height: 1.2 !important; 
+} */
+.subject-tracking-parent{
+    width: 75% !important;
+}
+.subject-tracking {
+    white-space: nowrap;    /* Prevent text from wrapping to the next line */
+    overflow: hidden;       /* Hide any overflowing text */
+    text-overflow: ellipsis; /* Add ellipsis (...) at the end of the text */
+    width: 100%;            /* Set a width to limit the container to one line */
+  }
+
 .search-bottom{
     border: 1px solid rgb(206, 204, 204) !important;
     border-radius: 10px;

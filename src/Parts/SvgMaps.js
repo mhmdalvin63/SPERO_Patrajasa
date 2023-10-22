@@ -6,7 +6,7 @@ import Radius from '../Images/Radius.png';
 import Loading from './Loading';
 import '../Css/Parts/SvgMaps.css'
 
-const IndonesiaMap = () => {
+const IndonesiaMap = (props) => {
 
   const [loading, setLoading] = useState(true);
   const [EarthQuakes, SetEarthQuakes] = useState([]);
@@ -24,8 +24,9 @@ const IndonesiaMap = () => {
 
    // Convert the parameters object into a URL-encoded string
    useEffect(() => {
+    const { parameter } = props;
      const token = sessionStorage.getItem("jwttoken");
-      axios.get('https://apipatra.spero-lab.id/api/dashboard/province-earthquake?filter=${parameter}', { headers: {"Authorization" : `Bearer ${token}`} })
+      axios.get(`https://apipatra.spero-lab.id/api/dashboard/province-earthquake?filter=${parameter}`, { headers: {"Authorization" : `Bearer ${token}`} })
        .then((result) => {
          console.log('EARTHQUAKEEEEEEEEEEEEE', result.data.data);
          SetEarthQuakes(result.data.data);

@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 
@@ -8,76 +8,47 @@ const Login = () => {
 
     const usenavigate=useNavigate();
 
-    useEffect(()=>{
-sessionStorage.clear();
-    },[]);
-
-    // const ProceedLogin = (e) => {
-    //     e.preventDefault();
-    //     if (validate()) {
-    //         ///implentation
-    //         // console.log('proceed');
-    //         fetch("http://localhost:8000/user/" + email).then((res) => {
-    //             return res.json();
-    //         }).then((resp) => {
-    //             //console.log(resp)
-    //             if (Object.keys(resp).length === 0) {
-    //                 toast.error('Please Enter valid email');
-    //             } else {
-    //                 if (resp.password === password) {
-    //                     toast.success('Success');
-    //                     sessionStorage.setItem('email',email);
-    //                     sessionStorage.setItem('userrole',resp.role);
-    //                     usenavigate('/')
-    //                 }else{
-    //                     toast.error('Please Enter valid credentials');
-    //                 }
-    //             }
-    //         }).catch((err) => {
-    //             toast.error('Login Failed due to :' + err.message);
-    //         });
-    //     }
-    // }
-
     const ProceedLoginusingAPI = (e) => {
         e.preventDefault();
         if (validate()) {
-            ///implentation
-            // console.log('proceed');
-            let inputobj={"email": email,
-            "password": password};
-            fetch("https://apipatra.spero-lab.id/api/login",{
-                method:'POST',
-                headers:{'content-type':'application/json'},
-                body:JSON.stringify(inputobj)
-            }).then((res) => {
+            let inputobj = {
+                "email": email,
+                "password": password
+            };
+            fetch("https://apipatra.spero-lab.id/api/login", {
+                method: 'POST',
+                headers: { 'content-type': 'application/json' },
+                body: JSON.stringify(inputobj)
+            })
+            .then((res) => {
+                if (res.status === 401) {
+                    // Token unauthorized, perform logout action
+                    toast.error('Token unauthorized. Logging out...');
+                    sessionStorage.removeItem('jwttoken');
+                    usenavigate('/'); // Redirect to the login page
+                    window.location.href = '/';
+                    return Promise.reject('Unauthorized');
+                }
                 return res.json();
-            }).then((resp) => {
-                console.log(resp)
+            })
+            .then((resp) => {
+                console.log(resp);
                 if (Object.keys(resp).length === 0) {
                     toast.error('Login failed, invalid credentials');
-                }else{
-                     toast.success('Success');
-                    //  sessionStorage.setItem('email',email);
-                     sessionStorage.setItem('jwttoken',resp.access_token);
-                   usenavigate('/main')
+                } else {
+                    toast.success('Success');
+                    sessionStorage.setItem('jwttoken', resp.access_token);
+                    usenavigate('/main');
                 }
-                // if (Object.keys(resp).length === 0) {
-                //     toast.error('Please Enter valid email');
-                // } else {
-                //     if (resp.password === password) {
-                //         toast.success('Success');
-                //         sessionStorage.setItem('email',email);
-                //         usenavigate('/')
-                //     }else{
-                //         toast.error('Please Enter valid credentials');
-                //     }
-                // }
-            }).catch((err) => {
-                toast.error('Login Failed due to :' + err.message);
+            })
+            .catch((err) => {
+                if (err !== 'Unauthorized') {
+                    toast.error('Login Failed due to: ' + err.message);
+                }
             });
         }
     }
+
     const validate = () => {
         let result = true;
         if (email === '' || email === null) {
@@ -90,6 +61,13 @@ sessionStorage.clear();
         }
         return result;
     }
+
+
+// Set a timer to remove the token after 10 seconds
+// setTimeout(function() {
+//   sessionStorage.removeItem('jwttoken');
+// }, 10000); // 10000 milliseconds = 10 seconds
+
     return (
         <div className="row d-flex justify-content-center align-items-center" style={{height:'90vh'}}>
             <div className="col-lg-5">
@@ -119,3 +97,4 @@ sessionStorage.clear();
 }
 
 export default Login;
+
