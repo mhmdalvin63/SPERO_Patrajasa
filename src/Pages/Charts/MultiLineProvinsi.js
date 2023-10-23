@@ -14,7 +14,7 @@ const MultiAxisLineChart = () => {
   // D R I V E R
   useEffect(() => {
     const token = sessionStorage.getItem("jwttoken");
-     axios.get('https://apipatra.spero-lab.id/api/dashboard/ticket/each-province', { headers: {"Authorization" : `Bearer ${token}`} })
+     axios.get(process.env.REACT_APP_API_URL + 'api/dashboard/ticket/each-province', { headers: {"Authorization" : `Bearer ${token}`} })
       .then((result) => {
         console.log('okkkkkkkkkkkkkkkkkk',result.data.data);
         setDataPerProvinsi(result.data.data);

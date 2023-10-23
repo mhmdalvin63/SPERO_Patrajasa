@@ -15,7 +15,7 @@ const Login = () => {
                 "email": email,
                 "password": password
             };
-            fetch("https://apipatra.spero-lab.id/api/login", {
+            fetch(process.env.REACT_APP_API_URL + "api/login", {
                 method: 'POST',
                 headers: { 'content-type': 'application/json' },
                 body: JSON.stringify(inputobj)

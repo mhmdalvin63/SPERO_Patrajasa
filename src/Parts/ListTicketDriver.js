@@ -14,14 +14,14 @@ const [Driver, setDriver,] = useState([]);
 
 useEffect(() => {
   const token = sessionStorage.getItem("jwttoken");
-  axios.get('https://apipatra.spero-lab.id/api/dashboard/ticket', { headers: {"Authorization" : `Bearer ${token}`} })
+  axios.get(process.env.REACT_APP_API_URL + 'api/dashboard/ticket', { headers: {"Authorization" : `Bearer ${token}`} })
   .then((result) => {
     console.log('TICKETT WOIIIIIIIIIII', result.data.data);
     setTicket(result.data.data);
   })
   .catch((error) => console.log(error));
 
-   axios.get('https://apipatra.spero-lab.id/api/dashboard/driver', { headers: {"Authorization" : `Bearer ${token}`} })
+   axios.get(process.env.REACT_APP_API_URL + 'api/dashboard/driver', { headers: {"Authorization" : `Bearer ${token}`} })
     .then((result) => {
       console.log('driverrrrrrrrrrrrrrrrrrrrrrrrrrrrr', result.data.data.drivers);
       setDriver(result.data.data.drivers);

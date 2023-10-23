@@ -57,7 +57,7 @@ NothingHaveToken()
   const [Ticket, setTicket] = useState([]);
     useEffect(() => {
     const token = sessionStorage.getItem("jwttoken");
-     axios.get('https://apipatra.spero-lab.id/api/ticket/summary', { headers: {"Authorization" : `Bearer ${token}`} })
+     axios.get(process.env.REACT_APP_API_URL + 'api/ticket/summary', { headers: {"Authorization" : `Bearer ${token}`} })
       .then((result) => {
         // console.log('DATAAAAAAAAAAAAAAAAA', result.data.data);
         setPosts(result.data.data.total_priority);
@@ -84,7 +84,7 @@ NothingHaveToken()
         console.log(error)
     setLoading(false);});
 
-     axios.get('https://apipatra.spero-lab.id/api/dashboard/ticket', { headers: {"Authorization" : `Bearer ${token}`} })
+     axios.get(process.env.REACT_APP_API_URL + 'api/dashboard/ticket', { headers: {"Authorization" : `Bearer ${token}`} })
       .then((result) => {
         console.log('TICKETTTTT', result.data.data);
         setTicket(result.data.data);
@@ -94,7 +94,7 @@ NothingHaveToken()
         console.log(error)
     setLoading(false);});
 
-    axios.get('https://apipatra.spero-lab.id/api/dashboard/ticket/get-categories', { headers: {"Authorization" : `Bearer ${token}`} })
+    axios.get(process.env.REACT_APP_API_URL + 'api/dashboard/ticket/get-categories', { headers: {"Authorization" : `Bearer ${token}`} })
           .then((result) => {
             console.log('KATTTT',result.data.data);
             setKategori(result.data.data);
