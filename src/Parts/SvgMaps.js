@@ -26,7 +26,7 @@ const IndonesiaMap = (props) => {
    useEffect(() => {
     const { parameter } = props;
      const token = sessionStorage.getItem("jwttoken");
-      axios.get(`https://apipatra.spero-lab.id/api/dashboard/province-earthquake?filter=${parameter}`, { headers: {"Authorization" : `Bearer ${token}`} })
+      axios.get(`${process.env.REACT_APP_API_URL}api/dashboard/province-earthquake?filter=${parameter}`, { headers: {"Authorization" : `Bearer ${token}`} })
        .then((result) => {
          console.log('EARTHQUAKEEEEEEEEEEEEE', result.data.data);
          SetEarthQuakes(result.data.data);

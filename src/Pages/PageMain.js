@@ -80,7 +80,7 @@ function MainNew() {
   // T I C K E T   S U M M A R Y
   useEffect(() => {
     const token = sessionStorage.getItem("jwttoken");
-     axios.get('https://apipatra.spero-lab.id/api/ticket/summary?filter=day', { headers: {"Authorization" : `Bearer ${token}`} })
+     axios.get(process.env.REACT_APP_API_URL + 'api/ticket/summary?filter=day', { headers: {"Authorization" : `Bearer ${token}`} })
       .then((result) => {
         console.log('DATAAAAAAAAAAAAAAAAA', result.data.data);
         setPosts(result.data.data.total_priority);
@@ -96,7 +96,7 @@ function MainNew() {
         setLoading(false);
     });
 
-     axios.get('https://apipatra.spero-lab.id/api/ticket/summary?filter=week', { headers: {"Authorization" : `Bearer ${token}`} })
+     axios.get(process.env.REACT_APP_API_URL + 'api/ticket/summary?filter=week', { headers: {"Authorization" : `Bearer ${token}`} })
       .then((result) => {
         console.log('DATAAAAAAAAAAAAAAAAA', result.data.data);
         setPostsWeek(result.data.data.total_priority);
@@ -111,7 +111,7 @@ function MainNew() {
         console.log(error)
         setLoading(false);});
 
-     axios.get('https://apipatra.spero-lab.id/api/ticket/summary?filter=month', { headers: {"Authorization" : `Bearer ${token}`} })
+     axios.get(process.env.REACT_APP_API_URL + 'api/ticket/summary?filter=month', { headers: {"Authorization" : `Bearer ${token}`} })
       .then((result) => {
         console.log('DATAAAAAAAAAAAAAAAAA', result.data.data);
         setPostsMonth(result.data.data.total_priority);
@@ -126,7 +126,7 @@ function MainNew() {
         console.log(error)
         setLoading(false);});
 
-     axios.get('https://apipatra.spero-lab.id/api/ticket/summary?filter=year', { headers: {"Authorization" : `Bearer ${token}`} })
+     axios.get(process.env.REACT_APP_API_URL + 'api/ticket/summary?filter=year', { headers: {"Authorization" : `Bearer ${token}`} })
       .then((result) => {
         console.log('DATAAAAAAAAAAAAAAAAA', result.data.data);
         setPostsYear(result.data.data.total_priority);
@@ -141,7 +141,7 @@ function MainNew() {
         console.log(error)
         setLoading(false);});
 
-      axios.get('https://apipatra.spero-lab.id/api/dashboard/driver', { headers: {"Authorization" : `Bearer ${token}`} })
+      axios.get(process.env.REACT_APP_API_URL + 'api/dashboard/driver', { headers: {"Authorization" : `Bearer ${token}`} })
        .then((result) => {
          console.log('DRIVERRRRRR',result.data.data);
          setDriver(result.data.data.count);
@@ -154,7 +154,7 @@ function MainNew() {
         setLoading(false);});
     //    console.log(DriverList)
 
-      axios.get('https://apipatra.spero-lab.id/api/dashboard/operator', { headers: {"Authorization" : `Bearer ${token}`} })
+      axios.get(process.env.REACT_APP_API_URL + 'api/dashboard/operator', { headers: {"Authorization" : `Bearer ${token}`} })
        .then((result) => {
          console.log('OPERATORRRR',result.data.data);
          SetOperator(result.data.data.operators);
@@ -166,7 +166,7 @@ function MainNew() {
         setLoading(false);});
     //    console.log(DriverList)
 
-     axios.get('https://apipatra.spero-lab.id/api/dashboard/process-owner', { headers: {"Authorization" : `Bearer ${token}`} })
+     axios.get(process.env.REACT_APP_API_URL + 'api/dashboard/process-owner', { headers: {"Authorization" : `Bearer ${token}`} })
       .then((result) => {
         // console.log('PROSES OWNER COIIII',result.data.data);
         setPo(result.data.data.count);
@@ -177,7 +177,7 @@ function MainNew() {
         console.log(error)
         setLoading(false);});
 
-     axios.get('https://apipatra.spero-lab.id/api/dashboard/ticket', { headers: {"Authorization" : `Bearer ${token}`} })
+     axios.get(process.env.REACT_APP_API_URL + 'api/dashboard/ticket', { headers: {"Authorization" : `Bearer ${token}`} })
       .then((result) => {
         // console.log(result.data.data);
         setTicket(result.data.data);

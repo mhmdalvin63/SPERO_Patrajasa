@@ -46,7 +46,7 @@ function App() {
   let markersDriver = [];
   useEffect(() => {
     let token = sessionStorage.getItem("jwttoken");
-    axios.get('https://apipatra.spero-lab.id/api/dashboard/ticket', { headers: {"Authorization" : `Bearer ${token}`} })
+    axios.get(process.env.REACT_APP_API_URL + 'api/dashboard/ticket', { headers: {"Authorization" : `Bearer ${token}`} })
     .then((result) => {
       console.log('DATA TICKETTTTTTT', result.data.data);
       SetListTicket(result.data.data);
@@ -76,7 +76,7 @@ function App() {
       setLoading(false);});
 
    
-    axios.get('https://apipatra.spero-lab.id/api/dashboard/driver/log-today', { headers: {"Authorization" : `Bearer ${token}`} })
+    axios.get(process.env.REACT_APP_API_URL + 'api/dashboard/driver/log-today', { headers: {"Authorization" : `Bearer ${token}`} })
     .then((result) => {
       console.log('DRIVERRRRR',result.data.data);
       SetListDriver('DRIVERRRRR',result.data);

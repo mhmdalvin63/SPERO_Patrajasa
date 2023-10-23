@@ -37,7 +37,7 @@ const [Driver, setDriver,] = useState([]);
 
 useEffect(() => {
   const token = sessionStorage.getItem("jwttoken");
-  axios.get('https://apipatra.spero-lab.id/api/dashboard/tracking', { headers: {"Authorization" : `Bearer ${token}`} })
+  axios.get(process.env.REACT_APP_API_URL + 'api/dashboard/tracking', { headers: {"Authorization" : `Bearer ${token}`} })
   .then((result) => {
     console.log('TICKETT WOIIIIIIIIIII', result.data.data);
     setTicket(result.data.data);

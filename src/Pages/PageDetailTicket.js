@@ -29,7 +29,7 @@ function DetailComponent() {
 
   useEffect(() => {
     const token = sessionStorage.getItem("jwttoken");
-    axios.get(`https://apipatra.spero-lab.id/api/ticket/${id}`, { headers: {"Authorization" : `Bearer ${token}`} })
+    axios.get(`${process.env.REACT_APP_API_URL}api/ticket/${id}`, { headers: {"Authorization" : `Bearer ${token}`} })
       .then((response) => {
         console.log('DATAAAAAAA', response.data.data)
         setActivity(response.data.data.activity);

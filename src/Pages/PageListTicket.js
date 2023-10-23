@@ -29,7 +29,7 @@ function PageTicket() {
   const [DetailTicket, setDetailTicket] = useState([]);
     useEffect(() => {
         const token = sessionStorage.getItem("jwttoken");
-         axios.get('https://apipatra.spero-lab.id/api/dashboard/ticket', { headers: {"Authorization" : `Bearer ${token}`} })
+         axios.get(process.env.REACT_APP_API_URL + 'api/dashboard/ticket', { headers: {"Authorization" : `Bearer ${token}`} })
           .then((result) => {
             console.log('DATAAAAA',result.data.data);
             setTicket(result.data.data);
@@ -44,7 +44,7 @@ function PageTicket() {
             console.log(error)
             setLoading(false);});
 
-         axios.get('https://apipatra.spero-lab.id/api/dashboard/ticket/get-categories', { headers: {"Authorization" : `Bearer ${token}`} })
+         axios.get(process.env.REACT_APP_API_URL + 'api/dashboard/ticket/get-categories', { headers: {"Authorization" : `Bearer ${token}`} })
           .then((result) => {
             console.log('KATTTT',result.data.data);
             setKategori(result.data.data);

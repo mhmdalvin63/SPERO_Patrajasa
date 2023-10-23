@@ -30,7 +30,7 @@ function App(props) {
   let Driver = [];
   useEffect(() => {
     const token = sessionStorage.getItem("jwttoken");
-    axios.get('https://apipatra.spero-lab.id/api/dashboard/tracking', { headers: {"Authorization" : `Bearer ${token}`} })
+    axios.get(process.env.REACT_APP_API_URL + 'api/dashboard/tracking', { headers: {"Authorization" : `Bearer ${token}`} })
     .then((result) => {
       console.log('MAPSSSSSSSSSS', result.data.data);
       setMaps(result.data.data);
@@ -64,7 +64,7 @@ function App(props) {
   }, []);
 
   const { isLoaded } = useLoadScript({
-    googleMapsApiKey: "AIzaSyBoIAb25f1-LUjLVkl6hRl8S_iBeaAEmxU"
+    googleMapsApiKey: process.env.PUBLIC_GOOGLE_MAPS_API_KEY
   });
 
   const [activeMarker, setActiveMarker] = useState(null);

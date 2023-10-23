@@ -22,7 +22,7 @@ const MultiAxisLineChart = () => {
   // D R I V E R
   useEffect(() => {
     const token = sessionStorage.getItem("jwttoken");
-     axios.get(`https://apipatra.spero-lab.id/api/dashboard/ticket/monthly?category_id=${selectedOption}`, { headers: {"Authorization" : `Bearer ${token}`} })
+     axios.get(`${process.env.REACT_APP_API_URL}api/dashboard/ticket/monthly?category_id=${selectedOption}`, { headers: {"Authorization" : `Bearer ${token}`} })
       .then((result) => {
         // console.log(result.data.data.months);
         setDataPerBulan(result.data.data.months);
@@ -32,7 +32,7 @@ const MultiAxisLineChart = () => {
         console.log(error)
         setLoading(false);});
 
-     axios.get('https://apipatra.spero-lab.id/api/dashboard/ticket/get-categories', { headers: {"Authorization" : `Bearer ${token}`} })
+     axios.get(process.env.REACT_APP_API_URL + 'api/dashboard/ticket/get-categories', { headers: {"Authorization" : `Bearer ${token}`} })
       .then((result) => {
         console.log('KATEGORI BRO',result.data.data);
         setKategori(result.data.data);

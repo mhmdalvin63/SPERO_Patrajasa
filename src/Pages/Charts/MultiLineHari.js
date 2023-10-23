@@ -22,7 +22,7 @@ const MultiAxisLineChart = () => {
   // D R I V E R
   useEffect(() => {
     const token = sessionStorage.getItem("jwttoken");
-     axios.get(`https://apipatra.spero-lab.id/api/dashboard/ticket/daily?month=${selectedOption}`, { headers: {"Authorization" : `Bearer ${token}`} })
+     axios.get(`${process.env.REACT_APP_API_URL}api/dashboard/ticket/daily?month=${selectedOption}`, { headers: {"Authorization" : `Bearer ${token}`} })
       .then((result) => {
         console.log('DATA BULANNNNNNNNNNNN',result.data.data);
         setData(result.data.data.days);
