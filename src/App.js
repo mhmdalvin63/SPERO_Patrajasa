@@ -1,4 +1,4 @@
-import { Route, Routes } from 'react-router-dom';
+import { Route, Routes, useNavigate } from 'react-router-dom';
 import './App.css'
 
 import Navbar from './Parts/Navbar';
@@ -8,7 +8,7 @@ import Tracking from './Pages/PageTracking';
 import Ticket from './Pages/PageTicket';
 import ListTicket from './Pages/PageListTicket';
 import DetailTicket from './Pages/PageDetailTicket';
-import PAR from './Images/PAR.jpg'
+import PAR from './Images/PAR.jpg';
 function App() {
 
   document.title = "Patrajasa";

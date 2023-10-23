@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Navigate, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 
 const Login = () => {
@@ -25,9 +25,8 @@ const Login = () => {
                     // Token unauthorized, perform logout action
                     toast.error('Token unauthorized. Logging out...');
                     sessionStorage.removeItem('jwttoken');
-                    usenavigate('/'); // Redirect to the login page
+                    Navigate('/'); // Redirect to the login page
                     window.location.href = '/';
-                    return Promise.reject('Unauthorized');
                 }
                 return res.json();
             })
@@ -61,6 +60,8 @@ const Login = () => {
         }
         return result;
     }
+
+
 
 
 // Set a timer to remove the token after 10 seconds

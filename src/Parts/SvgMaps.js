@@ -56,7 +56,7 @@ const IndonesiaMap = (props) => {
    ) : (
     <div>
       <svg width="1800" height="600">
-      <image href={Maps} width="100%" height="100%" />
+      <image href={Maps} className='svg-main' width="100%" height="100%" />
       {mappedPoints.map((item, index) => {
         const cx = (item.middle_long - minX) / (maxX - minX) * 1800;
         const cy = 600 - ((item.middle_lat - minY) / (maxY - minY) * 600);
@@ -65,20 +65,19 @@ const IndonesiaMap = (props) => {
           <g key={index}>
           <image
             x={cx - 25} // Adjust the position as needed
-            y={cy - 25} // Adjust the position as needed
+            y={cy - 30} // Adjust the position as needed
             width="50"
             height="50"
             xlinkHref= {item.image} // Use the URL from your data
             onClick={() => handleMarkerClick(index)}
-          />
-          {selectedMarker === index && (
-                <foreignObject x={cx -50} y={cy + 25} width="200" height="100">
-                <div className='pop-up-svg'>
-                  <p>{item.province}</p>
-                  <p>Total : {item.count}</p>
-                </div>
+          />(
+                <foreignObject x={cx - 25} y={cy - 75} width="200" height="100">
+                  <div class="ribbon-label">
+                    <div class="arrow-down"></div>
+                    <p>{item.count}</p>
+                  </div>
               </foreignObject>
-            )}
+          )
           </g>
         );
       })}

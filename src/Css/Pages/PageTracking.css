@@ -94,3 +94,27 @@ hr.hr-bottom {
 .search-bottom .icon2{
     border: none !important;
 }
+.parent-status{
+    width: max-content;
+    border-radius: 10px;
+    color: white;
+}
+.button-show-hide{
+    border: none;
+    box-shadow: rgba(14, 30, 37, 0.12) 0px 2px 4px 0px, rgba(14, 30, 37, 0.32) 0px 2px 16px 0px;
+    background-color: white;
+    position: absolute;
+    right: 1.5%;
+    bottom: 2.5%;
+}
+
+#navigation-ticket-driver{
+    display: flex !important;
+    justify-content: center !important;
+}
+  
+.circle-status{
+    height: 20px;
+    width: 20px;
+    border-radius: 50%;
+  }

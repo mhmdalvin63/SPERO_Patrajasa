@@ -1,9 +1,24 @@
-.pop-up-svg{
-    width: max-content;
-    padding: .5rem 2rem;
-    background-color: #1767B3;
-    color: white;
-    font-weight: bold;
-    border-radius: 10px;
-    z-index: 99;
+.ribbon-label {
+    position: relative;
+    background-color: red; /* Change the background color as desired */
+    color: #fff; /* Text color */
+    padding: 10px 20px;
+    border-radius: 5px;
+    display: inline-block;
+}
+
+/* Arrow-down element */
+.arrow-down {
+    width: 0;
+    height: 0;
+    border-left: 10px solid transparent;
+    border-right: 10px solid transparent;
+    border-top: 10px solid red; /* Match the background color of the ribbon-label */
+    position: absolute;
+    bottom: -10px; /* Adjust this value to control the distance between the ribbon and the arrow */
+    left: 50%;
+    transform: translateX(-50%);
+}
+.svg-main path{
+    fill: #9CB9C7 !important;
 }

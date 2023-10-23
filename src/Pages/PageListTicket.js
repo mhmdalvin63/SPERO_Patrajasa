@@ -76,8 +76,8 @@ function PageTicket() {
           const endTime = new Date(item.range_time);
 
           if (
-            (startDate && startTime < new Date(startDate)) ||
-            (endDate && endTime > new Date(endDate))
+            (startDate && startTime <= new Date(startDate)) ||
+            (endDate && endTime <= new Date(endDate))
           ) {
             return false;
           }
@@ -98,6 +98,27 @@ function PageTicket() {
       
           return true;
         });
+
+        const calculateTimeDifference = (rangeTime) => {
+          const now = new Date(); // Waktu sekarang
+          const rangeTimeDate = new Date(rangeTime); // Konversi range_time ke objek Date
+      
+          const timeDifference = rangeTimeDate - now; // Perbedaan waktu dalam milidetik
+          const secondsDifference = Math.floor(timeDifference / 1000);
+          const minutesDifference = Math.floor(secondsDifference / 60);
+          const hoursDifference = Math.floor(minutesDifference / 60);
+          const dayDifference = Math.floor(hoursDifference / 24);
+
+          if (timeDifference <= 0) {
+            return "Waktu habis";
+          }
+          if (hoursDifference <= 0) {
+            return `${minutesDifference % 60} menit, ${secondsDifference} detik`;
+          }
+      
+          return `${hoursDifference} jam, ${minutesDifference % 60} menit`;
+        };
+        
     return (
         <div>
       {loading ? (
@@ -188,16 +209,15 @@ function PageTicket() {
                     <td>{item.category.name}</td>
                     <td>
                         <p>{formatDateLong(item.start_time)}</p>
-                        {/* <p className='text-red'>{getTimeFromData(item.start_time)} WIB</p> */}
+                        <p className='text-red'>{getTimeFromData(item.start_time)} WIB</p>
                         {/* <p className='text-red'>11 : 14 WIB</p> */}
                     </td>
                     <td>
                         <p>{formatDateLong(item.range_time)}</p>
-                        {/* <p className='text-red'>{getTimeFromData(item.range_time)} WIB</p> */}
+                        <p className='text-red'>{getTimeFromData(item.range_time)} WIB</p>
                     </td>
                     <td>
-                        <p className='text-red'>59 Detik </p>
-                        <p className='text-red'>{timeRemaining.days} {timeRemaining.hours} {timeRemaining.minutes} </p>
+                        <p className='text-red'>{calculateTimeDifference(item.range_time)} </p>
                     </td>
                     {item.priority_id === 1 ? (
                       <td>

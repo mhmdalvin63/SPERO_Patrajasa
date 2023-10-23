@@ -14,6 +14,10 @@ import axios from 'axios';
 import DateTime from '../Parts/DateTime';
 import Loading from '../Parts/Loading';
 
+import Tabs from 'react-bootstrap/Tabs';
+import Tab from 'react-bootstrap/Tab';
+import 'bootstrap/dist/css/bootstrap.min.css';
+
 
 
 function Tracking({ filters }) {
@@ -23,6 +27,10 @@ function Tracking({ filters }) {
 
 // T I C K E T
 const [Ticket, setTicket,] = useState([]);
+const [searchQuery, setSearchQuery] = useState('');
+  const [SearchResults1, setSearchResults1] = useState([]);
+  const [SearchResults2, setSearchResults2] = useState([]);
+
 
 // D R I V E R
 const [Driver, setDriver,] = useState([]);
@@ -40,14 +48,63 @@ useEffect(() => {
 setLoading(false);});
 }, []);
 
-// const mergedData = {...Ticket, ...Driver};
-// console.log('DATA GABUNGANNNN', mergedData)
+let byTicketId = Ticket.filter(item => item.ticket_id);
+let byDriverId = Ticket.filter(item => item.driver_id);
+console.log(byTicketId)
+console.log(byDriverId)
 
-// const mergeData = mergeData(data1, data2);
+const [filterDriver, setfilterDriver] = useState({
+  online: true,
+  offline: true,
+});
+const handleCheckboxChangeDriver = (status) => {
+  setfilterDriver({
+    ...filterDriver,
+    [status]: !filterDriver[status],
+  });
+};
+const [search, setSearch] = useState('');
+// const onlineCheckbox = document.getElementById('onlineCheckbox');
+// const offlineCheckbox = document.getElementById('offlineCheckbox');
+// SEARCH TIKET
+// Filter data for the first tab based on the search query
+const filteredData1 = byTicketId.filter((item) => {
+// Filter by search input
+if (item.subject !== null) {
+  if (search && !item.subject.toLowerCase().includes(search.toLowerCase())) {
+    return false;
+   }
+   return true;
+} else {
+  console.error('yourVariable is null');
+}
+});
+  const [onlineCheckbox, setOnlineCheckbox] = useState(false);
+  const [offlineCheckbox, setOfflineCheckbox] = useState(false);
+const filteredData2 = byDriverId.filter((item) => {
+  if (item.name !== null) {
+    if (search && !item.name.toLowerCase().includes(search.toLowerCase())) {
+      return false;
+     }
+    
+    if (onlineCheckbox && item.status !== 'online') {
+      return false;
+    }
+
+    if (offlineCheckbox && item.status !== 'offline') {
+      return false;
+    }
+     return true;
+  } else {
+    console.error('yourVariable is null');
+  }
+});
+
 
 // PAGINATION
 // Sample data (you can replace this with your actual data)
-  const allData = Ticket;
+  let ticketIdData = filteredData1;
+  let DriverIdData = filteredData2;
   // Pagination variables
   const itemsPerPage = 8; // Number of items to display per page
   const [currentPage, setCurrentPage] = useState(1);
@@ -55,7 +112,8 @@ setLoading(false);});
   const startIndex = (currentPage - 1) * itemsPerPage;
   const endIndex = startIndex + itemsPerPage;
   // Slice the data to display only the items for the current page
-  const paginatedData = allData.slice(startIndex, endIndex);
+  const paginatedTicket = ticketIdData.slice(startIndex, endIndex);
+  const paginatedDriver = DriverIdData.slice(startIndex, endIndex);
   // Function to handle page change
   const handlePageChange = (pageNumber) => {
     setCurrentPage(pageNumber);
@@ -73,10 +131,7 @@ setLoading(false);});
     online: true,
     offline: true,
   });
-  const [filterDriver, setfilterDriver] = useState({
-    online: true,
-    offline: true,
-  });
+  
 
   const handleCheckboxChange = (status) => {
     setFilterOptions({
@@ -84,12 +139,7 @@ setLoading(false);});
       [status]: !filterOptions[status],
     });
   };
-  const handleCheckboxChangeDriver = (status) => {
-    setfilterDriver({
-      ...filterDriver,
-      [status]: !filterDriver[status],
-    });
-  };
+  
 
   const maxWordsPerLine = 1;
   const trackingSubject = {
@@ -113,6 +163,15 @@ setLoading(false);});
     setDataToSend(id_param);
   };
 
+   // SHOW HIDE ELEMENT
+   const [isElementVisible, setElementVisible] = useState(false);
+
+   const toggleElement = () => {
+     setElementVisible(!isElementVisible);
+   };
+ 
+
+console.log('data filter',filteredData2)
 
     return (
         <div>
@@ -202,16 +261,18 @@ setLoading(false);});
                     <label className='d-flex gap-2'>
                       <input
                         type="checkbox"
-                        checked={filterDriver.online}
-                        onChange={() => handleCheckboxChangeDriver('online')}
+                        id="onlineCheckbox"
+                        checked={onlineCheckbox}
+                        onChange={() => setOnlineCheckbox(!onlineCheckbox)}
                       />
                       <p>online</p>
                     </label>
                     <label className='d-flex gap-2'>
                       <input
                         type="checkbox"
-                        checked={filterDriver.offline}
-                        onChange={() => handleCheckboxChangeDriver('offline')}
+                        id="offlineCheckbox"
+                        checked={offlineCheckbox}
+                        onChange={() => setOfflineCheckbox(!onlineCheckbox)}
                       />
                       <p>offline</p>
                     </label>
@@ -227,54 +288,138 @@ setLoading(false);});
                 </Dropdown.Menu>
             </Dropdown>
             </div>
-            <div className='list-ticket-driver'>
-                <div className='header-list-td'>
-                    <img className='LogoPatraBottom' src={LogoPatra} alt="LogoPatra" />
-                    <p className='xl text-blue fwb'>LIST TICKET & DRIVER</p>
-                    <Form className='search-bottom d-flex align-items-center'>
-                        <Button className='icon'><Icon icon="ri:search-line" /></Button>
-                        <FormControl type="text" placeholder="Search" className="icon2 mr-sm-2" />
-                    </Form>
-                </div>
-                <hr className='hr-bottom' />
-                <Row>
-                <div id="map">
-                    <div class="marker" data-lat="40.7128" data-lng="-74.0060">
-                        <svg class="marker-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
-                        </svg>
+           <button onClick={toggleElement} className='button-show-hide'>
+            {isElementVisible ? (
+              <>
+                <Icon icon="ep:arrow-down-bold" />
+              </>
+            ) : (
+              <>
+                <Icon icon="ep:arrow-up-bold" />
+              </>
+            )}
+          </button>
+            {isElementVisible && (
+              <div className={`list-ticket-driver ${isElementVisible ? 'active' : ''}`}>
+              <div className='header-list-td'>
+                  <img className='LogoPatraBottom' src={LogoPatra} alt="LogoPatra" />
+                  <p className='xl text-blue fwb'>LIST TICKET & DRIVER</p>
+                  <Form className='search-bottom d-flex align-items-center'>
+                      <Button className='icon'><Icon icon="ri:search-line" /></Button>
+                      <input
+                        type="text"
+                        placeholder="Search"
+                        value={search}
+                        onChange={(e) => setSearch(e.target.value)}
+                        className="icon2 mr-sm-2"
+                      />
+                  </Form>
+              </div>
+              <hr className='hr-bottom' />
+              
+              <Tabs className='justify-content-center' defaultActiveKey="Ticket" id="navigation-ticket-driver">
+            <Tab eventKey="Ticket" title="Ticket">
+            <Row>
+              <div id="map">
+                  <div class="marker" data-lat="40.7128" data-lng="-74.0060">
+                      <svg class="marker-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+                      </svg>
+                  </div>
+              </div>
+              {paginatedTicket.map((item) => (
+                <Col sm={3} className='px-3 py-2' key={item.ticket_id} onClick={() => handleItemClick(`s${item.ticket_id}`)} style={{
+                    display:  
+                    filterOptions[item.activity ? item.activity.name : '-' || item.status ? item.status : '-'] ? 'block' : 'none',
+                    }} data-status={item.activity?.name ? item.activity.name : item.status}>
+                  <div className='col-item d-flex align-items-start gap-4'>
+                        <h1 style={{fill: item.activity ? item.activity.color : '-'}} className='fwb d-flex align-items-start mt-2' dangerouslySetInnerHTML={{ __html: item.icon }}></h1>
+                        <div className='subject-tracking-parent'>
+                            <p className='xl fwb tg2 subject-tracking'>{item.subject}</p>
+                            <p className='md2'>{item.created_at}</p>
+                            <div className='parent-status px-2 py-1' style={{backgroundColor: item.activity ? item.activity.color : '-'}}>
+                              <p className='xl fwb' >{item.activity ? item.activity.name : '-'}</p>
+                            </div>
+                        </div>
                     </div>
-                </div>
-                {paginatedData.map((item) => (
-                  <Col sm={3} className='px-3 py-2' key={item.ticket_id} onClick={() => handleItemClick(item.ticket_id)} style={{
-                      display:  
-                      filterOptions[item.activity ? item.activity.name : '-' || item.status ? item.status : '-'] ? 'block' : 'none',
-                      }} data-status={item.activity?.name ? item.activity.name : item.status}>
-                    <div className='col-item d-flex align-items-start gap-4'>
-                          <h1 style={{fill: item.activity ? item.activity.color : '-'}} className='fwb d-flex align-items-start mt-2' dangerouslySetInnerHTML={{ __html: item.icon }}></h1>
-                          <div className='subject-tracking-parent'>
-                              <p className='xl fwb tg2 subject-tracking'>{item.subject}</p>
-                              <p className='md2'>{item.created_at}</p>
-                                <p className='xl fwb' style={{color: item.activity ? item.activity.color : '-'}}>{item.activity ? item.activity.name : '-'}</p>
-                          </div>
-                      </div>
-                  </Col>
-                ))}
-                </Row>
-                <hr className='hr-bottom' />
-                <div className='pagination-tracking mt-3'>
-                    <nav className='d-flex justify-content-center'>
-                        <ul className="pagination">
-                        {Array.from({ length: Math.ceil(allData.length / itemsPerPage) }).map((_, index) => (
-                            <li key={index} className={`page-item ${index + 1 === currentPage ? 'active' : ''}`}>
-                            <button className="page-link" onClick={() => handlePageChange(index + 1)}>
-                                {index + 1}
-                            </button>
-                            </li>
-                        ))}
-                        </ul>
-                    </nav>
-                </div>
-            </div>
+                </Col>
+              ))}
+              </Row>
+              <hr className='hr-bottom' />
+              <div className='pagination-tracking mt-3'>
+                  <nav className='d-flex justify-content-center'>
+                      <ul className="pagination">
+                      {Array.from({ length: Math.ceil(byTicketId.length / itemsPerPage) }).map((_, index) => (
+                          <li key={index} className={`page-item ${index + 1 === currentPage ? 'active' : ''}`}>
+                          <button className="page-link" onClick={() => handlePageChange(index + 1)}>
+                              {index + 1}
+                          </button>
+                          </li>
+                      ))}
+                      </ul>
+                  </nav>
+              </div>
+            </Tab>
+            <Tab eventKey="Driver" title="Driver">
+            <Row>
+              <div id="map">
+                  <div class="marker" data-lat="40.7128" data-lng="-74.0060">
+                      <svg class="marker-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+                      </svg>
+                  </div>
+              </div>
+              {paginatedDriver.filter((item) => {
+            if (onlineCheckbox && item.status !== 'online') {
+              return false;
+            }
+            if (offlineCheckbox && item.status !== 'offline') {
+              return false;
+            }
+            return true;
+          }).map((item) => (
+                <Col sm={3} className='px-3 py-2' key={item.driver_id} onClick={() => handleItemClick(`d${item.driver_id}`)} style={{
+                    display:  
+                    filterOptions[item.activity ? item.activity.name : '-' || item.status ? item.status : '-'] ? 'block' : 'none',
+                    }} data-status={item.activity?.name ? item.activity.name : item.status}>
+                  <div className='col-item d-flex align-items-start gap-4'>
+                        <h1 style={{fill: item.activity ? item.activity.color : '-'}} className='fwb d-flex align-items-start mt-2' dangerouslySetInnerHTML={{ __html: item.icon }}></h1>
+                        <div className='subject-tracking-parent'>
+                            <p className='xl fwb tg2 subject-tracking'>{item.name}</p>
+                            <p className='md2'>{item.created_at}</p>
+                            <div className='online-speed d-flex align-items-center gap-3'>
+                            {item.status === 'online' ? (
+                              <div className='circle-status bg-lime'></div>
+                            ) : (
+                              <div className='circle-status bg-red'></div>
+                            )}
+                              <h2><Icon icon="fontisto:motorcycle" /></h2>
+                              <h2><Icon icon="fa-solid:parking" /></h2>
+                              <h2><Icon icon="ic:round-wifi" /></h2>
+                            </div>
+                        </div>
+                    </div>
+                </Col>
+              ))}
+              </Row>
+              <hr className='hr-bottom' />
+              <div className='pagination-tracking mt-3'>
+                  <nav className='d-flex justify-content-center'>
+                      <ul className="pagination">
+                      {Array.from({ length: Math.ceil(byDriverId.length / itemsPerPage) }).map((_, index) => (
+                          <li key={index} className={`page-item ${index + 1 === currentPage ? 'active' : ''}`}>
+                          <button className="page-link" onClick={() => handlePageChange(index + 1)}>
+                              {index + 1}
+                          </button>
+                          </li>
+                      ))}
+                      </ul>
+                  </nav>
+              </div>
+            </Tab>
+          </Tabs>
+            
+          </div>
+            )}
+            
         </div>
       )}
     </div>

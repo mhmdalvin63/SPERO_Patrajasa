@@ -26,9 +26,10 @@ import ChartProvinsi from './Charts/MultiLineProvinsi'
 import axios from 'axios';
 import Loading from '../Parts/Loading';
 
-
+import NothingHaveToken from '../Parts/NothingHaveToken';
 
 function PageTicket() {
+NothingHaveToken()
     const [loading, setLoading] = useState(true);
 
       // T I C K E T   S U M M A R Y
@@ -185,7 +186,7 @@ function PageTicket() {
 
         if (
           (startDate && startTime < new Date(startDate)) ||
-          (endDate && endTime > new Date(endDate))
+            (endDate && endTime <= new Date(endDate))
         ) {
           return false;
         }
@@ -212,8 +213,8 @@ function PageTicket() {
         const endTime = new Date(item.range_time);
 
         if (
-          (startDate && startTime < new Date(startDate)) ||
-          (endDate && endTime > new Date(endDate))
+          (startDate && startTime <= new Date(startDate)) ||
+            (endDate && endTime <= new Date(endDate))
         ) {
           return false;
         }
@@ -240,8 +241,8 @@ function PageTicket() {
         const endTime = new Date(item.range_time);
 
         if (
-          (startDate && startTime < new Date(startDate)) ||
-          (endDate && endTime > new Date(endDate))
+          (startDate && startTime <= new Date(startDate)) ||
+            (endDate && endTime <= new Date(endDate))
         ) {
           return false;
         }
@@ -268,8 +269,8 @@ function PageTicket() {
         const endTime = new Date(item.range_time);
 
         if (
-          (startDate && startTime < new Date(startDate)) ||
-          (endDate && endTime > new Date(endDate))
+          (startDate && startTime <= new Date(startDate)) ||
+            (endDate && endTime <= new Date(endDate))
         ) {
           return false;
         }
@@ -517,10 +518,8 @@ function PageTicket() {
                     <th>Title</th>
                     <th>Ticket Masuk</th>
                     <th>Dateline Ticket</th>
-                    <th>Timecode</th>
                     <th>Prioritas</th>
                     <th>Status</th>
-                    <th>Action</th>
                 </tr>
                 </thead>
                 <tbody className='page-ticket-bottom-tbody'>
@@ -537,10 +536,6 @@ function PageTicket() {
                     <td>
                         <p>{formatDateLong(item.range_time)}</p>
                         {/* <p className='text-red'>{getTimeFromData(item.range_time)} WIB</p> */}
-                    </td>
-                    <td>
-                        <p className='text-red'>59 Detik </p>
-                        {/* <p className='text-red'>{timeRemaining.days} {timeRemaining.hours} {timeRemaining.minutes} </p> */}
                     </td>
                     {item.priority_id === 1 ? (
                       <td>

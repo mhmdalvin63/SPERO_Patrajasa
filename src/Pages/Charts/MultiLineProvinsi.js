@@ -58,6 +58,9 @@ const MultiAxisLineChart = () => {
     xaxis: {
       categories: provinsi,
     },
+    labels: {
+      rotate: -45, // Set the rotation angle in degrees (negative for counterclockwise rotation)
+    },
     yaxis: [
       {
         title: {

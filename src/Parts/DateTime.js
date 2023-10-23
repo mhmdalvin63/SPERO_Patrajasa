@@ -19,8 +19,8 @@ function DateTime(){
   const currentDate = new Date();
   // Array of month names
   const monthNames = [
-    'Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni',
-    'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'
+    'Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun',
+    'Juli', 'Aug', 'Sept', 'Okt', 'Nov', 'Des'
   ];
   // Get the current year, month, and date
   const year = currentDate.getFullYear();
