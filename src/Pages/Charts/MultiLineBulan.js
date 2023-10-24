@@ -34,7 +34,7 @@ const MultiAxisLineChart = () => {
         console.log(error)
         setLoading(false);});
 
-     axios.get('${apiUrl}api/dashboard/ticket/get-categories', { headers: {"Authorization" : `Bearer ${token}`} })
+     axios.get(`${apiUrl}api/dashboard/ticket/get-categories`, { headers: {"Authorization" : `Bearer ${token}`} })
       .then((result) => {
         console.log('KATEGORI BRO',result.data.data);
         setKategori(result.data.data);
@@ -146,9 +146,16 @@ const MultiAxisLineChart = () => {
                     <p>Grafik Per Bulan</p>
                     <select value={selectedOption} onChange={handleChange}  size="xl" aria-label="Default select example" className='select-multi-axis'>
                       <option>Pilih Kategori</option>
-                      {Kategori.map((item, id) => (
+                      {/* {Kategori.map((item, id) => (
                         <option key={id} value={item.id}>{item.name}</option>
-                      ))}
+                      ))} */}
+                       {Kategori &&
+                    Kategori.map((item, id) =>
+                      item ? (
+                        <option key={id} value={item.id}>{item.name}
+                        </option>
+                      ) : null
+                    )}
                     </select>
                     {/* <p>selected : {selectedOption}</p> */}
                   </div>
