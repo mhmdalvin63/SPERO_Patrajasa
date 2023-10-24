@@ -550,7 +550,7 @@ function MainNew() {
                                 <h1 className='xl tg'>{Driver.total}</h1>
                                 <div className='text-red'>
                                     <div className='icon-ticket gap-2'>
-                                        <h1 className='md'><Icon icon="game-icons:full-motorcycle-helmet" /></h1>
+                                    <h1 className='md'><Icon icon="mingcute:steering-wheel-fill" /></h1>
                                             <Detakred fill="blue"  className='detak'/>
                                     </div>
                                             <p className='text-center fwb700 tt xl'>Driver</p>
@@ -769,7 +769,7 @@ function MainNew() {
                                 <h1 className='xl tg'>{Driver.total}</h1>
                                 <div className='text-red'>
                                     <div className='icon-ticket gap-2'>
-                                        <h1 className='md'><Icon icon="game-icons:full-motorcycle-helmet" /></h1>
+                                    <h1 className='md'><Icon icon="mingcute:steering-wheel-fill" /></h1>
                                             <Detakred fill="blue"  className='detak'/>
                                     </div>
                                             <p className='text-center fwb700 tt xl'>Driver</p>
@@ -988,7 +988,7 @@ function MainNew() {
                                 <h1 className='xl tg'>{Driver.total}</h1>
                                 <div className='text-red'>
                                     <div className='icon-ticket gap-2'>
-                                        <h1 className='md'><Icon icon="game-icons:full-motorcycle-helmet" /></h1>
+                                    <h1 className='md'><Icon icon="mingcute:steering-wheel-fill" /></h1>
                                             <Detakred fill="blue"  className='detak'/>
                                     </div>
                                             <p className='text-center fwb700 tt xl'>Driver</p>
