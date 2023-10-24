@@ -42,6 +42,13 @@ function App(props) {
         subject: item.subject,
         icon: item.icon,
         createdat: item.created_at,
+        activityname: item.activity_name,
+        activitycolor: item.activity_color,
+        starttime: item.start_time,
+        rangetime: item.range_time,
+        content: item.content,
+        priorityname: item.priority_name,
+        ticketcode: item.ticket_code,
       }));
       setMarkers(filterMarkers);
 
@@ -86,6 +93,32 @@ function App(props) {
   const [activeMarkerZoom, setActiveMarkerZoom] = useState(12);
 
 
+  function formatDate(dateStr) {
+    const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+    const date = new Date(dateStr);
+    return date.toLocaleDateString('id-ID', options);
+  }
+
+  const calculateTimeDifference = (rangeTime) => {
+    const now = new Date(); // Waktu sekarang
+    const rangeTimeDate = new Date(rangeTime); // Konversi range_time ke objek Date
+
+    const timeDifference = rangeTimeDate - now; // Perbedaan waktu dalam milidetik
+    const secondsDifference = Math.floor(timeDifference / 1000);
+    const minutesDifference = Math.floor(secondsDifference / 60);
+    const hoursDifference = Math.floor(minutesDifference / 60);
+    const dayDifference = Math.floor(hoursDifference / 24);
+
+    if (timeDifference <= 0) {
+      return "Waktu habis";
+    }
+    if (hoursDifference <= 0) {
+      return `${minutesDifference % 60} menit, ${secondsDifference} detik`;
+    }
+
+    return `${hoursDifference} jam, ${minutesDifference % 60} menit`;
+  };
+
   return (
     <div>
       {loading ? (
@@ -103,7 +136,7 @@ function App(props) {
             }}
               mapContainerStyle={{ width: "100vw", height: "100vh" }}
             >
-              {Markers.map(({ ticketid, position, subject, icon, createdat }) => (
+              {Markers.map(({ ticketid, position, subject, icon, createdat, activityname, activitycolor, starttime, rangetime, content, priorityname, ticketcode }) => (
                 <MarkerF
                   key={`s${ticketid}`}
                   position={position}
@@ -126,11 +159,11 @@ function App(props) {
                             <div className="header-maps-image p-2">
                               <p dangerouslySetInnerHTML={{ __html: icon }}></p>
                             </div>
-                            <h3 className="text-white">{ticketid}</h3>
+                            <h3 className="text-white">{ticketcode}</h3>
                           </div>
                           <div className="header-maps-right">
                             <div className="border-status-maps px-3 py-1">
-                              <p>Open</p>
+                              <p>{activityname}</p>
                             </div>
                           </div>
                         </div>
@@ -151,85 +184,83 @@ function App(props) {
                             </thead>
                             <tbody>
                               <tr>
-                                <td colSpan={2}><h3>Nama</h3></td>
-                                <td><h3>: {ticketid}</h3></td>
+                                <td colSpan={2}><h3>Priority</h3></td>
+                                <td><h3>: {priorityname}</h3></td>
                               </tr>
                               <tr>
                                 <td colSpan={2}><h3>Subject</h3></td>
                                 <td><h3>: {subject}</h3></td>
                               </tr>
                               <tr>
-                                <td colSpan={2}><h3>Informasi</h3></td>
-                                <td><h3>: Kendaraan Terbalik</h3></td>
+                                <td colSpan={2}><h3>Timecode</h3></td>
+                                <td><h3>: {calculateTimeDifference(rangetime)}</h3></td>
                               </tr>
                               <tr>
                                 <td colSpan={2}><h3>Tanggal</h3></td>
-                                <td><h3>: Thursday 30 Juli 2023</h3></td>
+                                <td><h3>: {formatDate(createdat)}</h3></td>
                               </tr>
                             </tbody>
                           </Table>
-                          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque efficitur vel augue in tincidunt. Morbi lacus urna, efficitur sed auctor sed, fermentum vitae magna. Sed tincidunt elit non dui fringilla pellentesque. Vivamus ultrices a tellus nec porttitor. Proin fermentum bibendum felis in consectetur. Aenean ultricies imperdiet aliquet. Phasellus rutrum est vel hendrerit convallis.
-Interdum et malesuada fames ac ante ipsum primis in faucibus. Nullam quis purus lorem. In accumsan orci ut erat viverra cursus. Vestibulum ipsum magna, cursus ut sodales eget, aliquet sed nibh. Aenean vitae suscipit diam. Vestibulum vel volutpat ligula, vitae rhoncus est. Duis at purus sollicitudin, pulvinar diam ac, pulvinar dolor. Curabitur rhoncus posuere interdum. Nunc risus mi, convallis sed commodo eu, interdum nec dui. Aliquam maximus porttitor mauris, ac dapibus metus blandit nec. Praesent sit amet ante ut lorem pulvinar iaculis. Sed lacinia molestie urna, non finibus risus tempor a. Etiam ornare, ligula nec accumsan faucibus, felis lacus consequat metus, id aliquam erat orci eget metus.</p>
+                          <p className="xl px-2">{content}</p>
                         </div>
                       </div>
                     </InfoWindowF>
                   ) : null}
                   {`s${ticketid}` === idParamDynamic ? (
-                    <InfoWindowF position={position}
-  onCloseClick={() => setActiveMarker(null)}>
-                      <div className="maps-label">
-                        <div className="header-maps py-2 px-3 gap-2">
-                          <div className="header-maps-left gap-2">
-                            <div className="header-maps-image p-2">
-                              <p dangerouslySetInnerHTML={{ __html: icon }}></p>
-                            </div>
-                            <h3 className="text-white">hai</h3>
-                          </div>
-                          <div className="header-maps-right">
-                            <div className="border-status-maps px-3 py-1">
-                              <p>Open</p>
-                            </div>
-                          </div>
-                        </div>
-                        <div className="header-content">
-                          <div className="gambar-aduan gap-3">
-                            <img className='Kendala' src={Kendala} alt="Kendala" />
-                            <img className='Kendala' src={Kendala} alt="Kendala" />
-                            <img className='Kendala' src={Kendala} alt="Kendala" />
-                            <img className='Kendala' src={Kendala} alt="Kendala" />
-                          </div>
-                          <Table>
-                            <thead>
-                              <tr>
-                                <th></th>
-                                <th></th>
-                                <th></th>
-                              </tr>
-                            </thead>
-                            <tbody>
-                              <tr>
-                                <td colSpan={2}><h3>Nama</h3></td>
-                                <td><h3>: {ticketid}</h3></td>
-                              </tr>
-                              <tr>
-                                <td colSpan={2}><h3>Company</h3></td>
-                                <td><h3>: PT Patra Jasa</h3></td>
-                              </tr>
-                              <tr>
-                                <td colSpan={2}><h3>Informasi</h3></td>
-                                <td><h3>: Kendaraan Terbalik</h3></td>
-                              </tr>
-                              <tr>
-                                <td colSpan={2}><h3>Tanggal</h3></td>
-                                <td><h3>: Thursday 30 Juli 2023</h3></td>
-                              </tr>
-                            </tbody>
-                          </Table>
-                          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque efficitur vel augue in tincidunt. Morbi lacus urna, efficitur sed auctor sed, fermentum vitae magna. Sed tincidunt elit non dui fringilla pellentesque. Vivamus ultrices a tellus nec porttitor. Proin fermentum bibendum felis in consectetur. Aenean ultricies imperdiet aliquet. Phasellus rutrum est vel hendrerit convallis.
-Interdum et malesuada fames ac ante ipsum primis in faucibus. Nullam quis purus lorem. In accumsan orci ut erat viverra cursus. Vestibulum ipsum magna, cursus ut sodales eget, aliquet sed nibh. Aenean vitae suscipit diam. Vestibulum vel volutpat ligula, vitae rhoncus est. Duis at purus sollicitudin, pulvinar diam ac, pulvinar dolor. Curabitur rhoncus posuere interdum. Nunc risus mi, convallis sed commodo eu, interdum nec dui. Aliquam maximus porttitor mauris, ac dapibus metus blandit nec. Praesent sit amet ante ut lorem pulvinar iaculis. Sed lacinia molestie urna, non finibus risus tempor a. Etiam ornare, ligula nec accumsan faucibus, felis lacus consequat metus, id aliquam erat orci eget metus.</p>
-                        </div>
-                      </div>
-                    </InfoWindowF>
+                     <InfoWindowF position={position}
+                     onCloseClick={() => setActiveMarker(null)}>
+                                         <div className="maps-label">
+                                           <div className="header-maps py-2 px-3 gap-2">
+                                             <div className="header-maps-left gap-2">
+                                               <div className="header-maps-image p-2">
+                                                 <p dangerouslySetInnerHTML={{ __html: icon }}></p>
+                                               </div>
+                                               <h3 className="text-white">{ticketcode}</h3>
+                                             </div>
+                                             <div className="header-maps-right">
+                                               <div className="border-status-maps px-3 py-1">
+                                                 <p>{activityname}</p>
+                                               </div>
+                                             </div>
+                                           </div>
+                                           <div className="header-content">
+                                             <div className="gambar-aduan gap-3">
+                                               <img className='Kendala' src={Kendala} alt="Kendala" />
+                                               <img className='Kendala' src={Kendala} alt="Kendala" />
+                                               <img className='Kendala' src={Kendala} alt="Kendala" />
+                                               <img className='Kendala' src={Kendala} alt="Kendala" />
+                                             </div>
+                                             <Table>
+                                               <thead>
+                                                 <tr>
+                                                   <th></th>
+                                                   <th></th>
+                                                   <th></th>
+                                                 </tr>
+                                               </thead>
+                                               <tbody>
+                                                 <tr>
+                                                   <td colSpan={2}><h3>Priority</h3></td>
+                                                   <td><h3>: {priorityname}</h3></td>
+                                                 </tr>
+                                                 <tr>
+                                                   <td colSpan={2}><h3>Subject</h3></td>
+                                                   <td><h3>: {subject}</h3></td>
+                                                 </tr>
+                                                 <tr>
+                                                   <td colSpan={2}><h3>Timecode</h3></td>
+                                                   <td><h3>: {calculateTimeDifference(rangetime)}</h3></td>
+                                                 </tr>
+                                                 <tr>
+                                                   <td colSpan={2}><h3>Tanggal</h3></td>
+                                                   <td><h3>: {formatDate(createdat)}</h3></td>
+                                                 </tr>
+                                               </tbody>
+                                             </Table>
+                                             <p className="xl px-2">{content}</p>
+                                           </div>
+                                         </div>
+                                       </InfoWindowF>
                   ) : null}
                 </MarkerF>
               ))}
@@ -293,7 +324,7 @@ Interdum et malesuada fames ac ante ipsum primis in faucibus. Nullam quis purus 
                               </tr>
                               <tr>
                                 <td colSpan={2}><h3>Tanggal</h3></td>
-                                <td><h3>: Thursday 30 Juli 2023</h3></td>
+                                <td><h3>: {formatDate(createdat)}</h3></td>
                               </tr>
                             </tbody>
                           </Table>
@@ -349,7 +380,7 @@ Interdum et malesuada fames ac ante ipsum primis in faucibus. Nullam quis purus 
                               </tr>
                               <tr>
                                 <td colSpan={2}><h3>Tanggal</h3></td>
-                                <td><h3>: Thursday 30 Juli 2023</h3></td>
+                                <td><h3>: {formatDate(createdat)}</h3></td>
                               </tr>
                             </tbody>
                           </Table>

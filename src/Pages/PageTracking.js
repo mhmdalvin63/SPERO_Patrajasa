@@ -58,7 +58,7 @@ if (Array.isArray(Ticket)) {
 }
 let byDriverId;
 if (Array.isArray(Ticket)) {
-  byDriverId = Ticket.filter(item => item.name);
+  byDriverId = Ticket.filter(item => item.driver_id);
 } else {
   byDriverId = []; // or set to any default value you prefer
 }
@@ -83,7 +83,6 @@ const [search, setSearch] = useState('');
 
 let filteredData1 = [];
 let filteredData2  = [];
-
 if (byTicketId) {
   filteredData1 = byTicketId.filter((item) => {
     if (item.subject !== null) {
@@ -145,7 +144,6 @@ if (byDriverId) {
     setCurrentPage(pageNumber);
   };
 
-  // console.log('PAGINATEDDDDDDDD', paginatedData)
 
   const [filterOptions, setFilterOptions] = useState({
     open: true,
@@ -198,6 +196,16 @@ if (byDriverId) {
  
 
 console.log('data filter',filteredData2)
+console.log('PAGINATEDDDDDDDD', paginatedTicket)
+
+const formatDateLong = (dateString) => {
+  const options = { year: 'numeric', month: 'short', day: 'numeric' };
+  return new Date(dateString).toLocaleDateString(undefined, options);
+  };
+  const getTimeFromData = (timeString) => {
+    const date = new Date(timeString);
+    return date.toLocaleTimeString();
+  };
 
     return (
         <div>
@@ -355,15 +363,15 @@ console.log('data filter',filteredData2)
               {paginatedTicket.map((item) => (
                 <Col sm={3} className='px-3 py-2' key={item.ticket_id} onClick={() => handleItemClick(`s${item.ticket_id}`)} style={{
                     display:  
-                    filterOptions[item.activity ? item.activity.name : '-' || item.status ? item.status : '-'] ? 'block' : 'none',
+                    filterOptions[item.activity_name ? item.activity_name : '-' || item.status ? item.status : '-'] ? 'block' : 'none',
                     }} data-status={item.activity?.name ? item.activity.name : item.status}>
                   <div className='col-item d-flex align-items-start gap-4'>
                         <h1 style={{fill: item.activity ? item.activity.color : '-'}} className='fwb d-flex align-items-start mt-2' dangerouslySetInnerHTML={{ __html: item.icon }}></h1>
                         <div className='subject-tracking-parent'>
                             <p className='xl fwb tg2 subject-tracking'>{item.subject}</p>
-                            <p className='md2'>{item.created_at}</p>
-                            <div className='parent-status px-2 py-1' style={{backgroundColor: item.activity ? item.activity.color : '-'}}>
-                              <p className='xl fwb' >{item.activity ? item.activity.name : '-'}</p>
+                            <p className='md2'>{formatDateLong(item.created_at)}  {getTimeFromData(item.created_at)}</p>
+                            <div className='parent-status px-2 py-1' style={{backgroundColor: item.activity_color}}>
+                              <p className='xl fwb' >{item.activity_name}</p>
                             </div>
                         </div>
                     </div>
@@ -410,7 +418,7 @@ console.log('data filter',filteredData2)
                         <h1 style={{fill: item.activity ? item.activity.color : '-'}} className='fwb d-flex align-items-start mt-2' dangerouslySetInnerHTML={{ __html: item.icon }}></h1>
                         <div className='subject-tracking-parent'>
                             <p className='xl fwb tg2 subject-tracking'>{item.name}</p>
-                            <p className='md2'>{item.created_at}</p>
+                            <p className='md2'>{formatDateLong(item.created_at)}  {getTimeFromData(item.created_at)}</p>
                             <div className='online-speed d-flex align-items-center gap-3'>
                             {item.status === 'online' ? (
                               <div className='circle-status bg-lime'></div>

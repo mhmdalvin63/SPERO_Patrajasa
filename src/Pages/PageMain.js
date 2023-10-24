@@ -186,9 +186,9 @@ function MainNew() {
       .catch((error) => {
         console.log(error)
         setLoading(false);});
-  }, []);
+    }, []);
 
-  
+ 
 
     return (
         <div>
@@ -224,13 +224,13 @@ function MainNew() {
                         <div className='vl'></div>
                         <p className='xl text-lime'>Medium <span className='fwb'>{priority.medium}</span></p>
                         <div className='vl'></div>
-                        <p className='xl text-red'>Height <span className='fwb'>{priority.high}</span></p>
+                        <p className='xl text-red'>High <span className='fwb'>{priority.high}</span></p>
                     </div>
                 </div>
             </div>
 
             <div className='SvgMaps'>
-                <SvgMaps parameter = 'week'/>
+                <SvgMaps parameter = 'day'/>
             </div>
 
             <div className='main-new-bottom px-5'>
@@ -443,7 +443,7 @@ function MainNew() {
                         <div className='vl'></div>
                         <p className='xl text-lime'>Medium <span className='fwb'>{priorityWeek.medium}</span></p>
                         <div className='vl'></div>
-                        <p className='xl text-red'>Height <span className='fwb'>{priorityWeek.high}</span></p>
+                        <p className='xl text-red'>High <span className='fwb'>{priorityWeek.high}</span></p>
                     </div>
                 </div>
             </div>
@@ -662,7 +662,7 @@ function MainNew() {
                         <div className='vl'></div>
                         <p className='xl text-lime'>Medium <span className='fwb'>{priorityMonth.medium}</span></p>
                         <div className='vl'></div>
-                        <p className='xl text-red'>Height <span className='fwb'>{priorityMonth.high}</span></p>
+                        <p className='xl text-red'>High <span className='fwb'>{priorityMonth.high}</span></p>
                     </div>
                 </div>
             </div>
@@ -881,7 +881,7 @@ function MainNew() {
                         <div className='vl'></div>
                         <p className='xl text-lime'>Medium <span className='fwb'>{priorityYear.medium}</span></p>
                         <div className='vl'></div>
-                        <p className='xl text-red'>Height <span className='fwb'>{priorityYear.high}</span></p>
+                        <p className='xl text-red'>High <span className='fwb'>{priorityYear.high}</span></p>
                     </div>
                 </div>
             </div>

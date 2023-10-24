@@ -84,10 +84,12 @@ function PageTicket() {
           return false;
         }
 
-        // Filter by search input
-        if (search && !item.ticket_code.toLowerCase().includes(search.toLowerCase()) || search && !item.category.name.toLowerCase().includes(search.toLowerCase())) {
-          return false;
-        }
+       // Filter by search input
+    if (search && !item.ticket_code.toLowerCase().includes(search.toLowerCase()) &&
+    !item.category.name.toLowerCase().includes(search.toLowerCase()) && 
+    !item.activity.name.toLowerCase().includes(search.toLowerCase()) ) {
+    return false;
+    }
            
         // Filter by selected category
         
@@ -213,9 +215,9 @@ function PageTicket() {
                 </tr>
                 </thead>
                 <tbody className='page-ticket-bottom-tbody'>
-                {filteredData.map((item, id) => (
+                {filteredData.map((item, index) => (
                     <tr className='text-center'>
-                    <td>{item.id}</td>
+                    <td>{index + 1}</td>
                     <td>{item.ticket_code}</td>
                     <td>{item.category.name}</td>
                     <td>

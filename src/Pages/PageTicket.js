@@ -216,9 +216,11 @@ NothingHaveToken()
         }
 
         // Filter by search input
-        if (search && !item.ticket_code.toLowerCase().includes(search.toLowerCase())) {
-          return false;
-        }
+    if (search && !item.ticket_code.toLowerCase().includes(search.toLowerCase()) &&
+    !item.category.name.toLowerCase().includes(search.toLowerCase()) && 
+    !item.activity.name.toLowerCase().includes(search.toLowerCase()) ) {
+    return false;
+    }
            
         // Filter by selected category
         
