@@ -41,7 +41,7 @@ useEffect(() => {
   axios.get(`${process.env.REACT_APP_API_URL}api/dashboard/tracking`, { headers: {"Authorization" : `Bearer ${token}`} })
   .then((result) => {
     console.log('TICKETT WOIIIIIIIIIII', result.data.data);
-    setTicket(result.data.data);
+    setTicket(result.data.data ?? 0);
     setLoading(false);
   })
   .catch((error) => {
@@ -49,8 +49,19 @@ useEffect(() => {
 setLoading(false);});
 }, []);
 
-let byTicketId = Ticket.filter(item => item.ticket_id);
-let byDriverId = Ticket.filter(item => item.driver_id);
+// let byTicketId = Ticket.filter(item => item.ticket_id);
+let byTicketId;
+if (Array.isArray(Ticket)) {
+  byTicketId = Ticket.filter(item => item.ticket_id);
+} else {
+  byTicketId = []; // or set to any default value you prefer
+}
+let byDriverId;
+if (Array.isArray(Ticket)) {
+  byDriverId = Ticket.filter(item => item.name);
+} else {
+  byDriverId = []; // or set to any default value you prefer
+}
 console.log(byTicketId)
 console.log(byDriverId)
 
@@ -69,37 +80,51 @@ const [search, setSearch] = useState('');
 // const offlineCheckbox = document.getElementById('offlineCheckbox');
 // SEARCH TIKET
 // Filter data for the first tab based on the search query
-const filteredData1 = byTicketId.filter((item) => {
-// Filter by search input
-if (item.subject !== null) {
-  if (search && !item.subject.toLowerCase().includes(search.toLowerCase())) {
-    return false;
-   }
-   return true;
-} else {
-  console.error('yourVariable is null');
-}
-});
-  const [onlineCheckbox, setOnlineCheckbox] = useState(false);
-  const [offlineCheckbox, setOfflineCheckbox] = useState(false);
-const filteredData2 = byDriverId.filter((item) => {
-  if (item.name !== null) {
-    if (search && !item.name.toLowerCase().includes(search.toLowerCase())) {
-      return false;
-     }
-    
-    if (onlineCheckbox && item.status !== 'online') {
-      return false;
-    }
 
-    if (offlineCheckbox && item.status !== 'offline') {
-      return false;
+let filteredData1 = [];
+let filteredData2  = [];
+
+if (byTicketId) {
+  filteredData1 = byTicketId.filter((item) => {
+    if (item.subject !== null) {
+      if (search && !item.subject.toLowerCase().includes(search.toLowerCase())) {
+        return false;
+      }
+      return true;
+    } else {
+      console.error('yourVariable is null');
     }
-     return true;
-  } else {
-    console.error('yourVariable is null');
-  }
-});
+  });
+} else {
+  console.error('byTicketId is null');
+}
+const [onlineCheckbox, setOnlineCheckbox] = useState(false);
+  const [offlineCheckbox, setOfflineCheckbox] = useState(false);
+if (byDriverId) {
+  filteredData2 = byDriverId.filter((item) => {
+    if (item.name !== null) {
+      if (search && !item.name.toLowerCase().includes(search.toLowerCase())) {
+        return false;
+       }
+      
+      if (onlineCheckbox && item.status !== 'online') {
+        return false;
+      }
+  
+      if (offlineCheckbox && item.status !== 'offline') {
+        return false;
+      }
+       return true;
+    } else {
+      console.error('yourVariable is null');
+    }
+  });
+} else {
+  console.error('byTicketId is null');
+}
+
+  
+
 
 
 // PAGINATION

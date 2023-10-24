@@ -69,35 +69,41 @@ function PageTicket() {
         const [endDate, setEndDate] = useState('');
         const [search, setSearch] = useState('');
         const [selectedCategoryId, setSelectedCategoryId] = useState('');
-      
-        const filteredData = Ticket.filter((item) => {
-              // Filter by time range
-          const startTime = new Date(item.start_time);
-          const endTime = new Date(item.range_time);
+        let filteredData  = [];
 
-          if (
-            (startDate && startTime <= new Date(startDate)) ||
-            (endDate && endTime <= new Date(endDate))
-          ) {
-            return false;
-          }
+        if (Ticket) {
+          filteredData = Ticket.filter((item) => {
+            // Filter by time range
+        const startTime = new Date(item.start_time);
+        const endTime = new Date(item.range_time);
 
-          // Filter by search input
-          if (search && !item.ticket_code.toLowerCase().includes(search.toLowerCase()) || search && !item.category.name.toLowerCase().includes(search.toLowerCase())) {
-            return false;
-          }
-             
-          // Filter by selected category
-          
-          if (
-            (selectedCategoryId && item.category.name !== selectedCategoryId)
-          ) {
-            return false;
-          }
+        if (
+          (startDate && startTime <= new Date(startDate)) ||
+          (endDate && endTime <= new Date(endDate))
+        ) {
+          return false;
+        }
 
-      
-          return true;
-        });
+        // Filter by search input
+        if (search && !item.ticket_code.toLowerCase().includes(search.toLowerCase()) || search && !item.category.name.toLowerCase().includes(search.toLowerCase())) {
+          return false;
+        }
+           
+        // Filter by selected category
+        
+        if (
+          (selectedCategoryId && item.category.name !== selectedCategoryId)
+        ) {
+          return false;
+        }
+
+    
+        return true;
+      });
+        } else {
+          console.error('byTicketId is null');
+        }
+         
 
         const calculateTimeDifference = (rangeTime) => {
           const now = new Date(); // Waktu sekarang
@@ -164,9 +170,14 @@ function PageTicket() {
                     <Form.Select onChange={(e) => setSelectedCategoryId(e.target.value)}
                     value={selectedCategoryId} aria-label="Default select example">
                     <option value=''>Open this select menu</option>
-                    {Kategori.map((item) => (
-                    <option value={item.name}>{item.name}</option>
-                    ))}
+                    {Kategori &&
+                    Kategori.map((item) =>
+                      item ? (
+                        <option key={item.name} value={item.name}>
+                          {item.name}
+                        </option>
+                      ) : null
+                    )}
                     </Form.Select>
                     {/* <p>selected : {selectedCategoryId}</p> */}
                 </Form.Group>

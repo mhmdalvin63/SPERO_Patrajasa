@@ -10,16 +10,22 @@ const IndonesiaMap = (props) => {
 
   const [loading, setLoading] = useState(true);
   const [EarthQuakes, SetEarthQuakes] = useState([]);
-  const mappedPoints = EarthQuakes.map(item => {
-    // Perform some operation on each element, for example:
-    return {
-      province: item.province,
-      middle_lat: item.middle_lat,
-      middle_long: item.middle_long,
-      count: item.count,
-      image: Radius
-    };
-  });
+  
+  let mappedPoints;
+  if (Array.isArray(EarthQuakes)) {
+    mappedPoints = EarthQuakes.map(item => {
+      // Perform some operation on each element, for example:
+      return {
+        province: item.province,
+        middle_lat: item.middle_lat,
+        middle_long: item.middle_long,
+        count: item.count,
+        image: Radius
+      };
+    });
+  } else {
+    mappedPoints = []; // or set to any default value you prefer
+  }
   console.log('MAPPEDDDDDD', mappedPoints)
 
    // Convert the parameters object into a URL-encoded string

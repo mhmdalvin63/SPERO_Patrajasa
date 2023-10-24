@@ -33,7 +33,7 @@ function App(props) {
     axios.get(`${process.env.REACT_APP_API_URL}api/dashboard/tracking`, { headers: {"Authorization" : `Bearer ${token}`} })
     .then((result) => {
       console.log('MAPSSSSSSSSSS', result.data.data);
-      setMaps(result.data.data);
+      setMaps(result.data.data ?? 0);
       const filterMarkers = result.data.data
       .filter(item => item.ticket_id) // Filter only items with a ticketid
       .map(item => ({
@@ -126,7 +126,7 @@ function App(props) {
                             <div className="header-maps-image p-2">
                               <p dangerouslySetInnerHTML={{ __html: icon }}></p>
                             </div>
-                            <h3 className="text-white">hai</h3>
+                            <h3 className="text-white">{ticketid}</h3>
                           </div>
                           <div className="header-maps-right">
                             <div className="border-status-maps px-3 py-1">
@@ -155,8 +155,8 @@ function App(props) {
                                 <td><h3>: {ticketid}</h3></td>
                               </tr>
                               <tr>
-                                <td colSpan={2}><h3>Company</h3></td>
-                                <td><h3>: PT Patra Jasa</h3></td>
+                                <td colSpan={2}><h3>Subject</h3></td>
+                                <td><h3>: {subject}</h3></td>
                               </tr>
                               <tr>
                                 <td colSpan={2}><h3>Informasi</h3></td>

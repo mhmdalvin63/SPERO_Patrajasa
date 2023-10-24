@@ -105,12 +105,36 @@ NothingHaveToken()
             setLoading(false);});
   }, []);
 
-  let DataOpen = Ticket.filter(item => item.activity.name === 'open');
+  let DataOpen;
+  if (Array.isArray(Ticket)) {
+    DataOpen = Ticket.filter(item => item.activity.name === 'open');
+  } else {
+    DataOpen = []; // or set to any default value you prefer
+  }
+  let DataProcess;
+  if (Array.isArray(Ticket)) {
+    DataProcess = Ticket.filter(item => item.activity.name === 'process');
+  } else {
+    DataProcess = []; // or set to any default value you prefer
+  }
+  let DataDone;
+  if (Array.isArray(Ticket)) {
+    DataDone = Ticket.filter(item => item.activity.name === 'done');
+  } else {
+    DataDone = []; // or set to any default value you prefer
+  }
+  let DataClosed;
+  if (Array.isArray(Ticket)) {
+    DataClosed = Ticket.filter(item => item.activity.name === 'closed');
+  } else {
+    DataClosed = []; // or set to any default value you prefer
+  }
+  // let DataOpen = Ticket.filter(item => item.activity.name === 'open');
 //   let openColor = ['color'];
 //   let dataforwarding = Ticket.filter(item => item.activity.name === 'forwarding');
-  let DataProcess = Ticket.filter(item => item.activity.name === 'process');
-  let DataDone = Ticket.filter(item => item.activity.name === 'done');
-  let DataClosed = Ticket.filter(item => item.activity.name === 'closed');
+  // let DataProcess = Ticket.filter(item => item.activity.name === 'process');
+  // let DataDone = Ticket.filter(item => item.activity.name === 'done');
+  // let DataClosed = Ticket.filter(item => item.activity.name === 'closed');
   console.log('DATAAAAAA', DataOpen)
 
 
@@ -349,9 +373,10 @@ NothingHaveToken()
               </tr>
             </thead>
             <tbody id='page-ticket-bottom-tbody'>
-            {Ticket.map((item, index) => (
+            {Ticket ? (
+              Ticket.map((item, index) => (
                 <tr className='text-center' key={index}>
-                  <td>{index+1}</td>
+                  <td>{index + 1}</td>
                   <td>{item.id}</td>
                   <td>Tukar Armada</td>
                   <td>
@@ -366,10 +391,15 @@ NothingHaveToken()
                     <p>{item.category.name}</p>
                   </td>
                   <td className='text-blue'>
-                    <p style={{color: item.activity.color}}>{item.activity.name}</p>
+                    <p style={{ color: item.activity.color }}>{item.activity.name}</p>
                   </td>
                 </tr>
-            ))}
+              ))
+            ) : (
+              <tr>
+                <td colSpan="7">No data available</td>
+              </tr>
+            )}
             </tbody>
                             </Table>
                             </Dropdown.Menu>
@@ -487,9 +517,14 @@ NothingHaveToken()
                     <Form.Select onChange={(e) => setSelectedCategoryId(e.target.value)}
                     value={selectedCategoryId} aria-label="Default select example">
                     <option value=''>Open this select menu</option>
-                    {Kategori.map((item) => (
-                    <option value={item.name}>{item.name}</option>
-                    ))}
+                    {Kategori &&
+                      Kategori.map((item) =>
+                        item ? (
+                          <option key={item.name} value={item.name}>
+                            {item.name}
+                          </option>
+                        ) : null
+                      )}
                     </Form.Select>
                     {/* <p>selected : {selectedCategoryId}</p> */}
                 </Form.Group>
@@ -618,9 +653,14 @@ NothingHaveToken()
                     <Form.Select onChange={(e) => setSelectedCategoryId(e.target.value)}
                     value={selectedCategoryId} aria-label="Default select example">
                     <option value=''>Open this select menu</option>
-                    {Kategori.map((item) => (
-                    <option value={item.name}>{item.name}</option>
-                    ))}
+                    {Kategori &&
+                    Kategori.map((item) =>
+                      item ? (
+                        <option key={item.name} value={item.name}>
+                          {item.name}
+                        </option>
+                      ) : null
+                    )}
                     </Form.Select>
                     {/* <p>selected : {selectedCategoryId}</p> */}
                 </Form.Group>
@@ -755,9 +795,14 @@ NothingHaveToken()
                     <Form.Select onChange={(e) => setSelectedCategoryId(e.target.value)}
                     value={selectedCategoryId} aria-label="Default select example">
                     <option value=''>Open this select menu</option>
-                    {Kategori.map((item) => (
-                    <option value={item.name}>{item.name}</option>
-                    ))}
+                    {Kategori &&
+                    Kategori.map((item) =>
+                      item ? (
+                        <option key={item.name} value={item.name}>
+                          {item.name}
+                        </option>
+                      ) : null
+                    )}
                     </Form.Select>
                     {/* <p>selected : {selectedCategoryId}</p> */}
                 </Form.Group>
@@ -892,9 +937,14 @@ NothingHaveToken()
                     <Form.Select onChange={(e) => setSelectedCategoryId(e.target.value)}
                     value={selectedCategoryId} aria-label="Default select example">
                     <option value=''>Open this select menu</option>
-                    {Kategori.map((item) => (
-                    <option value={item.name}>{item.name}</option>
-                    ))}
+                    {Kategori &&
+                    Kategori.map((item) =>
+                      item ? (
+                        <option key={item.name} value={item.name}>
+                          {item.name}
+                        </option>
+                      ) : null
+                    )}
                     </Form.Select>
                     {/* <p>selected : {selectedCategoryId}</p> */}
                 </Form.Group>
