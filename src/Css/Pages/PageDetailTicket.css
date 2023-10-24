@@ -499,11 +499,14 @@ header h1{
   align-items: flex-end;
 }
 .self .msg {
-  background-color: #6A6CFF !important;
+  background-color: #1767B3 !important;
   color: white !important;
   order: 1;
   border-bottom-right-radius: 0px;
   /* box-shadow: 1px 2px 0px #D4D4D4; */
+}
+.self .msg h4:nth-child(1){
+  color: #7AC241 !important;
 }
 .self .avatar {
   order: 2;
@@ -530,11 +533,12 @@ header h1{
   border-radius: 20px;
   /* box-shadow: 0px 2px 0px rgba(0, 0, 0, 0.07); */
 }
-.msg h4 {
+.msg h4:nth-child(1) {
   width: 100%; /* Sesuaikan dengan lebar yang Anda inginkan */
   white-space: nowrap; /* Mencegah teks memecah ke baris baru secara horizontal */
   text-wrap: wrap; /* Mengatur overflow untuk teks yang melebihi lebar kontainer */
   /* text-overflow: ellipsis; /* */
+  color: #00c4f3;
   margin: 0 0 0.2rem 0;
   /* color: #777; */
 }

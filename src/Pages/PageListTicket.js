@@ -83,7 +83,7 @@ function PageTicket() {
           }
 
           // Filter by search input
-          if (search && !item.ticket_code.toLowerCase().includes(search.toLowerCase())) {
+          if (search && !item.ticket_code.toLowerCase().includes(search.toLowerCase()) || search && !item.category.name.toLowerCase().includes(search.toLowerCase())) {
             return false;
           }
              

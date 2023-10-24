@@ -30,7 +30,7 @@ function App(props) {
   let Driver = [];
   useEffect(() => {
     const token = sessionStorage.getItem("jwttoken");
-    axios.get(process.env.REACT_APP_API_URL + 'api/dashboard/tracking', { headers: {"Authorization" : `Bearer ${token}`} })
+    axios.get(`${process.env.REACT_APP_API_URL}api/dashboard/tracking`, { headers: {"Authorization" : `Bearer ${token}`} })
     .then((result) => {
       console.log('MAPSSSSSSSSSS', result.data.data);
       setMaps(result.data.data);
@@ -64,7 +64,7 @@ function App(props) {
   }, []);
 
   const { isLoaded } = useLoadScript({
-    googleMapsApiKey: process.env.PUBLIC_GOOGLE_MAPS_API_KEY
+    googleMapsApiKey: process.env.REACT_APP_GOOGLE_MAPS_API_KEY
   });
 
   const [activeMarker, setActiveMarker] = useState(null);
@@ -75,6 +75,9 @@ function App(props) {
     console.log(JSON.stringify(activeMarker))
     setActiveMarker(marker);
   };
+
+  console.log('ticket woi', Markers)
+  console.log('driver woi', Drivers)
   
 
  

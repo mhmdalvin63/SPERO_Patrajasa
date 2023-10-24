@@ -6,6 +6,7 @@ import Form from 'react-bootstrap/Form';
 import Loading from '../../Parts/Loading';
 
 import { Icon } from '@iconify/react';
+const apiUrl = process.env.REACT_APP_API_URL;
 
 const MultiAxisLineChart = () => {
 
@@ -18,11 +19,11 @@ const MultiAxisLineChart = () => {
   const handleChange = (e) => {
     setSelectedOption(e.target.value);
   };
-
+  // const apiUrl = process.env.REACT_APP_API_URL;
   // D R I V E R
   useEffect(() => {
     const token = sessionStorage.getItem("jwttoken");
-     axios.get(`${process.env.REACT_APP_API_URL}api/dashboard/ticket/daily?month=${selectedOption}`, { headers: {"Authorization" : `Bearer ${token}`} })
+     axios.get(`${apiUrl}api/dashboard/ticket/daily?month=${selectedOption}`, { headers: {"Authorization" : `Bearer ${token}`} })
       .then((result) => {
         console.log('DATA BULANNNNNNNNNNNN',result.data.data);
         setData(result.data.data.days);
@@ -32,6 +33,7 @@ const MultiAxisLineChart = () => {
         console.log(error)
         setLoading(false);});
     }, [selectedOption]);
+    // console.log(`process.env.REACT_APP_API_URL`)
 
     
     // for(const i in Data){

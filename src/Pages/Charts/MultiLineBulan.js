@@ -4,6 +4,8 @@ import axios from 'axios';
 import { useState, useEffect } from 'react';
 import Form from 'react-bootstrap/Form';
 import Loading from '../../Parts/Loading';
+const apiUrl = process.env.REACT_APP_API_URL;
+
 
 
 const MultiAxisLineChart = () => {
@@ -22,7 +24,7 @@ const MultiAxisLineChart = () => {
   // D R I V E R
   useEffect(() => {
     const token = sessionStorage.getItem("jwttoken");
-     axios.get(`${process.env.REACT_APP_API_URL}api/dashboard/ticket/monthly?category_id=${selectedOption}`, { headers: {"Authorization" : `Bearer ${token}`} })
+     axios.get(`${apiUrl}api/dashboard/ticket/monthly?category_id=${selectedOption}`, { headers: {"Authorization" : `Bearer ${token}`} })
       .then((result) => {
         // console.log(result.data.data.months);
         setDataPerBulan(result.data.data.months);
@@ -32,7 +34,7 @@ const MultiAxisLineChart = () => {
         console.log(error)
         setLoading(false);});
 
-     axios.get(process.env.REACT_APP_API_URL + 'api/dashboard/ticket/get-categories', { headers: {"Authorization" : `Bearer ${token}`} })
+     axios.get('${apiUrl}api/dashboard/ticket/get-categories', { headers: {"Authorization" : `Bearer ${token}`} })
       .then((result) => {
         console.log('KATEGORI BRO',result.data.data);
         setKategori(result.data.data);

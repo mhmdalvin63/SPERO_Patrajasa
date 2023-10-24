@@ -26,10 +26,10 @@ import { useEffect, useState } from 'react';
 import axios from 'axios';
 import Loading from '../Parts/Loading';
 // import { useState } from 'react';
-
-
+import NothingHaveToken from '../Parts/NothingHaveToken';
 
 function MainNew() {
+    NothingHaveToken()
     const [loading, setLoading] = useState(true);
 
     // T I C K E T   S U M M A R Y

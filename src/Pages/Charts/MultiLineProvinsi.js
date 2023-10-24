@@ -4,6 +4,8 @@ import axios from 'axios';
 import { useState, useEffect } from 'react';
 // import Form from 'react-bootstrap/Form';
 import Loading from '../../Parts/Loading';
+const apiUrl = process.env.REACT_APP_API_URL;
+
 
 
 const MultiAxisLineChart = () => {
@@ -14,7 +16,7 @@ const MultiAxisLineChart = () => {
   // D R I V E R
   useEffect(() => {
     const token = sessionStorage.getItem("jwttoken");
-     axios.get(process.env.REACT_APP_API_URL + 'api/dashboard/ticket/each-province', { headers: {"Authorization" : `Bearer ${token}`} })
+     axios.get(`${apiUrl}api/dashboard/ticket/each-province`, { headers: {"Authorization" : `Bearer ${token}`} })
       .then((result) => {
         console.log('okkkkkkkkkkkkkkkkkk',result.data.data);
         setDataPerProvinsi(result.data.data);

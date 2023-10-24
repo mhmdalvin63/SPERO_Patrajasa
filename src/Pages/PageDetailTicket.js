@@ -201,8 +201,10 @@ function DetailComponent() {
                                         <li key={id} className={item.user_id === 3 ? 'self' : 'other'}>
                                             <div className="avatar"><img src="https://i.imgur.com/DY6gND0.png" draggable="false"/></div>
                                         <div className="msg">
+                                            <h4>{item.user.name}</h4>
+                                            <div className='my-2'/>
                                             <h4>{item.content}</h4>
-                                            <time>{getTimeFromData(item.created_at)}</time>
+                                            <div className='text-end'>{getTimeFromData(item.created_at)}</div>
                                         </div>
                                         </li>
                                     ))}
