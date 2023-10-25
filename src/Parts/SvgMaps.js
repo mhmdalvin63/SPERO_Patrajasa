@@ -66,18 +66,32 @@ const IndonesiaMap = (props) => {
       {mappedPoints.map((item, index) => {
         const cx = (item.middle_long - minX) / (maxX - minX) * 1800;
         const cy = 600 - ((item.middle_lat - minY) / (maxY - minY) * 600);
+        let x, y;
+        if (item.count < 10) {
+          x = 25;
+          y = 75;
+        } else if (item.count < 20) {
+          x = 12.5; // Atur nilai x sesuai dengan kondisi ini
+          y = 85; // Atur nilai y sesuai dengan kondisi ini
+        } else if (item.count < 30) {
+          x = 0; // Atur nilai x sesuai dengan kondisi ini
+          y = 80; // Atur nilai y sesuai dengan kondisi ini
+        }
+
+        console.log(x, y)
 
         return (
+          
           <g key={index}>
           <image
             x={cx - 25} // Adjust the position as needed
             y={cy - 30} // Adjust the position as needed
-            width="50"
-            height="50"
+            // width="50"
+            width={item.count < 10 ? "50" : item.count < 20 ? "75" : item.count < 30 ? "100" : "100"}
             xlinkHref= {item.image} // Use the URL from your data
             onClick={() => handleMarkerClick(index)}
           />(
-                <foreignObject x={cx - 25} y={cy - 75} width="200" height="100">
+                <foreignObject x={cx - x} y={cy - y} width="200" height="100">
                   <div class="ribbon-label">
                     <div class="arrow-down"></div>
                     <p>{item.count}</p>
