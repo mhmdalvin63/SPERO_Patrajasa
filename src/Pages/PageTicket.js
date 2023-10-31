@@ -55,11 +55,50 @@ NothingHaveToken()
   const [Kategori, setKategori] = useState([]);
 
   const [Ticket, setTicket] = useState([]);
+  
+  // const token = sessionStorage.getItem("jwttoken");
+  // const fetchData = async () => {
+  //   try {
+  //     const result = await axios.get(`${process.env.REACT_APP_API_URL}api/ticket/summary`, { headers: {"Authorization" : `Bearer ${token}`} });
+  //       setPosts(result.data.data.total_priority);
+  //       setPriority(result.data.data.total_priority);
+  //       setOpen(result.data.data.status.open);
+  //       setopenlow(result.data.data.status.open.priority[0].value);
+  //       setopenmedium(result.data.data.status.open.priority[1].value);
+  //       setopenhigh(result.data.data.status.open.priority[2].value);
+  //       setProses(result.data.data.status.process);
+  //       setprocesslow(result.data.data.status.process.priority[0].value);
+  //       setprocessmedium(result.data.data.status.process.priority[1].value);
+  //       setprocesshigh(result.data.data.status.process.priority[2].value);
+  //       setDone(result.data.data.status.done);
+  //       setDoneLow(result.data.data.status.done.priority[0].value);
+  //       setDoneMedium(result.data.data.status.done.priority[1].value);
+  //       setDoneHigh(result.data.data.status.done.priority[2].value);
+  //       setClose(result.data.data.status.closed);
+  //       setclosedlow(result.data.data.status.closed.priority[0].value);
+  //       setclosedmedium(result.data.data.status.closed.priority[1].value);
+  //       setclosedhigh(result.data.data.status.closed.priority[2].value);
+  //       setLoading(false);
+  //   } catch (error) {
+  //     console.log(error)
+  //     setLoading(false);
+  //   }
+  // };
+  // useEffect(() => {
+  //   // Lakukan pemanggilan pertama
+  //   fetchData();
+
+  //   // Atur interval polling (misalnya, setiap 5 detik)
+  //   const intervalId = setInterval(fetchData, 10000);
+
+  //   // Membersihkan interval saat komponen di-unmount
+  //   return () => clearInterval(intervalId);
+  // }, []);
+
     useEffect(() => {
     const token = sessionStorage.getItem("jwttoken");
      axios.get(`${process.env.REACT_APP_API_URL}api/ticket/summary`, { headers: {"Authorization" : `Bearer ${token}`} })
       .then((result) => {
-        // console.log('DATAAAAAAAAAAAAAAAAA', result.data.data);
         setPosts(result.data.data.total_priority);
         setPriority(result.data.data.total_priority);
         setOpen(result.data.data.status.open);
@@ -82,7 +121,8 @@ NothingHaveToken()
       })
       .catch((error) => {
         console.log(error)
-    setLoading(false);});
+    setLoading(false);
+  });
 
      axios.get(`${process.env.REACT_APP_API_URL}api/dashboard/ticket`, { headers: {"Authorization" : `Bearer ${token}`} })
       .then((result) => {
@@ -205,15 +245,16 @@ NothingHaveToken()
       
         const filteredTicketOpen= DataOpen.filter((item) => {
             // Filter by time range
-        const startTime = new Date(item.start_time);
-        const endTime = new Date(item.range_time);
-
-        if (
-          (startDate && startTime < new Date(startDate)) ||
-            (endDate && endTime <= new Date(endDate))
-        ) {
-          return false;
-        }
+            const startTime = new Date(item.start_time);
+            const endTime = new Date(item.range_time);
+    
+            if (
+              (startDate && endDate) && // Check if both startDate and endDate are specified
+              (startTime < new Date(startDate) || endTime < new Date(endDate))
+            ) {
+              return false;
+            }
+      
 
         // Filter by search input
     if (search && !item.ticket_code.toLowerCase().includes(search.toLowerCase()) &&
@@ -245,12 +286,14 @@ NothingHaveToken()
           return false;
         }
 
-        // Filter by search input
-        if (search && !item.ticket_code.toLowerCase().includes(search.toLowerCase())) {
-          return false;
-        }
+       // Filter by search input
+    if (search && !item.ticket_code.toLowerCase().includes(search.toLowerCase()) &&
+    !item.category.name.toLowerCase().includes(search.toLowerCase()) && 
+    !item.activity.name.toLowerCase().includes(search.toLowerCase()) ) {
+    return false;
+    }
            
-        // Filter by selected category
+        // Filter by selected category 
         
         if (
           (selectedCategoryId && item.category.name !== selectedCategoryId)
@@ -273,10 +316,12 @@ NothingHaveToken()
           return false;
         }
 
-        // Filter by search input
-        if (search && !item.ticket_code.toLowerCase().includes(search.toLowerCase())) {
-          return false;
-        }
+       // Filter by search input
+    if (search && !item.ticket_code.toLowerCase().includes(search.toLowerCase()) &&
+    !item.category.name.toLowerCase().includes(search.toLowerCase()) && 
+    !item.activity.name.toLowerCase().includes(search.toLowerCase()) ) {
+    return false;
+    }
            
         // Filter by selected category
         
@@ -301,10 +346,42 @@ NothingHaveToken()
           return false;
         }
 
-        // Filter by search input
-        if (search && !item.ticket_code.toLowerCase().includes(search.toLowerCase())) {
+       // Filter by search input
+    if (search && !item.ticket_code.toLowerCase().includes(search.toLowerCase()) &&
+    !item.category.name.toLowerCase().includes(search.toLowerCase()) && 
+    !item.activity.name.toLowerCase().includes(search.toLowerCase()) ) {
+    return false;
+    }
+           
+        // Filter by selected category
+        
+        if (
+          (selectedCategoryId && item.category.name !== selectedCategoryId)
+        ) {
           return false;
         }
+
+    
+        return true;
+        });
+        const allDataFiltered= Ticket.filter((item) => {
+            // Filter by time range
+        const startTime = new Date(item.start_time);
+        const endTime = new Date(item.range_time);
+
+        if (
+          (startDate && startTime <= new Date(startDate)) ||
+            (endDate && endTime <= new Date(endDate))
+        ) {
+          return false;
+        }
+
+       // Filter by search input
+    if (search && !item.ticket_code.toLowerCase().includes(search.toLowerCase()) &&
+    !item.category.name.toLowerCase().includes(search.toLowerCase()) && 
+    !item.activity.name.toLowerCase().includes(search.toLowerCase()) ) {
+    return false;
+    }
            
         // Filter by selected category
         
@@ -337,73 +414,112 @@ NothingHaveToken()
                             <p className='text-blue'>Table Ticket</p>
                             </Dropdown.Toggle>
                             <Dropdown.Menu className='menu-dropdown-table-ticket'>
-                                <div className='filtering-table-dropdown-ticket px-3 my-3'>
-                                    <div className='d-flex gap-4 align-items-end'>
-                                        <Form.Group className='select-date' controlId="sd">
-                                        <Form.Label><p className='nw'><Icon icon="bx:calendar" /> Start Date</p></Form.Label>
-                                        <Form.Control type="date" name="sd" placeholder="Start Date" />
-                                    </Form.Group>
-                                    <Form.Group className='select-date' controlId="ed">
-                                        <Form.Label><p className='nw'><Icon icon="bx:calendar" /> End Date</p></Form.Label>
-                                        <Form.Control type="date" name="ed" placeholder="End Date" />
-                                    </Form.Group>
-                                    <Form.Group className='select-date' controlId="ed">
-                                        <Form.Label><p className='nw'><Icon icon="material-symbols:border-all" /> Kategori</p></Form.Label>
-                                        <Form.Select aria-label="Default select example">
-                                        <option>Open this select menu</option>
-                                        <option value="1">One</option>
-                                        <option value="2">Two</option>
-                                        <option value="3">Three</option>
-                                        </Form.Select>
-                                    </Form.Group>
-                                    </div>
-                                    <Form className='search-bottom d-flex align-items-center'>
-                                        <FormControl type="text" placeholder="Search" className="icon2 mr-sm-2" />
-                                        <Button className='icon'><Icon icon="ri:search-line" /></Button>
-                                    </Form>
-                                </div>
-                            <Table responsive>
-            <thead className='bg-blue w-100' id='page-ticket-bottom-thead'>
-              <tr className='text-center text-white'>
-                <th className='text-center'>NO</th>
-                <th>ID Ticket</th>
-                <th>Title</th>
-                <th>Ticket Masuk</th>
-                <th>Dateline Ticket</th>
-                <th>Prioritas</th>
-                <th>Status</th>
-              </tr>
-            </thead>
-            <tbody id='page-ticket-bottom-tbody'>
-            {Ticket ? (
-              Ticket.map((item, index) => (
-                <tr className='text-center' key={index}>
-                  <td>{index + 1}</td>
-                  <td>{item.id}</td>
-                  <td>Tukar Armada</td>
-                  <td>
-                    <p>12 Sept’ 2023</p>
-                    <p className='text-red'>11 : 14 WIB</p>
-                  </td>
-                  <td>
-                    <p>12 Sept’ 2023</p>
-                    <p className='text-red'>11 : 14 WIB</p>
-                  </td>
-                  <td className='text-blue'>
-                    <p>{item.category.name}</p>
-                  </td>
-                  <td className='text-blue'>
-                    <p style={{ color: item.activity.color }}>{item.activity.name}</p>
-                  </td>
+                                                        <div className='table-list-ticket px-5'>
+            <div className='filtering-table-dropdown-ticket px-3 my-3'>
+                <div className='d-flex align-items-center gap-5'>
+                <Form.Group className='select-date' controlId="sd">
+                    <Form.Label><p className='nw'><Icon icon="bx:calendar" /> Start Date</p></Form.Label>
+                    {/* <Form.Control type="date" name="sd" placeholder="Start Date" /> */}
+                    
+          <input
+          type="date"
+          placeholder="Start Date"
+          value={startDate}
+          onChange={(e) => setStartDate(e.target.value)}
+        />
+                </Form.Group>
+                <Form.Group className='select-date' controlId="ed">
+                    <Form.Label><p className='nw'><Icon icon="bx:calendar" /> End Date</p></Form.Label>
+                    {/* <Form.Control type="date" name="ed" placeholder="End Date" /> */}
+                    <input
+          type="date"
+          placeholder="End Date"
+          value={endDate}
+          onChange={(e) => setEndDate(e.target.value)}
+        />
+                </Form.Group>
+                <Form.Group className='select-date' controlId="ed">
+                    <Form.Label><p className='nw'><Icon icon="material-symbols:border-all" /> Kategori</p></Form.Label>
+                    <Form.Select onChange={(e) => setSelectedCategoryId(e.target.value)}
+                    value={selectedCategoryId} aria-label="Default select example">
+                    <option value=''>Open this select menu</option>
+                    {Kategori &&
+                      Kategori.map((item) =>
+                        item ? (
+                          <option key={item.name} value={item.name}>
+                            {item.name}
+                          </option>
+                        ) : null
+                      )}
+                    </Form.Select>
+                    {/* <p>selected : {selectedCategoryId}</p> */}
+                </Form.Group>
+                </div>
+                <Form className='search-bottom d-flex align-items-center'>
+                    {/* <FormControl
+                      type="text"
+                      placeholder="Search..."
+                      value={search}
+                      onChange={(e) => setSearch(e.target.value)} className="icon2 mr-sm-2" /> */}
+                      
+          <input
+          type="text"
+          placeholder="Search"
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
+        />
+                    <Button className='icon'><Icon icon="ri:search-line" /></Button>
+                </Form>
+            </div>
+            <Table responsive>
+                <thead className='bg-blue w-100' id='page-ticket-bottom-thead'>
+                <tr className='text-center text-white'>
+                    <th className='text-center'>NO</th>
+                    <th>ID Ticket</th>
+                    <th>Title</th>
+                    <th>Ticket Masuk</th>
+                    <th>Dateline Ticket</th>
+                    <th>Prioritas</th>
+                    <th>Status</th>
                 </tr>
-              ))
-            ) : (
-              <tr>
-                <td colSpan="7">No data available</td>
-              </tr>
-            )}
-            </tbody>
-                            </Table>
+                </thead>
+                <tbody className='page-ticket-bottom-tbody'>
+                {allDataFiltered.map((item, index) => (
+                    <tr className='text-center'>
+                    <td>{index+1}</td>
+                    <td>{item.ticket_code}</td>
+                    <td>{item.category.name}</td>
+                    <td>
+                        <p>{formatDateLong(item.start_time)}</p>
+                        {/* <p className='text-red'>{getTimeFromData(item.start_time)} WIB</p> */}
+                        {/* <p className='text-red'>11 : 14 WIB</p> */}
+                    </td>
+                    <td>
+                        <p>{formatDateLong(item.range_time)}</p>
+                        {/* <p className='text-red'>{getTimeFromData(item.range_time)} WIB</p> */}
+                    </td>
+                    {item.priority_id === 1 ? (
+                      <td>
+                      <p  className='fwb text-lime'>Low</p>
+                      </td>
+                    ) : item.priority_id === 2  ? (
+                     <td>
+                      <p className='fwb text-blue'>Medium</p>
+                      </td>
+                    ) : (
+                      <td>
+                      <p className='fwb text-red'>High</p>
+                      </td>
+                    )}
+                    <td>
+                        <p style={{ color: item.activity.color}}>{item.activity.name}</p>
+                    </td>
+                    {/* <td><Link to={`/list-ticket/${item.id}`} className='button-eye py-2 px-3'><Icon icon="mdi:eye" /></Link></td> */}
+                    </tr>
+                ))}
+                </tbody>
+            </Table>
+            </div>
                             </Dropdown.Menu>
                         </Dropdown>
                         <Dropdown drop="start">
@@ -560,9 +676,9 @@ NothingHaveToken()
                 </tr>
                 </thead>
                 <tbody className='page-ticket-bottom-tbody'>
-                {filteredTicketOpen.map((item, id) => (
+                {filteredTicketOpen.map((item, index) => (
                     <tr className='text-center'>
-                    <td>{item.id}</td>
+                    <td>{index+1}</td>
                     <td>{item.ticket_code}</td>
                     <td>{item.category.name}</td>
                     <td>
@@ -656,13 +772,13 @@ NothingHaveToken()
                     value={selectedCategoryId} aria-label="Default select example">
                     <option value=''>Open this select menu</option>
                     {Kategori &&
-                    Kategori.map((item) =>
-                      item ? (
-                        <option key={item.name} value={item.name}>
-                          {item.name}
-                        </option>
-                      ) : null
-                    )}
+                      Kategori.map((item) =>
+                        item ? (
+                          <option key={item.name} value={item.name}>
+                            {item.name}
+                          </option>
+                        ) : null
+                      )}
                     </Form.Select>
                     {/* <p>selected : {selectedCategoryId}</p> */}
                 </Form.Group>
@@ -691,16 +807,14 @@ NothingHaveToken()
                     <th>Title</th>
                     <th>Ticket Masuk</th>
                     <th>Dateline Ticket</th>
-                    <th>Timecode</th>
                     <th>Prioritas</th>
                     <th>Status</th>
-                    <th>Action</th>
                 </tr>
                 </thead>
                 <tbody className='page-ticket-bottom-tbody'>
-                {filteredTicketProcess.map((item, id) => (
+                {filteredTicketProcess.map((item, index) => (
                     <tr className='text-center'>
-                    <td>{item.id}</td>
+                    <td>{index+1}</td>
                     <td>{item.ticket_code}</td>
                     <td>{item.category.name}</td>
                     <td>
@@ -711,10 +825,6 @@ NothingHaveToken()
                     <td>
                         <p>{formatDateLong(item.range_time)}</p>
                         {/* <p className='text-red'>{getTimeFromData(item.range_time)} WIB</p> */}
-                    </td>
-                    <td>
-                        <p className='text-red'>59 Detik </p>
-                        {/* <p className='text-red'>{timeRemaining.days} {timeRemaining.hours} {timeRemaining.minutes} </p> */}
                     </td>
                     {item.priority_id === 1 ? (
                       <td>
@@ -798,13 +908,13 @@ NothingHaveToken()
                     value={selectedCategoryId} aria-label="Default select example">
                     <option value=''>Open this select menu</option>
                     {Kategori &&
-                    Kategori.map((item) =>
-                      item ? (
-                        <option key={item.name} value={item.name}>
-                          {item.name}
-                        </option>
-                      ) : null
-                    )}
+                      Kategori.map((item) =>
+                        item ? (
+                          <option key={item.name} value={item.name}>
+                            {item.name}
+                          </option>
+                        ) : null
+                      )}
                     </Form.Select>
                     {/* <p>selected : {selectedCategoryId}</p> */}
                 </Form.Group>
@@ -833,16 +943,14 @@ NothingHaveToken()
                     <th>Title</th>
                     <th>Ticket Masuk</th>
                     <th>Dateline Ticket</th>
-                    <th>Timecode</th>
                     <th>Prioritas</th>
                     <th>Status</th>
-                    <th>Action</th>
                 </tr>
                 </thead>
                 <tbody className='page-ticket-bottom-tbody'>
-                {filteredTicketDone.map((item, id) => (
+                {filteredTicketDone.map((item, index) => (
                     <tr className='text-center'>
-                    <td>{item.id}</td>
+                    <td>{index+1}</td>
                     <td>{item.ticket_code}</td>
                     <td>{item.category.name}</td>
                     <td>
@@ -853,10 +961,6 @@ NothingHaveToken()
                     <td>
                         <p>{formatDateLong(item.range_time)}</p>
                         {/* <p className='text-red'>{getTimeFromData(item.range_time)} WIB</p> */}
-                    </td>
-                    <td>
-                        <p className='text-red'>59 Detik </p>
-                        {/* <p className='text-red'>{timeRemaining.days} {timeRemaining.hours} {timeRemaining.minutes} </p> */}
                     </td>
                     {item.priority_id === 1 ? (
                       <td>
@@ -940,13 +1044,13 @@ NothingHaveToken()
                     value={selectedCategoryId} aria-label="Default select example">
                     <option value=''>Open this select menu</option>
                     {Kategori &&
-                    Kategori.map((item) =>
-                      item ? (
-                        <option key={item.name} value={item.name}>
-                          {item.name}
-                        </option>
-                      ) : null
-                    )}
+                      Kategori.map((item) =>
+                        item ? (
+                          <option key={item.name} value={item.name}>
+                            {item.name}
+                          </option>
+                        ) : null
+                      )}
                     </Form.Select>
                     {/* <p>selected : {selectedCategoryId}</p> */}
                 </Form.Group>
@@ -975,16 +1079,14 @@ NothingHaveToken()
                     <th>Title</th>
                     <th>Ticket Masuk</th>
                     <th>Dateline Ticket</th>
-                    <th>Timecode</th>
                     <th>Prioritas</th>
                     <th>Status</th>
-                    <th>Action</th>
                 </tr>
                 </thead>
                 <tbody className='page-ticket-bottom-tbody'>
-                {filteredTicketClosed.map((item, id) => (
+                {filteredTicketClosed.map((item, index) => (
                     <tr className='text-center'>
-                    <td>{item.id}</td>
+                    <td>{index+1}</td>
                     <td>{item.ticket_code}</td>
                     <td>{item.category.name}</td>
                     <td>
@@ -995,10 +1097,6 @@ NothingHaveToken()
                     <td>
                         <p>{formatDateLong(item.range_time)}</p>
                         {/* <p className='text-red'>{getTimeFromData(item.range_time)} WIB</p> */}
-                    </td>
-                    <td>
-                        <p className='text-red'>59 Detik </p>
-                        {/* <p className='text-red'>{timeRemaining.days} {timeRemaining.hours} {timeRemaining.minutes} </p> */}
                     </td>
                     {item.priority_id === 1 ? (
                       <td>

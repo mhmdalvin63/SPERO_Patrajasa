@@ -11,15 +11,22 @@ const apiUrl = process.env.REACT_APP_API_URL;
 const MultiAxisLineChart = () => {
 
   const [loading, setLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
     // D R I V E R
   const [Data, setData] = useState([]);
 
   const [selectedOption, setSelectedOption] = useState('january'); // Nilai awal pilihan
 
   const handleChange = (e) => {
+    setIsLoading(true);
+
     setSelectedOption(e.target.value);
+    // Simulasikan permintaan jaringan atau pemrosesan data yang memerlukan waktu.
+    setTimeout(() => {
+      setIsLoading(false);
+    }, 18000); // Ganti 1000 dengan waktu loading yang sesuai.
   };
-  // const apiUrl = process.env.REACT_APP_API_URL;
+
   // D R I V E R
   useEffect(() => {
     const token = sessionStorage.getItem("jwttoken");
@@ -33,14 +40,6 @@ const MultiAxisLineChart = () => {
         console.log(error)
         setLoading(false);});
     }, [selectedOption]);
-    // console.log(`process.env.REACT_APP_API_URL`)
-
-    
-    // for(const i in Data){
-    //   Data.day = Data[i].map((index) => {
-    //       return index + 1;
-    //   })
-    // }
   // console.log('Data Terbaru', Data);
   let closed = [];
   // let deleted = [];
@@ -58,13 +57,6 @@ const MultiAxisLineChart = () => {
     process.push(el.status[2].value);
     reopen.push(el.status[5].value);
   });
-  // console.log('close : ',closed);
-  // console.log('delete : ', deleted);
-  // console.log('done : ',done);
-  // console.log('forwarding : ',forwarding);
-  // console.log('open : ',open);
-  // console.log('process : ',process);
-  // console.log('reopen : ',reopen);
   
   const options = {
     colors : ['#1767B3', '#7AC241', '#EC2028', '#FFB800', '#00F9F9', '#AA00E6'],
@@ -135,7 +127,11 @@ const MultiAxisLineChart = () => {
       <Loading/>
     ) : (
          <div className="multi-axis pt-4">
-      <ReactApexChart options={options} series={series} type="line" height={250} />
+          {isLoading ? (
+            <Loading/>
+          ) : (
+            <ReactApexChart options={options} series={series} type="line" height={250} />
+          )}
       <div className='title-multi-axis px-5'>
                     <p>Grafik Status Ticket Per Hari</p>
                     <select value={selectedOption} onChange={handleChange} size="xl" aria-label="Default select example" className='select-multi-axis '>
@@ -155,6 +151,7 @@ const MultiAxisLineChart = () => {
                     </select>
                     {/* <p>selected : {selectedOption}</p> */}
                   </div>
+      
     </div>
     )}
   </div>

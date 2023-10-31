@@ -49,6 +49,7 @@
 .gambar-aduan{
     display: flex;
     align-items: center;
+    justify-content: center;
 }
 .gambar-aduan img{
     width: 22%;
@@ -59,3 +60,19 @@
     display: flex;
     align-items: center;
 }
+.custom-modal {
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .custom-modal .modal-body{
+    height: 100%;
+    width: 100%;
+  }
+  .custom-modal .modal-body img{
+    height: 100% !important;
+    width: 100% !important;
+    object-fit: contain;
+  }

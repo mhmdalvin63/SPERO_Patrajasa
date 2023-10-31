@@ -9,7 +9,7 @@ import {Dropdown, Form,  FormControl, Button, Row, Col} from 'react-bootstrap';
 
 // ICONIFY
 import { Icon } from '@iconify/react';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import axios from 'axios';
 import DateTime from '../Parts/DateTime';
 import Loading from '../Parts/Loading';
@@ -19,6 +19,7 @@ import Tab from 'react-bootstrap/Tab';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 import NothingHaveToken from '../Parts/NothingHaveToken';
+import { useLocation } from 'react-router-dom';
 
 function Tracking({ filters }) {
   NothingHaveToken()
@@ -35,6 +36,31 @@ const [searchQuery, setSearchQuery] = useState('');
 
 // D R I V E R
 const [Driver, setDriver,] = useState([]);
+
+// const token = sessionStorage.getItem("jwttoken");
+
+// const summaryApi = useCallback(async () => {
+//   try {
+//     const result = await axios.get(`${process.env.REACT_APP_API_URL}api/dashboard/tracking`, { headers: {"Authorization" : `Bearer ${token}`} });
+//     console.log('TICKETT WOIIIIIIIIIII', result.data.data);
+//     setTicket(result.data.data ?? 0);
+//     setLoading(false);
+//   } catch (error) {
+//     console.log(error);
+//     setLoading(false);
+//   }
+// }, [token, setTicket, setLoading]);
+
+// const location = useLocation();
+// // alert(location.pathname)
+
+// useEffect(() => {
+//   if (location.pathname === '/tracking') {
+//     summaryApi();
+//     const intervalId = setInterval(summaryApi, 10000);
+//     return () => clearInterval(intervalId);
+//   }
+// }, [location, summaryApi]);
 
 useEffect(() => {
   const token = sessionStorage.getItem("jwttoken");
@@ -83,13 +109,58 @@ const [search, setSearch] = useState('');
 
 let filteredData1 = [];
 let filteredData2  = [];
+
+const [OpenFilter, setOpenFilter] = useState(true);
+const [ForwardingFilter, setForwardingFilter] = useState(true);
+const [DoneFilter, setDoneFilter] = useState(true);
+const [ClosedFilter, setClosedFilter] = useState(true);
+const [startDate, setStartDate] = useState('');
+const [endDate, setEndDate] = useState('');
+
+  const toggleOpenFilter = () => {
+    setOpenFilter(!OpenFilter);
+  };
+  const toggleForwardingFilter = () => {
+    setForwardingFilter(!ForwardingFilter);
+  };
+  const toggleDoneFilter = () => {
+    setDoneFilter(!DoneFilter);
+  };
+  const toggleClosedFilter = () => {
+    setClosedFilter(!ClosedFilter);
+  };
 if (byTicketId) {
   filteredData1 = byTicketId.filter((item) => {
+      // Tambahkan filter untuk start date dan end date
+    const startTime = new Date(item.start_time);
+    const endTime = new Date(item.range_time);
+
+    if (startDate && endDate) {
+      const filterStartDate = new Date(startDate);
+      const filterEndDate = new Date(endDate);
+
+      if (startTime >= filterStartDate && endTime <= filterEndDate) {
+        return true;
+      } else {
+        return false;
+      }
+    }
+
     if (item.subject !== null) {
       if (search && !item.subject.toLowerCase().includes(search.toLowerCase())) {
         return false;
       }
-      return true;
+
+      if (item.activity_name === 'open' && OpenFilter) {
+        return true;
+      } else if (item.activity_name === 'forwarding' && ForwardingFilter) {
+        return true;
+      }else if (item.activity_name === 'done' && DoneFilter) {
+        return true;
+      }else if (item.activity_name === 'closed' && ClosedFilter) {
+        return true;
+      }
+      return false;
     } else {
       console.error('yourVariable is null');
     }
@@ -97,8 +168,16 @@ if (byTicketId) {
 } else {
   console.error('byTicketId is null');
 }
-const [onlineCheckbox, setOnlineCheckbox] = useState(false);
-  const [offlineCheckbox, setOfflineCheckbox] = useState(false);
+
+
+const [onlineFilter, setOnlineFilter] = useState(true);
+const [offlineFilter, setOfflineFilter] = useState(true);
+  const toggleOnlineFilter = () => {
+    setOnlineFilter(!onlineFilter);
+  };
+  const toggleOfflineFilter = () => {
+    setOfflineFilter(!offlineFilter);
+  };
 if (byDriverId) {
   filteredData2 = byDriverId.filter((item) => {
     if (item.name !== null) {
@@ -106,14 +185,13 @@ if (byDriverId) {
         return false;
        }
       
-      if (onlineCheckbox && item.status !== 'online') {
-        return false;
+       if (item.status === 'online' && onlineFilter) {
+        return true;
+      } else if (item.status === 'offline' && offlineFilter) {
+        return true;
       }
-  
-      if (offlineCheckbox && item.status !== 'offline') {
-        return false;
-      }
-       return true;
+       return false;
+
     } else {
       console.error('yourVariable is null');
     }
@@ -145,24 +223,24 @@ if (byDriverId) {
   };
 
 
-  const [filterOptions, setFilterOptions] = useState({
-    open: true,
-    forwarding: true,
-    process: true,
-    done: true,
-    reopen: true,
-    closed: true,
-    online: true,
-    offline: true,
-  });
+  // const [filterOptions, setFilterOptions] = useState({
+  //   open: true,
+  //   forwarding: true,
+  //   process: true,
+  //   done: true,
+  //   reopen: true,
+  //   closed: true,
+  //   online: true,
+  //   offline: true,
+  // });
   
 
-  const handleCheckboxChange = (status) => {
-    setFilterOptions({
-      ...filterOptions,
-      [status]: !filterOptions[status],
-    });
-  };
+  // const handleCheckboxChange = (status) => {
+  //   setFilterOptions({
+  //     ...filterOptions,
+  //     [status]: !filterOptions[status],
+  //   });
+  // };
   
 
   const maxWordsPerLine = 1;
@@ -239,86 +317,80 @@ const formatDateLong = (dateString) => {
                     <Form className='my-4'>
                     <div className="filter-component">
         <label className='d-flex gap-2'>
-          <input
-            type="checkbox"
-            checked={filterOptions.open}
-            onChange={() => handleCheckboxChange('open')}
-          />
+        <input
+          type="checkbox"
+          checked={OpenFilter}
+          onChange={toggleOpenFilter}
+        />
           <p>open</p>
         </label>
         <label className='d-flex gap-2'>
-          <input
-            type="checkbox"
-            checked={filterOptions.forwarding}
-            onChange={() => handleCheckboxChange('forwarding')}
-          />
+        <input
+          type="checkbox"
+          checked={ForwardingFilter}
+          onChange={toggleForwardingFilter}
+        />
           <p>forwarding</p>
         </label>
 
         <label className='d-flex gap-2'>
-          <input
-            type="checkbox"
-            checked={filterOptions.process}
-            onChange={() => handleCheckboxChange('process')}
-          />
+        <input
+          type="checkbox"
+          checked={DoneFilter}
+          onChange={toggleDoneFilter}
+        />
           <p>process</p>
         </label>
 
         <label className='d-flex gap-2'>
-          <input
-            type="checkbox"
-            checked={filterOptions.done}
-            onChange={() => handleCheckboxChange('done')}
-          />
+        <input
+          type="checkbox"
+          checked={ClosedFilter}
+          onChange={toggleClosedFilter}
+        />
           <p>done</p>
-        </label>
-        <label className='d-flex gap-2'>
-          <input
-            type="checkbox"
-            checked={filterOptions.reopen}
-            onChange={() => handleCheckboxChange('reopen')}
-          />
-          <p>reopen</p>
-        </label>
-
-        <label className='d-flex gap-2'>
-          <input
-            type="checkbox"
-            checked={filterOptions.closed}
-            onChange={() => handleCheckboxChange('closed')}
-          />
-          <p>closed</p>
         </label>
       </div>
                     </Form>
                     <Form className='my-4'>
                     <label className='d-flex gap-2'>
-                      <input
-                        type="checkbox"
-                        id="onlineCheckbox"
-                        checked={onlineCheckbox}
-                        onChange={() => setOnlineCheckbox(!onlineCheckbox)}
-                      />
+                    <input
+          type="checkbox"
+          checked={onlineFilter}
+          onChange={toggleOnlineFilter}
+        />
                       <p>online</p>
                     </label>
                     <label className='d-flex gap-2'>
-                      <input
-                        type="checkbox"
-                        id="offlineCheckbox"
-                        checked={offlineCheckbox}
-                        onChange={() => setOfflineCheckbox(!onlineCheckbox)}
-                      />
+                    <input
+          type="checkbox"
+          checked={offlineFilter}
+          onChange={toggleOfflineFilter}
+        />
                       <p>offline</p>
                     </label>
                     </Form>
-                    <Form.Group className='select-date d-flex align-items-center my-2 gap-2' controlId="sd">
-                        <Form.Label><p className='nw'>Start Date</p></Form.Label>
-                        <Form.Control type="date" name="sd" placeholder="Start Date" />
-                    </Form.Group>
-                    <Form.Group className='select-date d-flex align-items-center my-2 gap-3' controlId="sd">
-                        <Form.Label><p className='nw'>End Date</p></Form.Label>
-                        <Form.Control type="date" name="sd" placeholder="End Date" />
-                    </Form.Group>
+                    <Form.Group className='select-date' controlId="sd">
+                    <Form.Label><p className='nw'><Icon icon="bx:calendar" /> Start Date</p></Form.Label>
+                    {/* <Form.Control type="date" name="sd" placeholder="Start Date" /> */}
+                    
+          <input
+          type="date"
+          placeholder="Start Date"
+          value={startDate}
+          onChange={(e) => setStartDate(e.target.value)}
+        />
+                </Form.Group>
+                <Form.Group className='select-date' controlId="ed">
+                    <Form.Label><p className='nw'><Icon icon="bx:calendar" /> End Date</p></Form.Label>
+                    {/* <Form.Control type="date" name="ed" placeholder="End Date" /> */}
+                    <input
+          type="date"
+          placeholder="End Date"
+          value={endDate}
+          onChange={(e) => setEndDate(e.target.value)}
+        />
+                </Form.Group>
                 </Dropdown.Menu>
             </Dropdown>
             </div>
@@ -361,10 +433,7 @@ const formatDateLong = (dateString) => {
                   </div>
               </div>
               {paginatedTicket.map((item) => (
-                <Col sm={3} className='px-3 py-2' key={item.ticket_id} onClick={() => handleItemClick(`s${item.ticket_id}`)} style={{
-                    display:  
-                    filterOptions[item.activity_name ? item.activity_name : '-' || item.status ? item.status : '-'] ? 'block' : 'none',
-                    }} data-status={item.activity?.name ? item.activity.name : item.status}>
+                <Col sm={3} className='px-3 py-2' key={item.ticket_id} onClick={() => handleItemClick(`s${item.ticket_id}`)}>
                   <div className='col-item d-flex align-items-start gap-4'>
                         <h1 style={{fill: item.activity ? item.activity.color : '-'}} className='fwb d-flex align-items-start mt-2' dangerouslySetInnerHTML={{ __html: item.icon }}></h1>
                         <div className='subject-tracking-parent'>
@@ -373,6 +442,8 @@ const formatDateLong = (dateString) => {
                             <div className='parent-status px-2 py-1' style={{backgroundColor: item.activity_color}}>
                               <p className='xl fwb' >{item.activity_name}</p>
                             </div>
+                              <p className='sm fwb' >{item.start_time}</p>
+                              <p className='sm fwb' >{item.range_time}</p>
                         </div>
                     </div>
                 </Col>
@@ -401,19 +472,8 @@ const formatDateLong = (dateString) => {
                       </svg>
                   </div>
               </div>
-              {paginatedDriver.filter((item) => {
-            if (onlineCheckbox && item.status !== 'online') {
-              return false;
-            }
-            if (offlineCheckbox && item.status !== 'offline') {
-              return false;
-            }
-            return true;
-          }).map((item) => (
-                <Col sm={3} className='px-3 py-2' key={item.driver_id} onClick={() => handleItemClick(`d${item.driver_id}`)} style={{
-                    display:  
-                    filterOptions[item.activity ? item.activity.name : '-' || item.status ? item.status : '-'] ? 'block' : 'none',
-                    }} data-status={item.activity?.name ? item.activity.name : item.status}>
+              {paginatedDriver.map((item) => (
+                <Col sm={3} className='px-3 py-2' key={item.driver_id} onClick={() => handleItemClick(`d${item.driver_id}`)}>
                   <div className='col-item d-flex align-items-start gap-4'>
                         <h1 style={{fill: item.activity ? item.activity.color : '-'}} className='fwb d-flex align-items-start mt-2' dangerouslySetInnerHTML={{ __html: item.icon }}></h1>
                         <div className='subject-tracking-parent'>

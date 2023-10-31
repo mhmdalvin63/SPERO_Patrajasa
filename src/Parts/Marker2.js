@@ -1,4 +1,4 @@
-import { Fragment, useState, useEffect } from "react";
+import React, { Fragment, useState, useEffect } from "react";
 import axios from 'axios';
 import MarkerHelm from '../Images/markerHelm.png';
 import Profile from '../Images/MarkerStir.png';
@@ -17,6 +17,7 @@ import {
   useLoadScript,
 } from "@react-google-maps/api";
 import Loading from "./Loading";
+import { Modal } from "react-bootstrap";
 
 
 function App(props) {
@@ -27,11 +28,11 @@ function App(props) {
   const [Drivers, setDrivers,] = useState([]);
   // let markers = [];
   console.log('MARKERRRRRRRRRRRRRRRRRRR', Markers)
-  let Driver = [];
-  useEffect(() => {
-    const token = sessionStorage.getItem("jwttoken");
-    axios.get(`${process.env.REACT_APP_API_URL}api/dashboard/tracking`, { headers: {"Authorization" : `Bearer ${token}`} })
-    .then((result) => {
+
+  const token = sessionStorage.getItem("jwttoken");
+  const markerMap = async () => {
+    try {
+      const result = await axios.get(`${process.env.REACT_APP_API_URL}api/dashboard/tracking`, { headers: {"Authorization" : `Bearer ${token}`} });
       console.log('MAPSSSSSSSSSS', result.data.data);
       setMaps(result.data.data ?? 0);
       const filterMarkers = result.data.data
@@ -40,6 +41,7 @@ function App(props) {
         ticketid: item.ticket_id,
         position: { lat: parseFloat(item.lat), lng: parseFloat(item.long) },
         subject: item.subject,
+        attachments: item.attachments,
         icon: item.icon,
         createdat: item.created_at,
         activityname: item.activity_name,
@@ -64,23 +66,83 @@ function App(props) {
       }));
       setDrivers(filterDrivers);
       setLoading(false);
-    })
-    .catch((error) => {
+    } catch (error) {
       console.log(error)
-      setLoading(false);});
+      setLoading(false);
+    }
+  };
+  useEffect(() => {
+    // Lakukan pemanggilan pertama
+    markerMap();
+
+    // Atur interval polling (misalnya, setiap 5 detik)
+    const intervalId = setInterval(markerMap, 7000);
+
+    // Membersihkan interval saat komponen di-unmount
+    return () => clearInterval(intervalId);
   }, []);
+  // let Driver = [];
+  // useEffect(() => {
+  //   const token = sessionStorage.getItem("jwttoken");
+  //   axios.get(`${process.env.REACT_APP_API_URL}api/dashboard/tracking`, { headers: {"Authorization" : `Bearer ${token}`} })
+  //   .then((result) => {
+  //     console.log('MAPSSSSSSSSSS', result.data.data);
+  //     setMaps(result.data.data ?? 0);
+  //     const filterMarkers = result.data.data
+  //     .filter(item => item.ticket_id) // Filter only items with a ticketid
+  //     .map(item => ({
+  //       ticketid: item.ticket_id,
+  //       position: { lat: parseFloat(item.lat), lng: parseFloat(item.long) },
+  //       subject: item.subject,
+  //       attachments: item.attachments,
+  //       icon: item.icon,
+  //       createdat: item.created_at,
+  //       activityname: item.activity_name,
+  //       activitycolor: item.activity_color,
+  //       starttime: item.start_time,
+  //       rangetime: item.range_time,
+  //       content: item.content,
+  //       priorityname: item.priority_name,
+  //       ticketcode: item.ticket_code,
+  //     }));
+  //     setMarkers(filterMarkers);
+
+  //     const filterDrivers = result.data.data
+  //     .filter(item => item.driver_id) // Filter only items with a driverid
+  //     .map(item => ({
+  //       driverid: item.driver_id,
+  //       position: { lat: parseFloat(item.lat), lng: parseFloat(item.long) },
+  //       drivercode: item.driver_code,
+  //       name: item.name,
+  //       createdat: item.created_at,
+  //       status: item.status,
+  //     }));
+  //     setDrivers(filterDrivers);
+  //     setLoading(false);
+  //   })
+  //   .catch((error) => {
+  //     console.log(error)
+  //     setLoading(false);});
+  // }, []);
 
   const { isLoaded } = useLoadScript({
     googleMapsApiKey: process.env.REACT_APP_GOOGLE_MAPS_API_KEY
   });
 
   const [activeMarker, setActiveMarker] = useState(null);
+  const mapRef = React.createRef();
   const handleActiveMarker = (marker) => {
     if (marker === activeMarker) {
       return;
     }
     console.log(JSON.stringify(activeMarker))
     setActiveMarker(marker);
+  };
+
+  const handleMarkerClick = (markerPosition) => {
+    handleActiveMarker(markerPosition);
+    // Pan the map to the clicked marker's position
+    mapRef.current.panTo(markerPosition);
   };
 
   console.log('ticket woi', Markers)
@@ -119,15 +181,20 @@ function App(props) {
     return `${hoursDifference} jam, ${minutesDifference % 60} menit`;
   };
 
+  const [showModal, setShowModal] = useState(false);
+  const [selectedImage, setSelectedImage] = useState(null);
+
   return (
     <div>
       {loading ? (
         <Loading/>
       ) : (
+        
     <Fragment>
         <div style={{ height: "100vh", width: "100vw" }}>
           {isLoaded ? (
             <GoogleMap
+             ref={mapRef}
             center={activeMarkerPosition || { lat: -6.39850806754815, lng: 106.88613027971365 }}
             zoom={activeMarkerZoom}
             onClick={() => {
@@ -136,7 +203,7 @@ function App(props) {
             }}
               mapContainerStyle={{ width: "100vw", height: "100vh" }}
             >
-              {Markers.map(({ ticketid, position, subject, icon, createdat, activityname, activitycolor, starttime, rangetime, content, priorityname, ticketcode }) => (
+              {Markers.map(({ ticketid, position, subject, attachments, icon, createdat, activityname, activitycolor, starttime, rangetime, content, priorityname, ticketcode }) => (
                 <MarkerF
                   key={`s${ticketid}`}
                   position={position}
@@ -145,14 +212,14 @@ function App(props) {
                     setActiveMarkerZoom(20); // Set the desired zoom level
                     setActiveMarker(null);
                     handleActiveMarker(`s${ticketid}`);
+                    handleMarkerClick(activeMarker);
                   }}
                   icon={{
                     url: MarkerHelm,
                   }}
                 >
                   {activeMarker === `s${ticketid}` ? (
-                    <InfoWindowF position={position}
-  onCloseClick={() => setActiveMarker(null)}>
+                    <InfoWindowF position={position} onCloseClick={() => setActiveMarker(null)}>
                       <div className="maps-label">
                         <div className="header-maps py-2 px-3 gap-2">
                           <div className="header-maps-left gap-2">
@@ -225,11 +292,22 @@ function App(props) {
                                            </div>
                                            <div className="header-content">
                                              <div className="gambar-aduan gap-3">
-                                               <img className='Kendala' src={Kendala} alt="Kendala" />
-                                               <img className='Kendala' src={Kendala} alt="Kendala" />
-                                               <img className='Kendala' src={Kendala} alt="Kendala" />
-                                               <img className='Kendala' src={Kendala} alt="Kendala" />
+                                                 { attachments ? (
+                                                attachments.map((index) => (
+                                                  <img key={index} src={index} alt={index} onClick={() => {
+                                                    setSelectedImage(index);
+                                                    setShowModal(true);
+                                                  }}/>
+                                                ))
+                                                  ) : (
+                                                  <h1>Tidak Ada Gambar</h1>
+                                                  )}
                                              </div>
+                                             <Modal show={showModal} onHide={() => setShowModal(false)} dialogClassName="custom-modal">
+                                              <Modal.Body>
+                                                <img src={selectedImage} alt="Selected Image" />
+                                              </Modal.Body>
+                                            </Modal>
                                              <Table>
                                                <thead>
                                                  <tr>
@@ -273,6 +351,7 @@ function App(props) {
                     setActiveMarkerZoom(20); // Set the desired zoom level
                     setActiveMarker(null);
                     handleActiveMarker(`d${driverid}`);
+                     handleMarkerClick(activeMarker);
                   }}
                   icon={{
                     url: Profile,

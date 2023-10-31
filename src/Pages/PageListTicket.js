@@ -64,26 +64,27 @@ function PageTicket() {
           return date.toLocaleTimeString();
         };
 
-
-        const [startDate, setStartDate] = useState('');
-        const [endDate, setEndDate] = useState('');
         const [search, setSearch] = useState('');
         const [selectedCategoryId, setSelectedCategoryId] = useState('');
+        const [startDate, setStartDate] = useState('');
+        const [endDate, setEndDate] = useState('');
         let filteredData  = [];
 
         if (Ticket) {
           filteredData = Ticket.filter((item) => {
-            // Filter by time range
-        const startTime = new Date(item.start_time);
-        const endTime = new Date(item.range_time);
+            const startTime = new Date(item.start_time);
+    const endTime = new Date(item.range_time);
 
-        if (
-          (startDate && startTime <= new Date(startDate)) ||
-          (endDate && endTime <= new Date(endDate))
-        ) {
-          return false;
-        }
+    if (startDate && endDate) {
+      const filterStartDate = new Date(startDate);
+      const filterEndDate = new Date(endDate);
 
+      if (startTime >= filterStartDate && endTime <= filterEndDate) {
+        return true;
+      } else {
+        return false;
+      }
+    }
        // Filter by search input
     if (search && !item.ticket_code.toLowerCase().includes(search.toLowerCase()) &&
     !item.category.name.toLowerCase().includes(search.toLowerCase()) && 
@@ -121,10 +122,10 @@ function PageTicket() {
             return "Waktu habis";
           }
           if (hoursDifference <= 0) {
-            return `${minutesDifference % 60} menit, ${secondsDifference} detik`;
+            return `${minutesDifference} menit, ${secondsDifference} detik`;
           }
       
-          return `${hoursDifference} jam, ${minutesDifference % 60} menit`;
+          return `${hoursDifference} jam, ${minutesDifference} menit`;
         };
         
     return (
