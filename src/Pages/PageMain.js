@@ -188,8 +188,6 @@ function MainNew() {
         setLoading(false);});
     }, []);
 
- 
-
     return (
         <div>
         {loading ? (
@@ -280,7 +278,7 @@ function MainNew() {
                 </div>
 
                 <div className='main-new-bottom-right gap-5'>
-                <Dropdown className="dropup">
+                <Dropdown className="dropup-main" id='dropup-main'>
                     <Dropdown.Toggle className='dropdown-main' id="dropdown-basic">
                         <div className='header-total-ticket '>
                             <div className='upper-hr gap-3'>
@@ -305,26 +303,26 @@ function MainNew() {
                     <Table className='border-none'>
                         <thead className='bg-lime text-center text-white'>
                             <tr>
-                            <th>Driver</th>
+                            <th><h2>Proses Owner</h2></th>
                             <th></th>
                             <th></th>
                             <th></th>
                             <th></th>
-                            <th>Date</th>
+                            <th><h2>Date</h2></th>
                             </tr>
                         </thead>
                         <tbody>
                         {PoList.map((item, id) => (
                             <tr key={id}>
-                            <td colSpan={5}>{item.name}</td>
-                            <td className='text-center'>{new Date(item.created_at).toLocaleDateString()}</td>
+                            <td colSpan={5}><h2>{item.name}</h2></td>
+                            <td className='text-center'><h2>{new Date(item.created_at).toLocaleDateString()}</h2></td>
                             </tr>
                         ))}
                         </tbody>
                     </Table>
                     </Dropdown.Menu>
                 </Dropdown>
-                <Dropdown className="dropup">
+                <Dropdown className="dropup-main" id='dropup-main'>
                     <Dropdown.Toggle className='dropdown-main' id="dropdown-basic">
                         <div className='header-total-ticket '>
                             <div className='upper-hr gap-3'>
@@ -349,19 +347,19 @@ function MainNew() {
                     <Table className='border-none'>
                         <thead className='bg-red text-center text-white'>
                             <tr>
-                            <th>Driver</th>
+                            <th><h2>Driver</h2></th>
                             <th></th>
                             <th></th>
                             <th></th>
                             <th></th>
-                            <th>Date</th>
+                            <th><h2>Date</h2></th>
                             </tr>
                         </thead>
                         <tbody>
                         {DriverList.map((item, index) => (
                             <tr key={index}>
-                            <td colSpan={5}>{item.name}</td>
-                            <td className='text-center'>{new Date(item.created_at).toLocaleDateString()}</td>
+                            <td colSpan={5}><h2>{item.name}</h2></td>
+                            <td className='text-center'><h2>{new Date(item.created_at).toLocaleDateString()}</h2></td>
                             </tr>
                         ))}
                             
@@ -369,7 +367,7 @@ function MainNew() {
                     </Table>
                     </Dropdown.Menu>
                 </Dropdown>
-                <Dropdown className="dropup">
+                <Dropdown className="dropup-main" id='dropup-main'>
                     <Dropdown.Toggle className='dropdown-main' id="dropdown-basic">
                         <div className='header-total-ticket '>
                             <div className='upper-hr gap-3'>
@@ -394,19 +392,19 @@ function MainNew() {
                     <Table className='border-none'>
                         <thead className='bg-orange text-center text-white'>
                             <tr>
-                            <th>Driver</th>
+                            <th><h2>Operator</h2></th>
                             <th></th>
                             <th></th>
                             <th></th>
                             <th></th>
-                            <th>Date</th>
+                            <th><h2>Date</h2></th>
                             </tr>
                         </thead>
                         <tbody>
                         {Operator.map((item, index) => (
                             <tr key={index}>
-                            <td colSpan={5}>{item.name}</td>
-                            <td className='text-center'>{new Date(item.created_at).toLocaleDateString()}</td>
+                            <td colSpan={5}><h2>{item.name}</h2></td>
+                            <td className='text-center'><h2>{new Date(item.created_at).toLocaleDateString()}</h2></td>
                             </tr>
                         ))}
                         </tbody>
@@ -524,19 +522,19 @@ function MainNew() {
                     <Table className='border-none'>
                         <thead className='bg-lime text-center text-white'>
                             <tr>
-                            <th>Driver</th>
+                            <th><h2>Proses Owner</h2></th>
                             <th></th>
                             <th></th>
                             <th></th>
                             <th></th>
-                            <th>Date</th>
+                            <th><h2>Date</h2></th>
                             </tr>
                         </thead>
                         <tbody>
                         {PoList.map((item, index) => (
                             <tr key={index}>
-                            <td colSpan={5}>{item.name}</td>
-                            <td className='text-center'>{new Date(item.created_at).toLocaleDateString()}</td>
+                            <td colSpan={5}><h2>{item.name}</h2></td>
+                            <td className='text-center'><h2>{new Date(item.created_at).toLocaleDateString()}</h2></td>
                             </tr>
                         ))}
                         </tbody>
@@ -568,19 +566,19 @@ function MainNew() {
                     <Table className='border-none'>
                         <thead className='bg-red text-center text-white'>
                             <tr>
-                            <th>Driver</th>
+                            <th><h2>Driver</h2></th>
                             <th></th>
                             <th></th>
                             <th></th>
                             <th></th>
-                            <th>Date</th>
+                            <th><h2>Date</h2></th>
                             </tr>
                         </thead>
                         <tbody>
                         {DriverList.map((item, index) => (
                             <tr key={index}>
-                            <td colSpan={5}>{item.name}</td>
-                            <td className='text-center'>{new Date(item.created_at).toLocaleDateString()}</td>
+                            <td colSpan={5}><h2>{item.name}</h2></td>
+                            <td className='text-center'><h2>{new Date(item.created_at).toLocaleDateString()}</h2></td>
                             </tr>
                         ))}
                             
@@ -613,19 +611,19 @@ function MainNew() {
                     <Table className='border-none'>
                         <thead className='bg-orange text-center text-white'>
                             <tr>
-                            <th>Driver</th>
+                            <th><h2>Operator</h2></th>
                             <th></th>
                             <th></th>
                             <th></th>
                             <th></th>
-                            <th>Date</th>
+                            <th><h2>Date</h2></th>
                             </tr>
                         </thead>
                         <tbody>
                         {Operator.map((item, index) => (
                             <tr key={index}>
-                            <td colSpan={5}>{item.name}</td>
-                            <td className='text-center'>{new Date(item.created_at).toLocaleDateString()}</td>
+                            <td colSpan={5}><h2>{item.name}</h2></td>
+                            <td className='text-center'><h2>{new Date(item.created_at).toLocaleDateString()}</h2></td>
                             </tr>
                         ))}
                         </tbody>
@@ -743,19 +741,19 @@ function MainNew() {
                     <Table className='border-none'>
                         <thead className='bg-lime text-center text-white'>
                             <tr>
-                            <th>Driver</th>
+                            <th><h2>Proses Owner</h2></th>
                             <th></th>
                             <th></th>
                             <th></th>
                             <th></th>
-                            <th>Date</th>
+                            <th><h2>Date</h2></th>
                             </tr>
                         </thead>
                         <tbody>
                         {PoList.map((item, index) => (
                             <tr key={index}>
-                            <td colSpan={5}>{item.name}</td>
-                            <td className='text-center'>{new Date(item.created_at).toLocaleDateString()}</td>
+                            <td colSpan={5}><h2>{item.name}</h2></td>
+                            <td className='text-center'><h2>{new Date(item.created_at).toLocaleDateString()}</h2></td>
                             </tr>
                         ))}
                         </tbody>
@@ -787,19 +785,19 @@ function MainNew() {
                     <Table className='border-none'>
                         <thead className='bg-red text-center text-white'>
                             <tr>
-                            <th>Driver</th>
+                            <th><h2>Driver</h2></th>
                             <th></th>
                             <th></th>
                             <th></th>
                             <th></th>
-                            <th>Date</th>
+                            <th><h2>Date</h2></th>
                             </tr>
                         </thead>
                         <tbody>
                         {DriverList.map((item, index) => (
                             <tr key={index}>
-                            <td colSpan={5}>{item.name}</td>
-                            <td className='text-center'>{new Date(item.created_at).toLocaleDateString()}</td>
+                            <td colSpan={5}><h2>{item.name}</h2></td>
+                            <td className='text-center'><h2>{new Date(item.created_at).toLocaleDateString()}</h2></td>
                             </tr>
                         ))}
                             
@@ -832,19 +830,19 @@ function MainNew() {
                     <Table className='border-none'>
                         <thead className='bg-orange text-center text-white'>
                             <tr>
-                            <th>Driver</th>
+                            <th><h2>Operator</h2></th>
                             <th></th>
                             <th></th>
                             <th></th>
                             <th></th>
-                            <th>Date</th>
+                            <th><h2>Date</h2></th>
                             </tr>
                         </thead>
                         <tbody>
                         {Operator.map((item, index) => (
                             <tr key={index}>
-                            <td colSpan={5}>{item.name}</td>
-                            <td className='text-center'>{new Date(item.created_at).toLocaleDateString()}</td>
+                            <td colSpan={5}><h2>{item.name}</h2></td>
+                            <td className='text-center'><h2>{new Date(item.created_at).toLocaleDateString()}</h2></td>
                             </tr>
                         ))}
                         </tbody>
@@ -962,19 +960,19 @@ function MainNew() {
                     <Table className='border-none'>
                         <thead className='bg-lime text-center text-white'>
                             <tr>
-                            <th>Driver</th>
+                            <th><h2>Proses Owner</h2></th>
                             <th></th>
                             <th></th>
                             <th></th>
                             <th></th>
-                            <th>Date</th>
+                            <th><h2>Date</h2></th>
                             </tr>
                         </thead>
                         <tbody>
                         {PoList.map((item, index) => (
                             <tr key={index}>
-                            <td colSpan={5}>{item.name}</td>
-                            <td className='text-center'>{new Date(item.created_at).toLocaleDateString()}</td>
+                            <td colSpan={5}><h2>{item.name}</h2></td>
+                            <td className='text-center'><h2>{new Date(item.created_at).toLocaleDateString()}</h2></td>
                             </tr>
                         ))}
                         </tbody>
@@ -1006,19 +1004,19 @@ function MainNew() {
                     <Table className='border-none'>
                         <thead className='bg-red text-center text-white'>
                             <tr>
-                            <th>Driver</th>
+                            <th><h2>Driver</h2></th>
                             <th></th>
                             <th></th>
                             <th></th>
                             <th></th>
-                            <th>Date</th>
+                            <th><h2>Date</h2></th>
                             </tr>
                         </thead>
                         <tbody>
                         {DriverList.map((item, index) => (
                             <tr key={index}>
-                            <td colSpan={5}>{item.name}</td>
-                            <td className='text-center'>{new Date(item.created_at).toLocaleDateString()}</td>
+                            <td colSpan={5}><h2>{item.name}</h2></td>
+                            <td className='text-center'><h2>{new Date(item.created_at).toLocaleDateString()}</h2></td>
                             </tr>
                         ))}
                             
@@ -1051,19 +1049,19 @@ function MainNew() {
                     <Table className='border-none'>
                         <thead className='bg-orange text-center text-white'>
                             <tr>
-                            <th>Driver</th>
+                            <th><h2>Operator</h2></th>
                             <th></th>
                             <th></th>
                             <th></th>
                             <th></th>
-                            <th>Date</th>
+                            <th><h2>Date</h2></th>
                             </tr>
                         </thead>
                         <tbody>
                         {Operator.map((item, index) => (
                             <tr key={index}>
-                            <td colSpan={5}>{item.name}</td>
-                            <td className='text-center'>{new Date(item.created_at).toLocaleDateString()}</td>
+                            <td colSpan={5}><h2>{item.name}</h2></td>
+                            <td className='text-center'><h2>{new Date(item.created_at).toLocaleDateString()}</h2></td>
                             </tr>
                         ))}
                         </tbody>

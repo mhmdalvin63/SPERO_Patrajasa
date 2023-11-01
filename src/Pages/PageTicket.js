@@ -35,6 +35,7 @@ NothingHaveToken()
       // T I C K E T   S U M M A R Y
   const [posts, setPosts] = useState([]);
   const [priority, setPriority] = useState([]);
+
   const [open, setOpen] = useState([]);
   const [openlow, setopenlow] = useState([]);
   const [openmedium, setopenmedium] = useState([]);
@@ -43,6 +44,7 @@ NothingHaveToken()
   const [processlow, setprocesslow] = useState([]);
   const [processmedium, setprocessmedium] = useState([]);
   const [processhigh, setprocesshigh] = useState([]);
+  
   const [Done, setDone] = useState([]);
   const [DoneLow, setDoneLow] = useState([]);
   const [DoneMedium, setDoneMedium] = useState([]);
@@ -247,12 +249,16 @@ NothingHaveToken()
             // Filter by time range
             const startTime = new Date(item.start_time);
             const endTime = new Date(item.range_time);
-    
-            if (
-              (startDate && endDate) && // Check if both startDate and endDate are specified
-              (startTime < new Date(startDate) || endTime < new Date(endDate))
-            ) {
-              return false;
+
+            if (startDate && endDate) {
+              const filterStartDate = new Date(startDate);
+              const filterEndDate = new Date(endDate);
+
+              if (startTime >= filterStartDate && endTime <= filterEndDate) {
+                return true;
+              } else {
+                return false;
+              }
             }
       
 
@@ -276,15 +282,19 @@ NothingHaveToken()
         });
         const filteredTicketProcess= DataProcess.filter((item) => {
             // Filter by time range
-        const startTime = new Date(item.start_time);
-        const endTime = new Date(item.range_time);
-
-        if (
-          (startDate && startTime <= new Date(startDate)) ||
-            (endDate && endTime <= new Date(endDate))
-        ) {
-          return false;
-        }
+            const startTime = new Date(item.start_time);
+            const endTime = new Date(item.range_time);
+        
+            if (startDate && endDate) {
+              const filterStartDate = new Date(startDate);
+              const filterEndDate = new Date(endDate);
+        
+              if (startTime >= filterStartDate && endTime <= filterEndDate) {
+                return true;
+              } else {
+                return false;
+              }
+            }
 
        // Filter by search input
     if (search && !item.ticket_code.toLowerCase().includes(search.toLowerCase()) &&
@@ -306,15 +316,19 @@ NothingHaveToken()
         });
         const filteredTicketDone= DataDone.filter((item) => {
             // Filter by time range
-        const startTime = new Date(item.start_time);
-        const endTime = new Date(item.range_time);
-
-        if (
-          (startDate && startTime <= new Date(startDate)) ||
-            (endDate && endTime <= new Date(endDate))
-        ) {
-          return false;
-        }
+            const startTime = new Date(item.start_time);
+            const endTime = new Date(item.range_time);
+        
+            if (startDate && endDate) {
+              const filterStartDate = new Date(startDate);
+              const filterEndDate = new Date(endDate);
+        
+              if (startTime >= filterStartDate && endTime <= filterEndDate) {
+                return true;
+              } else {
+                return false;
+              }
+            }
 
        // Filter by search input
     if (search && !item.ticket_code.toLowerCase().includes(search.toLowerCase()) &&
@@ -336,15 +350,19 @@ NothingHaveToken()
         });
         const filteredTicketClosed= DataClosed.filter((item) => {
             // Filter by time range
-        const startTime = new Date(item.start_time);
-        const endTime = new Date(item.range_time);
-
-        if (
-          (startDate && startTime <= new Date(startDate)) ||
-            (endDate && endTime <= new Date(endDate))
-        ) {
-          return false;
-        }
+            const startTime = new Date(item.start_time);
+            const endTime = new Date(item.range_time);
+        
+            if (startDate && endDate) {
+              const filterStartDate = new Date(startDate);
+              const filterEndDate = new Date(endDate);
+        
+              if (startTime >= filterStartDate && endTime <= filterEndDate) {
+                return true;
+              } else {
+                return false;
+              }
+            }
 
        // Filter by search input
     if (search && !item.ticket_code.toLowerCase().includes(search.toLowerCase()) &&
@@ -366,15 +384,19 @@ NothingHaveToken()
         });
         const allDataFiltered= Ticket.filter((item) => {
             // Filter by time range
-        const startTime = new Date(item.start_time);
-        const endTime = new Date(item.range_time);
-
-        if (
-          (startDate && startTime <= new Date(startDate)) ||
-            (endDate && endTime <= new Date(endDate))
-        ) {
-          return false;
-        }
+            const startTime = new Date(item.start_time);
+            const endTime = new Date(item.range_time);
+        
+            if (startDate && endDate) {
+              const filterStartDate = new Date(startDate);
+              const filterEndDate = new Date(endDate);
+        
+              if (startTime >= filterStartDate && endTime <= filterEndDate) {
+                return true;
+              } else {
+                return false;
+              }
+            }
 
        // Filter by search input
     if (search && !item.ticket_code.toLowerCase().includes(search.toLowerCase()) &&
@@ -417,7 +439,7 @@ NothingHaveToken()
                                                         <div className='table-list-ticket px-5'>
             <div className='filtering-table-dropdown-ticket px-3 my-3'>
                 <div className='d-flex align-items-center gap-5'>
-                <Form.Group className='select-date' controlId="sd">
+                 <Form.Group className='select-date' controlId="sd">
                     <Form.Label><p className='nw'><Icon icon="bx:calendar" /> Start Date</p></Form.Label>
                     {/* <Form.Control type="date" name="sd" placeholder="Start Date" /> */}
                     
@@ -609,7 +631,7 @@ NothingHaveToken()
                                                         <div className='table-list-ticket px-5'>
             <div className='filtering-table-dropdown-ticket px-3 my-3'>
                 <div className='d-flex align-items-center gap-5'>
-                <Form.Group className='select-date' controlId="sd">
+                 <Form.Group className='select-date' controlId="sd">
                     <Form.Label><p className='nw'><Icon icon="bx:calendar" /> Start Date</p></Form.Label>
                     {/* <Form.Control type="date" name="sd" placeholder="Start Date" /> */}
                     
@@ -745,7 +767,7 @@ NothingHaveToken()
                                                         <div className='table-list-ticket px-5'>
             <div className='filtering-table-dropdown-ticket px-3 my-3'>
                 <div className='d-flex align-items-center gap-5'>
-                <Form.Group className='select-date' controlId="sd">
+                 <Form.Group className='select-date' controlId="sd">
                     <Form.Label><p className='nw'><Icon icon="bx:calendar" /> Start Date</p></Form.Label>
                     {/* <Form.Control type="date" name="sd" placeholder="Start Date" /> */}
                     
@@ -881,7 +903,7 @@ NothingHaveToken()
                                                         <div className='table-list-ticket px-5'>
             <div className='filtering-table-dropdown-ticket px-3 my-3'>
                 <div className='d-flex align-items-center gap-5'>
-                <Form.Group className='select-date' controlId="sd">
+                 <Form.Group className='select-date' controlId="sd">
                     <Form.Label><p className='nw'><Icon icon="bx:calendar" /> Start Date</p></Form.Label>
                     {/* <Form.Control type="date" name="sd" placeholder="Start Date" /> */}
                     
@@ -1017,7 +1039,7 @@ NothingHaveToken()
                                                         <div className='table-list-ticket px-5'>
             <div className='filtering-table-dropdown-ticket px-3 my-3'>
                 <div className='d-flex align-items-center gap-5'>
-                <Form.Group className='select-date' controlId="sd">
+                 <Form.Group className='select-date' controlId="sd">
                     <Form.Label><p className='nw'><Icon icon="bx:calendar" /> Start Date</p></Form.Label>
                     {/* <Form.Control type="date" name="sd" placeholder="Start Date" /> */}
                     

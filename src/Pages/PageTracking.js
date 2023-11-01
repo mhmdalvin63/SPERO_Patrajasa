@@ -112,6 +112,7 @@ let filteredData2  = [];
 
 const [OpenFilter, setOpenFilter] = useState(true);
 const [ForwardingFilter, setForwardingFilter] = useState(true);
+const [ProcessFilter, setProcessFilter] = useState(true);
 const [DoneFilter, setDoneFilter] = useState(true);
 const [ClosedFilter, setClosedFilter] = useState(true);
 const [startDate, setStartDate] = useState('');
@@ -122,6 +123,9 @@ const [endDate, setEndDate] = useState('');
   };
   const toggleForwardingFilter = () => {
     setForwardingFilter(!ForwardingFilter);
+  };
+  const toggleProcessFilter = () => {
+    setProcessFilter(!ProcessFilter);
   };
   const toggleDoneFilter = () => {
     setDoneFilter(!DoneFilter);
@@ -154,6 +158,8 @@ if (byTicketId) {
       if (item.activity_name === 'open' && OpenFilter) {
         return true;
       } else if (item.activity_name === 'forwarding' && ForwardingFilter) {
+        return true;
+      }else if (item.activity_name === 'process' && ProcessFilter) {
         return true;
       }else if (item.activity_name === 'done' && DoneFilter) {
         return true;
@@ -336,10 +342,19 @@ const formatDateLong = (dateString) => {
         <label className='d-flex gap-2'>
         <input
           type="checkbox"
+          checked={ProcessFilter}
+          onChange={toggleProcessFilter}
+        />
+          <p>Process</p>
+        </label>
+
+        <label className='d-flex gap-2'>
+        <input
+          type="checkbox"
           checked={DoneFilter}
           onChange={toggleDoneFilter}
         />
-          <p>process</p>
+          <p>Done</p>
         </label>
 
         <label className='d-flex gap-2'>
@@ -348,7 +363,7 @@ const formatDateLong = (dateString) => {
           checked={ClosedFilter}
           onChange={toggleClosedFilter}
         />
-          <p>done</p>
+          <p>Closed</p>
         </label>
       </div>
                     </Form>
@@ -397,11 +412,11 @@ const formatDateLong = (dateString) => {
            <button onClick={toggleElement} className='button-show-hide'>
             {isElementVisible ? (
               <>
-                <Icon icon="ep:arrow-down-bold" />
+                <h2><Icon icon="ep:arrow-down-bold" /></h2>
               </>
             ) : (
               <>
-                <Icon icon="ep:arrow-up-bold" />
+                <h2><Icon icon="ep:arrow-up-bold" /></h2>
               </>
             )}
           </button>
