@@ -10,27 +10,19 @@ const apiUrl = process.env.REACT_APP_API_URL;
 
 const MultiAxisLineChart = () => {
 
-  const [loading, setLoading] = useState(true);
-  const [isLoading, setIsLoading] = useState(false);
-    // D R I V E R
+  // D R I V E R
   const [Data, setData] = useState([]);
-
+  
+  const [isLoading, setIsLoading] = useState(false);
+  const [loading, setLoading] = useState(false);
   const [selectedOption, setSelectedOption] = useState('january'); // Nilai awal pilihan
 
   const handleChange = (e) => {
-    setIsLoading(true);
-
+    setLoading(true);
     setSelectedOption(e.target.value);
-    // Simulasikan permintaan jaringan atau pemrosesan data yang memerlukan waktu.
-    setTimeout(() => {
-      setIsLoading(false);
-    }, 18000); // Ganti 1000 dengan waktu loading yang sesuai.
-  };
-
-  // D R I V E R
-  useEffect(() => {
+    
     const token = sessionStorage.getItem("jwttoken");
-     axios.get(`${apiUrl}api/dashboard/ticket/daily?month=${selectedOption}`, { headers: {"Authorization" : `Bearer ${token}`} })
+     axios.get(`${apiUrl}api/dashboard/ticket/daily?month=${e.target.value}`, { headers: {"Authorization" : `Bearer ${token}`} })
       .then((result) => {
         console.log('DATA BULANNNNNNNNNNNN',result.data.data);
         setData(result.data.data.days);
@@ -39,7 +31,21 @@ const MultiAxisLineChart = () => {
       .catch((error) => {
         console.log(error)
         setLoading(false);});
-    }, [selectedOption]);
+  };
+
+  // D R I V E R
+  // useEffect(() => {
+  //   const token = sessionStorage.getItem("jwttoken");
+  //    axios.get(`${apiUrl}api/dashboard/ticket/daily?month=${selectedOption}`, { headers: {"Authorization" : `Bearer ${token}`} })
+  //     .then((result) => {
+  //       console.log('DATA BULANNNNNNNNNNNN',result.data.data);
+  //       setData(result.data.data.days);
+  //       setLoading(false);
+  //     })
+  //     .catch((error) => {
+  //       console.log(error)
+  //       setLoading(false);});
+  //   }, [selectedOption]);
   // console.log('Data Terbaru', Data);
   let closed = [];
   // let deleted = [];

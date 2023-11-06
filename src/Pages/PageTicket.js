@@ -442,9 +442,10 @@ NothingHaveToken()
                  <Form.Group className='select-date' controlId="sd">
                     <Form.Label><p className='nw'><Icon icon="bx:calendar" /> Start Date</p></Form.Label>
                     {/* <Form.Control type="date" name="sd" placeholder="Start Date" /> */}
-                    
+              <br/>
           <input
           type="date"
+          className='ms-3'
           placeholder="Start Date"
           value={startDate}
           onChange={(e) => setStartDate(e.target.value)}
@@ -453,8 +454,10 @@ NothingHaveToken()
                 <Form.Group className='select-date' controlId="ed">
                     <Form.Label><p className='nw'><Icon icon="bx:calendar" /> End Date</p></Form.Label>
                     {/* <Form.Control type="date" name="ed" placeholder="End Date" /> */}
+                    <br/>
                     <input
           type="date"
+          className='ms-3'
           placeholder="End Date"
           value={endDate}
           onChange={(e) => setEndDate(e.target.value)}
@@ -634,9 +637,10 @@ NothingHaveToken()
                  <Form.Group className='select-date' controlId="sd">
                     <Form.Label><p className='nw'><Icon icon="bx:calendar" /> Start Date</p></Form.Label>
                     {/* <Form.Control type="date" name="sd" placeholder="Start Date" /> */}
-                    
+                            <br/>
           <input
           type="date"
+          className='ms-3'
           placeholder="Start Date"
           value={startDate}
           onChange={(e) => setStartDate(e.target.value)}
@@ -645,8 +649,10 @@ NothingHaveToken()
                 <Form.Group className='select-date' controlId="ed">
                     <Form.Label><p className='nw'><Icon icon="bx:calendar" /> End Date</p></Form.Label>
                     {/* <Form.Control type="date" name="ed" placeholder="End Date" /> */}
+                    <br/>
                     <input
           type="date"
+          className='ms-3'
           placeholder="End Date"
           value={endDate}
           onChange={(e) => setEndDate(e.target.value)}
@@ -770,9 +776,10 @@ NothingHaveToken()
                  <Form.Group className='select-date' controlId="sd">
                     <Form.Label><p className='nw'><Icon icon="bx:calendar" /> Start Date</p></Form.Label>
                     {/* <Form.Control type="date" name="sd" placeholder="Start Date" /> */}
-                    
+                            <br/>
           <input
           type="date"
+          className='ms-3'
           placeholder="Start Date"
           value={startDate}
           onChange={(e) => setStartDate(e.target.value)}
@@ -781,8 +788,10 @@ NothingHaveToken()
                 <Form.Group className='select-date' controlId="ed">
                     <Form.Label><p className='nw'><Icon icon="bx:calendar" /> End Date</p></Form.Label>
                     {/* <Form.Control type="date" name="ed" placeholder="End Date" /> */}
+                    <br/>
                     <input
           type="date"
+          className='ms-3'
           placeholder="End Date"
           value={endDate}
           onChange={(e) => setEndDate(e.target.value)}
@@ -906,9 +915,10 @@ NothingHaveToken()
                  <Form.Group className='select-date' controlId="sd">
                     <Form.Label><p className='nw'><Icon icon="bx:calendar" /> Start Date</p></Form.Label>
                     {/* <Form.Control type="date" name="sd" placeholder="Start Date" /> */}
-                    
+                            <br/>
           <input
           type="date"
+          className='ms-3'
           placeholder="Start Date"
           value={startDate}
           onChange={(e) => setStartDate(e.target.value)}
@@ -917,8 +927,10 @@ NothingHaveToken()
                 <Form.Group className='select-date' controlId="ed">
                     <Form.Label><p className='nw'><Icon icon="bx:calendar" /> End Date</p></Form.Label>
                     {/* <Form.Control type="date" name="ed" placeholder="End Date" /> */}
+                    <br/>
                     <input
           type="date"
+          className='ms-3'
           placeholder="End Date"
           value={endDate}
           onChange={(e) => setEndDate(e.target.value)}
@@ -1042,9 +1054,10 @@ NothingHaveToken()
                  <Form.Group className='select-date' controlId="sd">
                     <Form.Label><p className='nw'><Icon icon="bx:calendar" /> Start Date</p></Form.Label>
                     {/* <Form.Control type="date" name="sd" placeholder="Start Date" /> */}
-                    
+                            <br/>
           <input
           type="date"
+          className='ms-3'
           placeholder="Start Date"
           value={startDate}
           onChange={(e) => setStartDate(e.target.value)}
@@ -1053,8 +1066,10 @@ NothingHaveToken()
                 <Form.Group className='select-date' controlId="ed">
                     <Form.Label><p className='nw'><Icon icon="bx:calendar" /> End Date</p></Form.Label>
                     {/* <Form.Control type="date" name="ed" placeholder="End Date" /> */}
+                    <br/>
                     <input
           type="date"
+          className='ms-3'
           placeholder="End Date"
           value={endDate}
           onChange={(e) => setEndDate(e.target.value)}

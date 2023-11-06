@@ -150,8 +150,10 @@ function PageTicket() {
                 <Form.Group className='select-date' controlId="sd">
                     <Form.Label><p className='nw'><Icon icon="bx:calendar" /> Start Date</p></Form.Label>
                     {/* <Form.Control type="date" name="sd" placeholder="Start Date" /> */}
+                    <br/>
                     
           <input
+          className='ms-3'
           type="date"
           placeholder="Start Date"
           value={startDate}
@@ -161,7 +163,9 @@ function PageTicket() {
                 <Form.Group className='select-date' controlId="ed">
                     <Form.Label><p className='nw'><Icon icon="bx:calendar" /> End Date</p></Form.Label>
                     {/* <Form.Control type="date" name="ed" placeholder="End Date" /> */}
+                    <br/>
                     <input
+                    className='ms-3'
           type="date"
           placeholder="End Date"
           value={endDate}

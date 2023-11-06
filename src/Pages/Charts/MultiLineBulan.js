@@ -9,7 +9,6 @@ const apiUrl = process.env.REACT_APP_API_URL;
 
 
 const MultiAxisLineChart = () => {
-  const [loading, setLoading] = useState(true);
     // D R I V E R
   const [DataPerBulan, setDataPerBulan] = useState([]);
 
@@ -17,14 +16,15 @@ const MultiAxisLineChart = () => {
 
   const [selectedOption, setSelectedOption] = useState('1'); // Nilai awal pilihan
 
-  let handleChange = (e) => {
-    setSelectedOption(e.target.value);
-  };
+  const [isLoading, setIsLoading] = useState(false);
+  const [loading, setLoading] = useState(false);
 
-  // D R I V E R
-  useEffect(() => {
+  let handleChange = (e) => {
+    setLoading(true);
+    setSelectedOption(e.target.value);
+
     const token = sessionStorage.getItem("jwttoken");
-     axios.get(`${apiUrl}api/dashboard/ticket/monthly?category_id=${selectedOption}`, { headers: {"Authorization" : `Bearer ${token}`} })
+     axios.get(`${apiUrl}api/dashboard/ticket/monthly?category_id=${e.target.value}`, { headers: {"Authorization" : `Bearer ${token}`} })
       .then((result) => {
         // console.log(result.data.data.months);
         setDataPerBulan(result.data.data.months);
@@ -33,7 +33,11 @@ const MultiAxisLineChart = () => {
       .catch((error) => {
         console.log(error)
         setLoading(false);});
+  };
 
+  // D R I V E R
+  useEffect(() => {
+    const token = sessionStorage.getItem("jwttoken");
      axios.get(`${apiUrl}api/dashboard/ticket/get-categories`, { headers: {"Authorization" : `Bearer ${token}`} })
       .then((result) => {
         console.log('KATEGORI BRO',result.data.data);
@@ -141,7 +145,11 @@ const MultiAxisLineChart = () => {
         <Loading/>
       ) : (
         <div className="multi-axis pt-4">
-      <ReactApexChart options={options} series={series} type="line" height={250} />
+          {isLoading ? (
+            <Loading/>
+          ) : (
+            <ReactApexChart options={options} series={series} type="line" height={250} />
+          )}
       <div className='title-multi-axis px-5'>
                     <p>Grafik Per Bulan</p>
                     <select value={selectedOption} onChange={handleChange}  size="xl" aria-label="Default select example" className='select-multi-axis'>
