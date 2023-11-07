@@ -28,18 +28,17 @@ function Example() {
           <h1><Icon icon="gis:poi-map" /></h1>
           <NavLink className='menu-sidebar my-3' activeClassName="active" to={'/tracking'}><p>Map <br/>Tracking</p></NavLink>
           </div>
-          
           <Dropdown id='dropdown-ticket'>
             <Dropdown.Toggle id="dropdown-basic">
             <div className='d-flex align-items-start gap-3' id='nav-menu'>
-            <h1><Icon icon="ion:ticket" /></h1>
+            <h1 className='d-block'><Icon icon="ion:ticket" /></h1>
             <div>
               <NavLink className='menu-sidebar' activeClassName="active"><p>Ticket</p></NavLink>
             </div>
             </div>
             </Dropdown.Toggle>
 
-            <Dropdown.Menu id='dropdown-menuuu'>
+            <Dropdown.Menu id='dropdown-menuuu' align="end">
               <Dropdown.Item href="/ticket">
               <div className='d-flex align-items-center gap-2 my-2'>
               <div className='rectangle'></div>

@@ -73,8 +73,8 @@
 #dropdown-ticket{
     transform: translate(0) !important;
 }
-.dropdown-menuuu{
+#dropdown-menuuu{
     position: absolute;
     inset: none !important;
-    transform: translate3d(0) !important;
+    transform: translate3d(12rem, 5px, 0px) !important;
 }
