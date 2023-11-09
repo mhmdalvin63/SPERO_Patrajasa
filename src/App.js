@@ -6,6 +6,7 @@ import Login from './Pages/Login';
 import Main from './Pages/PageMain';
 import Tracking from './Pages/PageTracking';
 import Ticket from './Pages/PageTicket';
+import Test from './Pages/PageTest';
 import ListTicket from './Pages/PageListTicket';
 import DetailTicket from './Pages/PageDetailTicket';
 import PAR from './Images/PAR.jpg';
@@ -21,6 +22,7 @@ function App() {
        <Routes>
         <Route path='/' exact element={<Login />}/>
         <Route path='/main' element={<Main />}/>
+        <Route path='/test' element={<Test />}/>
         <Route path='/tracking' element={<Tracking />}/>
         <Route path='/ticket' element={<Ticket />}/>
         <Route path='/list-ticket' element={<ListTicket />}/>

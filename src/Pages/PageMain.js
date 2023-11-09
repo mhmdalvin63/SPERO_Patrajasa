@@ -1,5 +1,6 @@
 import '../Css/Pages/PageMain.css';
 import '../Css/Parts/Font.css'; 
+import Pusher from '../Parts/Pusher'
 
 import SvgMaps from '../Parts/SvgMaps'
 
@@ -186,6 +187,8 @@ function MainNew() {
       .catch((error) => {
         console.log(error)
         setLoading(false);});
+
+        
     }, []);
 
     return (
