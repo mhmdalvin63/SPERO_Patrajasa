@@ -7,7 +7,10 @@ import SvgLogo from '../Parts/SvgLogo';
 import { Col, Row } from 'react-bootstrap';
 import { Icon } from '@iconify/react';
 import '../Css/Pages/PageDetailTicket.css';
-import ChatPage from '../Parts/Chat'
+import Pusher from 'pusher-js';
+// import ChatPage from '../Parts/Chat'
+// import Pusher from '../Parts/Pusher'
+// import Pusher from 'pusher-js/types/src/core/pusher';
 // import Timeline from '../Parts/Timeline';
 // import { useHistory } from 'react-router-dom';
 
@@ -18,20 +21,23 @@ function DetailComponent() {
       };
 
   const { id } = useParams();
-  const [Activity, setActivity] = useState(null);
-  const [Added, setAdded] = useState(null);
-  const [Chat, setChat] = useState(null);
-  const [Detail, setDetail] = useState(null);
-  const [Log, setLog] = useState(null);
-  const [Ticket, setTicket] = useState(null);
+  const [Activity, setActivity] = useState([null]);
+  const [Added, setAdded] = useState([null]);
+  const [Chat, setChat] = useState([]);
+  const [Detail, setDetail] = useState([null]);
+  const [Log, setLog] = useState([null]);
+  const [Ticket, setTicket] = useState([null]);
   const [loading, setLoading] = useState(true);
 
 
   useEffect(() => {
     const token = sessionStorage.getItem("jwttoken");
-    axios.get(`${process.env.REACT_APP_API_URL}api/ticket/${id}`, { headers: {"Authorization" : `Bearer ${token}`} })
+  
+    axios.get(`${process.env.REACT_APP_API_URL}api/ticket/${id}`, {
+      headers: { "Authorization": `Bearer ${token}` }
+    })
       .then((response) => {
-        console.log('DATAAAAAAA', response.data.data)
+        console.log('DATAAAAAAA', response.data.data.chat);
         setActivity(response.data.data.activity);
         setAdded(response.data.data.added_by);
         setChat(response.data.data.chat);
@@ -43,9 +49,37 @@ function DetailComponent() {
       .catch((error) => {
         console.error('Error fetching data:', error);
         setLoading(false);
-
       });
+
+      const pusher = new Pusher('f0f69c0d22ba85c93f21', {
+        cluster: 'ap1',
+      });
+      const channel = pusher.subscribe('chat');
+      
+      channel.bind('chat-event', (data) => {
+        // console.log(data)
+        // console.log(JSON.parse(data.message))
+        try {
+            const newData = JSON.parse(data.message); // Mengubah data menjadi objek JSON
+            setChat((prevData) => [...prevData, newData]); // Menambahkan data JSON ke array
+        } catch (error) {
+            console.error('Gagal mengurai data JSON:', error);
+        }
+        });
+  
+      channel.bind('pusher:error', err => {
+        console.error('Pusher Error:', err);
+      });
+  
+      pusher.connection.bind('connected', () => {
+        console.log('Connected to Pusher');
+      });
+  
+      return () => {
+        pusher.disconnect(); // Disconnect Pusher when the component unmounts
+      };
   }, [id]);
+  
 
 //   console.log('ACTIVITYYYYYYYY', Activity)
 //   console.log('ADDEDDDDDDDDDDDDDDDDD', Added)
