@@ -54,7 +54,7 @@ function DetailComponent() {
       const pusher = new Pusher('f0f69c0d22ba85c93f21', {
         cluster: 'ap1',
       });
-      const channel = pusher.subscribe('chat');
+      const channel = pusher.subscribe(`private-chat.${id}`);
       
       channel.bind('chat-event', (data) => {
         // console.log(data)

@@ -26,7 +26,7 @@ const IndonesiaMap = (props) => {
   } else {
     mappedPoints = []; // or set to any default value you prefer
   }
-  console.log('MAPPEDDDDDD', mappedPoints)
+  // console.log('MAPPEDDDDDD', mappedPoints)
 
    // Convert the parameters object into a URL-encoded string
    useEffect(() => {
@@ -34,12 +34,12 @@ const IndonesiaMap = (props) => {
      const token = sessionStorage.getItem("jwttoken");
       axios.get(`${process.env.REACT_APP_API_URL}api/dashboard/province-earthquake?filter=${parameter}`, { headers: {"Authorization" : `Bearer ${token}`} })
        .then((result) => {
-         console.log('EARTHQUAKEEEEEEEEEEEEE', result.data.data);
+        //  console.log('EARTHQUAKEEEEEEEEEEEEE', result.data.data);
          SetEarthQuakes(result.data.data);
          setLoading(false);
        })
        .catch((error) => {
-         console.log(error)
+        //  console.log(error)
          setLoading(false);
      });
    }, []);
@@ -78,7 +78,7 @@ const IndonesiaMap = (props) => {
           y = 80; // Atur nilai y sesuai dengan kondisi ini
         }
 
-        console.log(x, y)
+        // console.log(x, y)
 
         return (
           

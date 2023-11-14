@@ -1,6 +1,7 @@
 import '../Css/Pages/PageMain.css';
 import '../Css/Parts/Font.css'; 
-import Pusher from '../Parts/Pusher'
+// import Pusher from '../Parts/Pusher'
+import Pusher from 'pusher-js';
 
 import SvgMaps from '../Parts/SvgMaps'
 
@@ -81,83 +82,124 @@ function MainNew() {
   // T I C K E T   S U M M A R Y
   useEffect(() => {
     const token = sessionStorage.getItem("jwttoken");
-     axios.get(process.env.REACT_APP_API_URL + 'api/ticket/summary?filter=day', { headers: {"Authorization" : `Bearer ${token}`} })
-      .then((result) => {
-        console.log('DATAAAAAAAAAAAAAAAAA', result.data.data);
+
+    const fetchData = async () => {
+      try {
+        const result = await axios.get(process.env.REACT_APP_API_URL + 'api/ticket/summary?filter=day', { headers:      {"Authorization" : `Bearer ${token}`} })
         setPosts(result.data.data.total_priority);
         setPriority(result.data.data.total_priority);
         setOpen(result.data.data.status.open);
         setProses(result.data.data.status.process);
         setDone(result.data.data.status.done);
         setClose(result.data.data.status.closed);
-        setLoading(false);
-      })
-      .catch((error) => {
-        console.log(error)
-        setLoading(false);
-    });
 
-     axios.get(process.env.REACT_APP_API_URL + 'api/ticket/summary?filter=week', { headers: {"Authorization" : `Bearer ${token}`} })
-      .then((result) => {
-        console.log('DATAAAAAAAAAAAAAAAAA', result.data.data);
-        setPostsWeek(result.data.data.total_priority);
-        setPriorityWeek(result.data.data.total_priority);
-        setOpenWeek(result.data.data.status.open);
-        setProsesWeek(result.data.data.status.process);
-        setDoneWeek(result.data.data.status.done);
-        setCloseWeek(result.data.data.status.closed);
-        setLoading(false);
-      })
-      .catch((error) => {
-        console.log(error)
-        setLoading(false);});
+        const resultWeek = await axios.get(process.env.REACT_APP_API_URL + 'api/ticket/summary?filter=week', { headers: {"Authorization" : `Bearer ${token}`} })
+        setPostsWeek(resultWeek.data.data.total_priority);
+        setPriorityWeek(resultWeek.data.data.total_priority);
+        setOpenWeek(resultWeek.data.data.status.open);
+        setProsesWeek(resultWeek.data.data.status.process);
+        setDoneWeek(resultWeek.data.data.status.done);
+        setCloseWeek(resultWeek.data.data.status.closed);
 
-     axios.get(process.env.REACT_APP_API_URL + 'api/ticket/summary?filter=month', { headers: {"Authorization" : `Bearer ${token}`} })
-      .then((result) => {
-        console.log('DATAAAAAAAAAAAAAAAAA', result.data.data);
-        setPostsMonth(result.data.data.total_priority);
-        setPriorityMonth(result.data.data.total_priority);
-        setOpenMonth(result.data.data.status.open);
-        setProsesMonth(result.data.data.status.process);
-        setDoneMonth(result.data.data.status.done);
-        setCloseMonth(result.data.data.status.closed);
-        setLoading(false);
-      })
-      .catch((error) => {
-        console.log(error)
-        setLoading(false);});
+        const resultMonth = await axios.get(process.env.REACT_APP_API_URL + 'api/ticket/summary?filter=month', { headers: {"Authorization" : `Bearer ${token}`} })
+        setPostsMonth(resultMonth.data.data.total_priority);
+        setPriorityMonth(resultMonth.data.data.total_priority);
+        setOpenMonth(resultMonth.data.data.status.open);
+        setProsesMonth(resultMonth.data.data.status.process);
+        setDoneMonth(resultMonth.data.data.status.done);
+        setCloseMonth(resultMonth.data.data.status.closed);
 
-     axios.get(process.env.REACT_APP_API_URL + 'api/ticket/summary?filter=year', { headers: {"Authorization" : `Bearer ${token}`} })
-      .then((result) => {
-        console.log('DATAAAAAAAAAAAAAAAAA', result.data.data);
-        setPostsYear(result.data.data.total_priority);
-        setPriorityYear(result.data.data.total_priority);
-        setOpenYear(result.data.data.status.open);
-        setProsesYear(result.data.data.status.process);
-        setDoneYear(result.data.data.status.done);
-        setCloseYear(result.data.data.status.closed);
+        const resultYear = await axios.get(process.env.REACT_APP_API_URL + 'api/ticket/summary?filter=year', { headers: {"Authorization" : `Bearer ${token}`} })
+        setPostsYear(resultYear.data.data.total_priority);
+        setPriorityYear(resultYear.data.data.total_priority);
+        setOpenYear(resultYear.data.data.status.open);
+        setProsesYear(resultYear.data.data.status.process);
+        setDoneYear(resultYear.data.data.status.done);
+        setCloseYear(resultYear.data.data.status.closed);
+
         setLoading(false);
-      })
-      .catch((error) => {
+      } catch (error) {
         console.log(error)
-        setLoading(false);});
+        setLoading(false);
+      }
+    };
+
+    //  axios.get(process.env.REACT_APP_API_URL + 'api/ticket/summary?filter=day', { headers: {"Authorization" : `Bearer ${token}`} })
+    //   .then((result) => {
+    //     setPosts(result.data.data.total_priority);
+    //     setPriority(result.data.data.total_priority);
+    //     setOpen(result.data.data.status.open);
+    //     setProses(result.data.data.status.process);
+    //     setDone(result.data.data.status.done);
+    //     setClose(result.data.data.status.closed);
+    //     setLoading(false);
+    //   })
+    //   .catch((error) => {
+    //     console.log(error)
+    //     setLoading(false);
+    // });
+
+    //  axios.get(process.env.REACT_APP_API_URL + 'api/ticket/summary?filter=week', { headers: {"Authorization" : `Bearer ${token}`} })
+    //   .then((result) => {
+    //     // console.log('DATAAAAAAAAAAAAAAAAA', result.data.data);
+    //     setPostsWeek(result.data.data.total_priority);
+    //     setPriorityWeek(result.data.data.total_priority);
+    //     setOpenWeek(result.data.data.status.open);
+    //     setProsesWeek(result.data.data.status.process);
+    //     setDoneWeek(result.data.data.status.done);
+    //     setCloseWeek(result.data.data.status.closed);
+    //     setLoading(false);
+    //   })
+    //   .catch((error) => {
+    //     console.log(error)
+    //     setLoading(false);});
+
+    //  axios.get(process.env.REACT_APP_API_URL + 'api/ticket/summary?filter=month', { headers: {"Authorization" : `Bearer ${token}`} })
+    //   .then((result) => {
+    //     // console.log('DATAAAAAAAAAAAAAAAAA', result.data.data);
+    //     setPostsMonth(result.data.data.total_priority);
+    //     setPriorityMonth(result.data.data.total_priority);
+    //     setOpenMonth(result.data.data.status.open);
+    //     setProsesMonth(result.data.data.status.process);
+    //     setDoneMonth(result.data.data.status.done);
+    //     setCloseMonth(result.data.data.status.closed);
+    //     setLoading(false);
+    //   })
+    //   .catch((error) => {
+    //     console.log(error)
+    //     setLoading(false);});
+
+    //  axios.get(process.env.REACT_APP_API_URL + 'api/ticket/summary?filter=year', { headers: {"Authorization" : `Bearer ${token}`} })
+    //   .then((result) => {
+    //     // console.log('DATAAAAAAAAAAAAAAAAA', result.data.data);
+    //     setPostsYear(result.data.data.total_priority);
+    //     setPriorityYear(result.data.data.total_priority);
+    //     setOpenYear(result.data.data.status.open);
+    //     setProsesYear(result.data.data.status.process);
+    //     setDoneYear(result.data.data.status.done);
+    //     setCloseYear(result.data.data.status.closed);
+    //     setLoading(false);
+    //   })
+    //   .catch((error) => {
+    //     console.log(error)
+    //     setLoading(false);});
 
       axios.get(process.env.REACT_APP_API_URL + 'api/dashboard/driver', { headers: {"Authorization" : `Bearer ${token}`} })
        .then((result) => {
-         console.log('DRIVERRRRRR',result.data.data);
+        //  console.log('DRIVERRRRRR',result.data.data);
          setDriver(result.data.data.count);
          setDriverList(result.data.data.drivers)
-         console.log(setDriverList);
+        //  console.log(setDriverList);
          setLoading(false);
        })
        .catch((error) => {
         console.log(error)
         setLoading(false);});
-    //    console.log(DriverList)
+       console.log(DriverList)
 
       axios.get(process.env.REACT_APP_API_URL + 'api/dashboard/operator', { headers: {"Authorization" : `Bearer ${token}`} })
        .then((result) => {
-         console.log('OPERATORRRR',result.data.data);
+        //  console.log('OPERATORRRR',result.data.data);
          SetOperator(result.data.data.operators);
          SetOperatorCount(result.data.data.count);
          setLoading(false);
@@ -165,11 +207,11 @@ function MainNew() {
        .catch((error) => {
         console.log(error)
         setLoading(false);});
-    //    console.log(DriverList)
+       console.log(DriverList)
 
      axios.get(process.env.REACT_APP_API_URL + 'api/dashboard/process-owner', { headers: {"Authorization" : `Bearer ${token}`} })
       .then((result) => {
-        // console.log('PROSES OWNER COIIII',result.data.data);
+        console.log('PROSES OWNER COIIII',result.data.data);
         setPo(result.data.data.count);
         setPoList(result.data.data.process_owners)
         setLoading(false);
@@ -180,17 +222,56 @@ function MainNew() {
 
      axios.get(process.env.REACT_APP_API_URL + 'api/dashboard/ticket', { headers: {"Authorization" : `Bearer ${token}`} })
       .then((result) => {
-        // console.log(result.data.data);
+        console.log(result.data.data);
         setTicket(result.data.data);
         setLoading(false);
       })
       .catch((error) => {
         console.log(error)
-        setLoading(false);});
+        setLoading(false);
+        });
 
-        
+        const pusher = new Pusher('f0f69c0d22ba85c93f21', {
+            cluster: 'ap1',
+          });
+          const channel = pusher.subscribe('post-ticket');
+          
+          channel.bind('post-ticket-event', (data) => {
+            console.log(data.message);
+            try {
+              if (data.message === 'open') {
+                // If data.message is "Ping!", update the state
+                setOpen((prevOpen) => !prevOpen);
+                setOpenWeek((prevOpenWeek) => !prevOpenWeek);
+                setOpenMonth((prevOpenMonth) => !prevOpenMonth);
+                setOpenYear((prevOpenYear) => !prevOpenYear);
+      
+                // Fetch the latest data after updating the state
+                fetchData();
+              }
+            } catch (error) {
+              console.error('Gagal mengurai data JSON:', error);
+            }
+            // Add additional logic or rendering here if needed
+          });
+      
+      
+          channel.bind('pusher:error', err => {
+            console.error('Pusher Error:', err);
+          });
+      
+          pusher.connection.bind('connected', () => {
+            console.log('Connected to Pusher');
+          });
+      
+          fetchData(); 
+
+          return () => {
+            pusher.disconnect(); // Disconnect Pusher when the component unmounts
+          };
     }, []);
 
+    // console.log(open)
     return (
         <div>
         {loading ? (
