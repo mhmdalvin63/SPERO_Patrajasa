@@ -24,7 +24,7 @@ const MultiAxisLineChart = () => {
     const token = sessionStorage.getItem("jwttoken");
      axios.get(`${apiUrl}api/dashboard/ticket/daily?month=${e.target.value}`, { headers: {"Authorization" : `Bearer ${token}`} })
       .then((result) => {
-        console.log('DATA BULANNNNNNNNNNNN',result.data.data);
+        // console.log('DATA BULANNNNNNNNNNNN',result.data.data);
         setData(result.data.data.days);
         setLoading(false);
       })

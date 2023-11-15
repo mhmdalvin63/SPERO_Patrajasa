@@ -40,7 +40,7 @@ const MultiAxisLineChart = () => {
     const token = sessionStorage.getItem("jwttoken");
      axios.get(`${apiUrl}api/dashboard/ticket/get-categories`, { headers: {"Authorization" : `Bearer ${token}`} })
       .then((result) => {
-        console.log('KATEGORI BRO',result.data.data);
+        // console.log('KATEGORI BRO',result.data.data);
         setKategori(result.data.data);
         setLoading(false);
       })

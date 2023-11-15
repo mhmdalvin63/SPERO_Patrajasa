@@ -5,6 +5,7 @@ import Maps from '../Images/SvgIndonesia.svg';
 import Radius from '../Images/Radius.png';
 import Loading from './Loading';
 import '../Css/Parts/SvgMaps.css'
+import Pusher from 'pusher-js';
 
 const IndonesiaMap = (props) => {
 
@@ -32,16 +33,53 @@ const IndonesiaMap = (props) => {
    useEffect(() => {
     const { parameter } = props;
      const token = sessionStorage.getItem("jwttoken");
-      axios.get(`${process.env.REACT_APP_API_URL}api/dashboard/province-earthquake?filter=${parameter}`, { headers: {"Authorization" : `Bearer ${token}`} })
-       .then((result) => {
-        //  console.log('EARTHQUAKEEEEEEEEEEEEE', result.data.data);
-         SetEarthQuakes(result.data.data);
-         setLoading(false);
-       })
-       .catch((error) => {
-        //  console.log(error)
-         setLoading(false);
-     });
+     const fetchData = async () => {
+      try {
+        const result = await axios.get(`${process.env.REACT_APP_API_URL}api/dashboard/province-earthquake?filter=${parameter}`, { headers: {"Authorization" : `Bearer ${token}`} })
+        console.log('SVGGGGGGGG',result.data.data)
+        SetEarthQuakes(result.data.data);
+
+        setLoading(false);
+      } catch (error) {
+        console.log(error)
+        setLoading(false);
+      }
+    };
+
+    const pusher = new Pusher('f0f69c0d22ba85c93f21', {
+      cluster: 'ap1',
+    });
+    const channel = pusher.subscribe('post-ticket');
+    
+    channel.bind('post-ticket-event', (data) => {
+      console.log(data.message);
+      try {
+        if (data.message.status === 'open' || data.message.status === 'process' || data.message.status === 'done' || data.message.status === 'closed') {
+          // If data.message is "Ping!", update the state
+          SetEarthQuakes((prevEarthQuakes) => !prevEarthQuakes);
+
+          // Fetch the latest data after updating the state
+          fetchData();
+        }
+      } catch (error) {
+        console.error('Gagal mengurai data JSON:', error);
+      }
+      // Add additional logic or rendering here if needed
+    });
+
+    channel.bind('pusher:error', err => {
+      console.error('Pusher Error:', err);
+    });
+
+    pusher.connection.bind('connected', () => {
+      console.log('Connected to Pusher');
+    });
+
+    fetchData(); 
+
+    return () => {
+      pusher.disconnect(); // Disconnect Pusher when the component unmounts
+    };
    }, []);
 
  

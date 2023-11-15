@@ -85,7 +85,7 @@ function MainNew() {
 
     const fetchData = async () => {
       try {
-        const result = await axios.get(process.env.REACT_APP_API_URL + 'api/ticket/summary?filter=day', { headers:      {"Authorization" : `Bearer ${token}`} })
+        const result = await axios.get(process.env.REACT_APP_API_URL + 'api/ticket/summary?filter=day', { headers: {"Authorization" : `Bearer ${token}`} })
         setPosts(result.data.data.total_priority);
         setPriority(result.data.data.total_priority);
         setOpen(result.data.data.status.open);
@@ -186,7 +186,7 @@ function MainNew() {
 
       axios.get(process.env.REACT_APP_API_URL + 'api/dashboard/driver', { headers: {"Authorization" : `Bearer ${token}`} })
        .then((result) => {
-        //  console.log('DRIVERRRRRR',result.data.data);
+         console.log('DRIVERRRRRR',result.data.data);
          setDriver(result.data.data.count);
          setDriverList(result.data.data.drivers)
         //  console.log(setDriverList);
@@ -239,12 +239,24 @@ function MainNew() {
           channel.bind('post-ticket-event', (data) => {
             console.log(data.message);
             try {
-              if (data.message === 'open') {
+              if (data.message.status === 'open' || data.message.status === 'process' || data.message.status === 'done' || data.message.status === 'closed') {
                 // If data.message is "Ping!", update the state
                 setOpen((prevOpen) => !prevOpen);
                 setOpenWeek((prevOpenWeek) => !prevOpenWeek);
                 setOpenMonth((prevOpenMonth) => !prevOpenMonth);
                 setOpenYear((prevOpenYear) => !prevOpenYear);
+                setProses((prevProses) => !prevProses);
+                setProsesWeek((prevProsesWeek) => !prevProsesWeek);
+                setProsesMonth((prevProsesMonth) => !prevProsesMonth);
+                setProsesYear((prevProsesYear) => !prevProsesYear);
+                setDone((prevDone) => !prevDone);
+                setDoneWeek((prevDoneWeek) => !prevDoneWeek);
+                setDoneMonth((prevDoneMonth) => !prevDoneMonth);
+                setDoneYear((prevDoneYear) => !prevDoneYear);
+                setClose((prevClose) => !prevClose);
+                setCloseWeek((prevCloseWeek) => !prevCloseWeek);
+                setCloseMonth((prevCloseMonth) => !prevCloseMonth);
+                setCloseYear((prevCloseYear) => !prevCloseYear);
       
                 // Fetch the latest data after updating the state
                 fetchData();
@@ -254,7 +266,6 @@ function MainNew() {
             }
             // Add additional logic or rendering here if needed
           });
-      
       
           channel.bind('pusher:error', err => {
             console.error('Pusher Error:', err);
@@ -295,7 +306,7 @@ function MainNew() {
                                 <h1 className='md fwb mt-3'><Icon icon="carbon:report" /></h1>
                                 <div>
                                 <Detakblue className='detak' />
-                                <p className='xl fwb700 tt'>Ticket</p>
+                                <p className='xl fwb700 tt'>Ticket Active</p>
                                 </div>
                             </div>
                         </div>

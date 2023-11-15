@@ -1,6 +1,8 @@
 import '../Css/Pages/PageTicket.css';
 import '../Css/Parts/Font.css'; 
 
+import Pusher from 'pusher-js';
+
 import SvgLogo from '../Parts/SvgLogo';
 import {Dropdown, Form,  FormControl, Button, Row, Col} from 'react-bootstrap';
 
@@ -99,8 +101,9 @@ NothingHaveToken()
 
     useEffect(() => {
     const token = sessionStorage.getItem("jwttoken");
-     axios.get(`${process.env.REACT_APP_API_URL}api/ticket/summary`, { headers: {"Authorization" : `Bearer ${token}`} })
-      .then((result) => {
+    const fetchData = async () => {
+      try {
+        const result = await axios.get(`${process.env.REACT_APP_API_URL}api/ticket/summary`, { headers: {"Authorization" : `Bearer ${token}`} })
         setPosts(result.data.data.total_priority);
         setPriority(result.data.data.total_priority);
         setOpen(result.data.data.status.open);
@@ -119,32 +122,105 @@ NothingHaveToken()
         setclosedlow(result.data.data.status.closed.priority[0].value);
         setclosedmedium(result.data.data.status.closed.priority[1].value);
         setclosedhigh(result.data.data.status.closed.priority[2].value);
-        setLoading(false);
-      })
-      .catch((error) => {
-        console.log(error)
-    setLoading(false);
-  });
 
-     axios.get(`${process.env.REACT_APP_API_URL}api/dashboard/ticket`, { headers: {"Authorization" : `Bearer ${token}`} })
-      .then((result) => {
-        console.log('TICKETTTTT', result.data.data);
-        setTicket(result.data.data);
-        setLoading(false);
-      })
-      .catch((error) => {
-        console.log(error)
-    setLoading(false);});
+        const resultTicket = await axios.get(`${process.env.REACT_APP_API_URL}api/dashboard/ticket`, { headers: {"Authorization" : `Bearer ${token}`} })
+        setTicket(resultTicket.data.data);
 
-    axios.get(`${process.env.REACT_APP_API_URL}api/dashboard/ticket/get-categories`, { headers: {"Authorization" : `Bearer ${token}`} })
-          .then((result) => {
-            console.log('KATTTT',result.data.data);
-            setKategori(result.data.data);
-            setLoading(false);
-          })
-          .catch((error) => {
-            console.log(error)
-            setLoading(false);});
+        const resultKategori = await axios.get(`${process.env.REACT_APP_API_URL}api/dashboard/ticket/get-categories`, { headers: {"Authorization" : `Bearer ${token}`} })
+        setKategori(resultKategori.data.data);
+
+        setLoading(false);
+      } catch (error) {
+        console.log(error)
+        setLoading(false);
+      }
+    };
+  //    axios.get(`${process.env.REACT_APP_API_URL}api/ticket/summary`, { headers: {"Authorization" : `Bearer ${token}`} })
+  //     .then((result) => {
+  //       setPosts(result.data.data.total_priority);
+  //       setPriority(result.data.data.total_priority);
+  //       setOpen(result.data.data.status.open);
+  //       setopenlow(result.data.data.status.open.priority[0].value);
+  //       setopenmedium(result.data.data.status.open.priority[1].value);
+  //       setopenhigh(result.data.data.status.open.priority[2].value);
+  //       setProses(result.data.data.status.process);
+  //       setprocesslow(result.data.data.status.process.priority[0].value);
+  //       setprocessmedium(result.data.data.status.process.priority[1].value);
+  //       setprocesshigh(result.data.data.status.process.priority[2].value);
+  //       setDone(result.data.data.status.done);
+  //       setDoneLow(result.data.data.status.done.priority[0].value);
+  //       setDoneMedium(result.data.data.status.done.priority[1].value);
+  //       setDoneHigh(result.data.data.status.done.priority[2].value);
+  //       setClose(result.data.data.status.closed);
+  //       setclosedlow(result.data.data.status.closed.priority[0].value);
+  //       setclosedmedium(result.data.data.status.closed.priority[1].value);
+  //       setclosedhigh(result.data.data.status.closed.priority[2].value);
+  //       setLoading(false);
+  //     })
+  //     .catch((error) => {
+  //       console.log(error)
+  //   setLoading(false);
+  // });
+
+    //  axios.get(`${process.env.REACT_APP_API_URL}api/dashboard/ticket`, { headers: {"Authorization" : `Bearer ${token}`} })
+    //   .then((result) => {
+    //     // console.log('TICKETTTTT', result.data.data);
+    //     setTicket(result.data.data);
+    //     setLoading(false);
+    //   })
+    //   .catch((error) => {
+    //     console.log(error)
+    //     setLoading(false);
+    //   });
+
+    // axios.get(`${process.env.REACT_APP_API_URL}api/dashboard/ticket/get-categories`, { headers: {"Authorization" : `Bearer ${token}`} })
+    //       .then((result) => {
+    //         // console.log('KATTTT',result.data.data);
+    //         setKategori(result.data.data);
+    //         setLoading(false);
+    //       })
+    //       .catch((error) => {
+    //         console.log(error)
+    //         setLoading(false);
+    //       });   
+
+    const pusher = new Pusher('f0f69c0d22ba85c93f21', {
+      cluster: 'ap1',
+    });
+    const channel = pusher.subscribe('post-ticket');
+
+channel.bind('post-ticket-event', (data) => {
+  console.log(data.message);
+  try {
+    if (data.message === 'open') {
+      // If data.message is "Ping!", update the state
+      setOpen((prevOpen) => !prevOpen); // Use functional update
+      setPosts((prevPosts) => !prevPosts); // Use functional update
+      // setTicket((prevTicket) => !prevTicket); // Use functional update
+
+      // Fetch the latest data after updating the state
+      fetchData();
+    }
+  } catch (error) {
+    console.error('Gagal mengurai data JSON:', error);
+  }
+  // Add additional logic or rendering here if needed
+});
+
+channel.bind('pusher:error', (err) => {
+  console.error('Pusher Error:', err);
+});
+
+pusher.connection.bind('connected', () => {
+  console.log('Connected to Pusher');
+});
+
+fetchData();
+
+return () => {
+  pusher.disconnect(); // Disconnect Pusher when the component unmounts
+};
+
   }, []);
 
   let DataOpen;

@@ -18,7 +18,7 @@ const MultiAxisLineChart = () => {
     const token = sessionStorage.getItem("jwttoken");
      axios.get(`${apiUrl}api/dashboard/ticket/each-province`, { headers: {"Authorization" : `Bearer ${token}`} })
       .then((result) => {
-        console.log('okkkkkkkkkkkkkkkkkk',result.data.data);
+        // console.log('okkkkkkkkkkkkkkkkkk',result.data.data);
         setDataPerProvinsi(result.data.data);
         setLoading(false);
       })
