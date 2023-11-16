@@ -172,31 +172,64 @@ function App(props) {
     const pusher = new Pusher('f0f69c0d22ba85c93f21', {
       cluster: 'ap1',
     });
-    const channel = pusher.subscribe(`track-driver`);
-    
-    channel.bind('track-driver-event', (data) => {
-      // console.log(data)
-      console.log(JSON.parse(data.message))
-      try {
-          const newData = JSON.parse(data.message); // Mengubah data menjadi objek JSON
-      } catch (error) {
-          console.error('Gagal mengurai data JSON:', error);
-      }
-      });
 
-    channel.bind('pusher:error', err => {
-      console.error('Pusher Error:', err);
+    // PUSHER MEMPERBARUI LAT LONG
+    const channel = pusher.subscribe(`track-driver`);
+    channel.bind('track-driver-event', (data) => {
+      console.log('New Data from Pusher:', data.message);
+    
+      // Assuming data.message has the new latitude and longitude
+      const driverId = parseFloat(data.message.driver_id);
+      const newLat = parseFloat(data.message.lat);
+      const newLng = parseFloat(data.message.long);
+    
+      // Update the position of the existing marker based on the driver's ID
+      setDrivers((prevMarkers) =>
+        prevMarkers.map((marker) =>
+          marker.driverid === driverId
+            ? { ...marker, position: { lat: newLat, lng: newLng } }
+            : marker
+        )
+      );
+    });
+    
+    // PUSHER MENAMBAH TICKET
+    const channelPostTicket = pusher.subscribe(`post-ticket`);
+    channelPostTicket.bind('post-ticket-event', (data) => {
+      console.log('New Data from Pusher:', data.message.data);
+
+        const newTicket = {
+        ticketid: data.message.data.ticket_id,
+        position: { lat: parseFloat(data.message.data.lat), lng: parseFloat(data.message.data.long) },
+        subject: data.message.data.subject,
+        attachments: data.message.data.attachments,
+        icon: data.message.data.icon,
+        createdat: data.message.data.created_at,
+        activityname: data.message.data.activity_name,
+        activitycolor: data.message.data.activity_color,
+        starttime: data.message.data.start_time,
+        rangetime: data.message.data.range_time,
+        content: data.message.data.content,
+        priorityname: data.message.data.priority_name,
+        ticketcode: data.message.data.ticket_code,
+      };
+
+      // Add the new ticket to the existing markers
+      setMarkers((prevMarkers) => [...prevMarkers, newTicket]);
     });
 
     pusher.connection.bind('connected', () => {
       console.log('Connected to Pusher');
     });
-
+    
+    
     return () => {
       pusher.disconnect(); // Disconnect Pusher when the component unmounts
     };
 
   }, []);
+
+  console.log('data driver terbaru', setDrivers)
 
   const { isLoaded } = useLoadScript({
     googleMapsApiKey: process.env.REACT_APP_GOOGLE_MAPS_API_KEY
@@ -222,7 +255,7 @@ function App(props) {
   console.log('driver woi', Drivers)
   
   const [activeMarkerPosition, setActiveMarkerPosition] = useState(null);
-  const [activeMarkerZoom, setActiveMarkerZoom] = useState(12);
+  const [activeMarkerZoom, setActiveMarkerZoom] = useState(10);
 
   function formatDate(dateStr) {
     const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };

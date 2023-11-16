@@ -1,6 +1,8 @@
 import '../Css/Pages/PageTracking.css';
 import '../Css/Parts/Font.css'; 
 
+import Pusher from 'pusher-js';
+
 import Maps from '../Parts/Marker2'
 // import Filter from '../Parts/Filter'
 import LogoPatra from '../Images/Logo-Prima.png';
@@ -73,7 +75,38 @@ useEffect(() => {
   .catch((error) => {
     console.log(error)
 setLoading(false);});
+
+const pusher = new Pusher('f0f69c0d22ba85c93f21', {
+  cluster: 'ap1',
+});
+const channel = pusher.subscribe(`post-ticket`);
+
+channel.bind('post-ticket-event', (data) => {
+  // console.log(data)
+  // console.log(data.message.data)
+  try {
+      const newData = data.message.data; // Mengubah data menjadi objek JSON
+      setTicket((prevData) => [...prevData, newData]); // Menambahkan data JSON ke array
+  } catch (error) {
+      console.error('Gagal mengurai data JSON:', error);
+  }
+  });
+
+channel.bind('pusher:error', err => {
+  console.error('Pusher Error:', err);
+});
+
+pusher.connection.bind('connected', () => {
+  console.log('Connected to Pusher');
+});
+
+return () => {
+  pusher.disconnect(); // Disconnect Pusher when the component unmounts
+};
 }, []);
+
+
+
 
 // let byTicketId = Ticket.filter(item => item.ticket_id);
 let byTicketId;
