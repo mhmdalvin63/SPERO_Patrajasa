@@ -7,8 +7,7 @@ import '../Css/Parts/MapsMarker.css';
 import Table from 'react-bootstrap/Table';
 // import { useContext } from 'react';
 import Tracking from '../Pages/PageTracking';
-
-
+import Pusher from 'pusher-js';
 
 import {
   GoogleMap,
@@ -84,6 +83,7 @@ function App(props) {
   let Driver = [];
   useEffect(() => {
     const token = sessionStorage.getItem("jwttoken");
+
     axios.get(`${process.env.REACT_APP_API_URL}api/dashboard/tracking`, { headers: {"Authorization" : `Bearer ${token}`} })
     .then((result) => {
       console.log('MAPSSSSSSSSSS', result.data.data);
@@ -120,9 +120,82 @@ function App(props) {
       setDrivers(filterDrivers);
       setLoading(false);
     })
+
     .catch((error) => {
       console.log(error)
       setLoading(false);});
+
+    // const fetchData = async () => {
+    //   try {
+    //     const result = await axios.get(`${process.env.REACT_APP_API_URL}api/dashboard/tracking`, { headers: {"Authorization" : `Bearer ${token}`} })
+        
+    //     setMaps(result.data.data ?? 0);
+    //     const filterMarkers = result.data.data
+    //     .filter(item => item.ticket_id) // Filter only items with a ticketid
+    //     .map(item => ({
+    //       ticketid: item.ticket_id,
+    //       position: { lat: parseFloat(item.lat), lng: parseFloat(item.long) },
+    //       subject: item.subject,
+    //       attachments: item.attachments,
+    //       icon: item.icon,
+    //       createdat: item.created_at,
+    //       activityname: item.activity_name,
+    //       activitycolor: item.activity_color,
+    //       starttime: item.start_time,
+    //       rangetime: item.range_time,
+    //       content: item.content,
+    //       priorityname: item.priority_name,
+    //       ticketcode: item.ticket_code,
+    //     }));
+    //     setMarkers(filterMarkers);
+  
+    //     const filterDrivers = result.data.data
+    //     .filter(item => item.driver_id) // Filter only items with a driverid
+    //     .map(item => ({
+    //       driverid: item.driver_id,
+    //       position: { lat: parseFloat(item.lat), lng: parseFloat(item.long) },
+    //       drivercode: item.driver_code,
+    //       name: item.name,
+    //       createdat: item.created_at,
+    //       status: item.status,
+    //     }));
+    //     setDrivers(filterDrivers);
+    //     setLoading(false);
+
+    //     setLoading(false);
+    //   } catch (error) {
+    //     console.log(error)
+    //     setLoading(false);
+    //   }
+    // };
+
+    const pusher = new Pusher('f0f69c0d22ba85c93f21', {
+      cluster: 'ap1',
+    });
+    const channel = pusher.subscribe(`track-driver`);
+    
+    channel.bind('track-driver-event', (data) => {
+      // console.log(data)
+      console.log(JSON.parse(data.message))
+      try {
+          const newData = JSON.parse(data.message); // Mengubah data menjadi objek JSON
+      } catch (error) {
+          console.error('Gagal mengurai data JSON:', error);
+      }
+      });
+
+    channel.bind('pusher:error', err => {
+      console.error('Pusher Error:', err);
+    });
+
+    pusher.connection.bind('connected', () => {
+      console.log('Connected to Pusher');
+    });
+
+    return () => {
+      pusher.disconnect(); // Disconnect Pusher when the component unmounts
+    };
+
   }, []);
 
   const { isLoaded } = useLoadScript({
@@ -148,12 +221,8 @@ function App(props) {
   console.log('ticket woi', Markers)
   console.log('driver woi', Drivers)
   
-
- 
-  
   const [activeMarkerPosition, setActiveMarkerPosition] = useState(null);
   const [activeMarkerZoom, setActiveMarkerZoom] = useState(12);
-
 
   function formatDate(dateStr) {
     const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
