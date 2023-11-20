@@ -218,10 +218,27 @@ function App(props) {
       setMarkers((prevMarkers) => [...prevMarkers, newTicket]);
     });
 
+    // PUSHER MENAMBAH TICKET
+    const channelPostDriver = pusher.subscribe(`post-driver`);
+    channelPostDriver.bind('post-driver-event', (data) => {
+      console.log('DRIVER BARU:', data.message.data);
+
+        const newTicket = {
+          driverid: data.driver_id,
+          position: { lat: parseFloat(data.lat), lng: parseFloat(data.long) },
+          drivercode: data.driver_code,
+          name: data.name,
+          createdat: data.created_at,
+          status: data.status,
+      };
+      // Add the new ticket to the existing markers
+      setDrivers((prevMarkers) => [...prevMarkers, newTicket]);
+    });
+
+
     pusher.connection.bind('connected', () => {
       console.log('Connected to Pusher');
     });
-    
     
     return () => {
       pusher.disconnect(); // Disconnect Pusher when the component unmounts
@@ -229,7 +246,7 @@ function App(props) {
 
   }, []);
 
-  console.log('data driver terbaru', setDrivers)
+  // console.log('data driver terbaru', setDrivers)
 
   const { isLoaded } = useLoadScript({
     googleMapsApiKey: process.env.REACT_APP_GOOGLE_MAPS_API_KEY
