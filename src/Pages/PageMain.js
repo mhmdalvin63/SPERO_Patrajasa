@@ -231,7 +231,7 @@ function MainNew() {
         setLoading(false);
         });
 
-        const pusher = new Pusher('f0f69c0d22ba85c93f21', {
+        const pusher = new Pusher('2b7208e6523a6e855f6b', {
             cluster: 'ap1',
           });
           const channel = pusher.subscribe('post-ticket');
@@ -592,7 +592,7 @@ function MainNew() {
                 </div>
 
                 <div className='main-new-bottom-right gap-5'>
-                <Dropdown className="dropup">
+                <Dropdown className="dropup-main" id='dropup-main'>
                     <Dropdown.Toggle className='dropdown-main' id="dropdown-basic">
                         <div className='header-total-ticket '>
                             <div className='upper-hr gap-3'>
@@ -636,7 +636,7 @@ function MainNew() {
                     </Table>
                     </Dropdown.Menu>
                 </Dropdown>
-                <Dropdown className="dropup">
+                <Dropdown className="dropup-main" id='dropup-main'>
                     <Dropdown.Toggle className='dropdown-main' id="dropdown-basic">
                         <div className='header-total-ticket '>
                             <div className='upper-hr gap-3'>
@@ -681,7 +681,7 @@ function MainNew() {
                     </Table>
                     </Dropdown.Menu>
                 </Dropdown>
-                <Dropdown className="dropup">
+                <Dropdown className="dropup-main" id='dropup-main'>
                     <Dropdown.Toggle className='dropdown-main' id="dropdown-basic">
                         <div className='header-total-ticket '>
                             <div className='upper-hr gap-3'>
@@ -811,7 +811,7 @@ function MainNew() {
                 </div>
 
                 <div className='main-new-bottom-right gap-5'>
-                <Dropdown className="dropup">
+                <Dropdown className="dropup-main" id='dropup-main'>
                     <Dropdown.Toggle className='dropdown-main' id="dropdown-basic">
                         <div className='header-total-ticket '>
                             <div className='upper-hr gap-3'>
@@ -855,7 +855,7 @@ function MainNew() {
                     </Table>
                     </Dropdown.Menu>
                 </Dropdown>
-                <Dropdown className="dropup">
+                <Dropdown className="dropup-main" id='dropup-main'>
                     <Dropdown.Toggle className='dropdown-main' id="dropdown-basic">
                         <div className='header-total-ticket '>
                             <div className='upper-hr gap-3'>
@@ -900,7 +900,7 @@ function MainNew() {
                     </Table>
                     </Dropdown.Menu>
                 </Dropdown>
-                <Dropdown className="dropup">
+                <Dropdown className="dropup-main" id='dropup-main'>
                     <Dropdown.Toggle className='dropdown-main' id="dropdown-basic">
                         <div className='header-total-ticket '>
                             <div className='upper-hr gap-3'>
@@ -1030,7 +1030,7 @@ function MainNew() {
                 </div>
 
                 <div className='main-new-bottom-right gap-5'>
-                <Dropdown className="dropup">
+                <Dropdown className="dropup-main" id='dropup-main'>
                     <Dropdown.Toggle className='dropdown-main' id="dropdown-basic">
                         <div className='header-total-ticket '>
                             <div className='upper-hr gap-3'>
@@ -1074,7 +1074,7 @@ function MainNew() {
                     </Table>
                     </Dropdown.Menu>
                 </Dropdown>
-                <Dropdown className="dropup">
+                <Dropdown className="dropup-main" id='dropup-main'>
                     <Dropdown.Toggle className='dropdown-main' id="dropdown-basic">
                         <div className='header-total-ticket '>
                             <div className='upper-hr gap-3'>
@@ -1119,7 +1119,7 @@ function MainNew() {
                     </Table>
                     </Dropdown.Menu>
                 </Dropdown>
-                <Dropdown className="dropup">
+                <Dropdown className="dropup-main" id='dropup-main'>
                     <Dropdown.Toggle className='dropdown-main' id="dropdown-basic">
                         <div className='header-total-ticket '>
                             <div className='upper-hr gap-3'>

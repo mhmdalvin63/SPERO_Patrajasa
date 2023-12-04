@@ -184,7 +184,7 @@ NothingHaveToken()
     //         setLoading(false);
     //       });   
 
-    const pusher = new Pusher('f0f69c0d22ba85c93f21', {
+    const pusher = new Pusher('2b7208e6523a6e855f6b', {
       cluster: 'ap1',
     });
     const channel = pusher.subscribe('post-ticket');
@@ -192,7 +192,7 @@ NothingHaveToken()
 channel.bind('post-ticket-event', (data) => {
   console.log(data.message);
   try {
-    if (data.message === 'open') {
+    if (data.message.status === 'open') {
       // If data.message is "Ping!", update the state
       setOpen((prevOpen) => !prevOpen); // Use functional update
       setPosts((prevPosts) => !prevPosts); // Use functional update

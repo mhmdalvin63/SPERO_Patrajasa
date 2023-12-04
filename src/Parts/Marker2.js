@@ -169,7 +169,7 @@ function App(props) {
     //   }
     // };
 
-    const pusher = new Pusher('f0f69c0d22ba85c93f21', {
+    const pusher = new Pusher('2b7208e6523a6e855f6b', {
       cluster: 'ap1',
     });
 
@@ -234,7 +234,6 @@ function App(props) {
       // Add the new ticket to the existing markers
       setDrivers((prevMarkers) => [...prevMarkers, newTicket]);
     });
-
 
     pusher.connection.bind('connected', () => {
       console.log('Connected to Pusher');
@@ -302,6 +301,13 @@ function App(props) {
 
   const [showModal, setShowModal] = useState(false);
   const [selectedImage, setSelectedImage] = useState(null);
+
+  const countDataWithoutLatLng = () => {
+    const dataWithoutLatLng = Markers.filter(Map12 => !Map12.position || !Map12.position.lat || !Map12.position.lng);
+    return dataWithoutLatLng.length;
+  };
+  
+  console.log('ITUNGGGGGGGGGGGGGGG',countDataWithoutLatLng())
 
   return (
     <div>
@@ -595,8 +601,9 @@ Interdum et malesuada fames ac ante ipsum primis in faucibus. Nullam quis purus 
               ))}
             </GoogleMap>
           ) : null}
-            <div className="position-absolute top-0">
-             <h3> Nilai Parameter yang Diterima: {idParamDynamic}</h3>
+            <div className="position-absolute py-3 px-5" style={{top:'5%', left: "50%", right:'50%', transform: 'translate(-50%, 0)' ,background: '#ffff', width: 'max-content', borderRadius:'10px'}}>
+             {/* <h3> Nilai Parameter yang Diterima: {idParamDynamic}</h3> */}
+             <h3> Ticket tanpa latlong : {countDataWithoutLatLng()}</h3>
             </div>
         </div>
     </Fragment>

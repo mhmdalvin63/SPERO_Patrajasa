@@ -46,7 +46,7 @@ const IndonesiaMap = (props) => {
       }
     };
 
-    const pusher = new Pusher('f0f69c0d22ba85c93f21', {
+    const pusher = new Pusher('2b7208e6523a6e855f6b', {
       cluster: 'ap1',
     });
     const channel = pusher.subscribe('post-ticket');
@@ -112,6 +112,9 @@ const IndonesiaMap = (props) => {
           x = 12.5; // Atur nilai x sesuai dengan kondisi ini
           y = 85; // Atur nilai y sesuai dengan kondisi ini
         } else if (item.count < 30) {
+          x = 0; // Atur nilai x sesuai dengan kondisi ini
+          y = 80; // Atur nilai y sesuai dengan kondisi ini
+        } else if (item.count > 30) {
           x = 0; // Atur nilai x sesuai dengan kondisi ini
           y = 80; // Atur nilai y sesuai dengan kondisi ini
         }

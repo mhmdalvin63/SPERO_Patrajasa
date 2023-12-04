@@ -76,7 +76,7 @@ useEffect(() => {
     console.log(error)
 setLoading(false);});
 
-const pusher = new Pusher('f0f69c0d22ba85c93f21', {
+const pusher = new Pusher('2b7208e6523a6e855f6b', {
   cluster: 'ap1',
 });
 const channel = pusher.subscribe(`post-ticket`);
