@@ -1,0 +1,27 @@
+.custom-alert {
+    position: absolute;
+    top: 5%;
+    width: 40%;
+    text-align: center;
+    background-color: #f44336; /* Red background color */
+    color: white; /* Text color */
+    padding: 15px; /* Padding around content */
+    margin-bottom: 15px; /* Bottom margin */
+    border-radius: 4px; /* Rounded corners */
+  }
+  
+  .custom-alert button {
+    background-color: #4caf50; /* Green background color for the button */
+    color: white; /* Text color for the button */
+    border: none; /* No border for the button */
+    padding: 10px 15px; /* Padding for the button */
+    margin-top: 10px; /* Top margin for the button */
+    cursor: pointer; /* Add cursor pointer on hover */
+    border-radius: 4px; /* Rounded corners for the button */
+  }
+  
+  .custom-alert button:hover {
+    background-color: #45a049; /* Darker green color on button hover */
+  }
+  
+  
