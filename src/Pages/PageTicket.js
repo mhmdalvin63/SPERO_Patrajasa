@@ -321,41 +321,29 @@ return () => {
         const [search, setSearch] = useState('');
         const [selectedCategoryId, setSelectedCategoryId] = useState('');
       
-        const filteredTicketOpen= DataOpen.filter((item) => {
-            // Filter by time range
-            const startTime = new Date(item.start_time);
-            const endTime = new Date(item.range_time);
-
-            if (startDate && endDate) {
-              const filterStartDate = new Date(startDate);
-              const filterEndDate = new Date(endDate);
-
-              if (startTime >= filterStartDate && endTime <= filterEndDate) {
-                return true;
-              } else {
-                return false;
-              }
-            }
-      
-
-        // Filter by search input
-    if (search && !item.ticket_code.toLowerCase().includes(search.toLowerCase()) &&
-    !item.category.name.toLowerCase().includes(search.toLowerCase()) && 
-    !item.activity.name.toLowerCase().includes(search.toLowerCase()) ) {
-    return false;
-    }
-           
-        // Filter by selected category
+        const filteredTicketOpen = DataOpen.filter((item) => {
+          // Filter by time range
+          const startTime = new Date(item.start_time);
+          const endTime = new Date(item.range_time);
+          const filterStartDate = new Date(startDate);
+          const filterEndDate = new Date(endDate);
         
-        if (
-          (selectedCategoryId && item.category.name !== selectedCategoryId)
-        ) {
+          // Filter by time range, search input, and selected category
+          if (
+            (startDate && endDate && startTime >= filterStartDate && endTime <= filterEndDate) &&
+            (!search ||
+              (search &&
+                (item.ticket_code.toLowerCase().includes(search.toLowerCase()) ||
+                  item.category.name.toLowerCase().includes(search.toLowerCase()) ||
+                  item.activity.name.toLowerCase().includes(search.toLowerCase())))) &&
+            (!selectedCategoryId || (selectedCategoryId && item.category.name === selectedCategoryId))
+          ) {
+            return true;
+          }
+        
           return false;
-        }
-
-    
-        return true;
         });
+        
         const filteredTicketProcess= DataProcess.filter((item) => {
             // Filter by time range
             const startTime = new Date(item.start_time);

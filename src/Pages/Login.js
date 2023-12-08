@@ -14,6 +14,13 @@ const Login = () => {
         e.preventDefault();
         if (validate()) {
           setIsLoading(true); // Set loading to true when starting the login process
+          setTimeout(() => {
+            // Set isLoading to false after 3 seconds to mimic processing
+            setIsLoading(false);
+      
+            // Additional logic after successful login
+            console.log('Login successful!');
+          }, 5000);
     
           let inputobj = {
             "email": email,
@@ -97,7 +104,7 @@ const Login = () => {
                             </div>
                         </div>
                         <div className="footer text-center mt-5">
-                            <button type="submit" className="btn w-50 bg-blue text-white fwb"> {isLoading ? 'Memproses Login....' : 'Login'}</button>
+                            <button type="submit" className="btn w-50 bg-blue text-white fwb" onClick={proceedLoginUsingAPI} disabled={isLoading}> {isLoading ? 'Memproses Login....' : 'Login'}</button>
                         </div>
                     </div>
                 </form>

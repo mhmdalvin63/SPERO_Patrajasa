@@ -73,39 +73,36 @@ function PageTicket() {
         if (Ticket) {
           filteredData = Ticket.filter((item) => {
             const startTime = new Date(item.start_time);
-    const endTime = new Date(item.range_time);
+            const endTime = new Date(item.range_time);
 
-    if (startDate && endDate) {
-      const filterStartDate = new Date(startDate);
-      const filterEndDate = new Date(endDate);
+            if (startDate && endDate) {
+            const filterStartDate = new Date(startDate);
+            const filterEndDate = new Date(endDate);
 
-      if (startTime >= filterStartDate && endTime <= filterEndDate) {
-        return true;
-      } else {
-        return false;
-      }
+            if (startTime >= filterStartDate && endTime <= filterEndDate) {
+              return true;
+            } else {
+              return false;
+            }
     }
-       // Filter by search input
-    if (search && !item.ticket_code.toLowerCase().includes(search.toLowerCase()) &&
-    !item.category.name.toLowerCase().includes(search.toLowerCase()) && 
-    !item.activity.name.toLowerCase().includes(search.toLowerCase()) ) {
-    return false;
-    }
+            // Filter by search input
+            if (search && !item.ticket_code.toLowerCase().includes(search.toLowerCase()) &&
+            !item.category.name.toLowerCase().includes(search.toLowerCase()) && 
+            !item.activity.name.toLowerCase().includes(search.toLowerCase()) ) {
+            return false;
+            }
            
-        // Filter by selected category
-        
-        if (
-          (selectedCategoryId && item.category.name !== selectedCategoryId)
-        ) {
-          return false;
-        }
-
-    
-        return true;
-      });
-        } else {
-          console.error('byTicketId is null');
-        }
+            // Filter by selected category
+            if (
+              (selectedCategoryId && item.category.name !== selectedCategoryId)
+            ) {
+              return false;
+            }
+            return true;
+            });
+            } else {
+              console.error('byTicketId is null');
+            }
          
 
         const calculateTimeDifference = (rangeTime) => {
