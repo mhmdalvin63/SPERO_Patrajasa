@@ -68,7 +68,8 @@ function PageTicket() {
         const [selectedCategoryId, setSelectedCategoryId] = useState('');
         const [startDate, setStartDate] = useState('');
         const [endDate, setEndDate] = useState('');
-        
+
+        // Filtering 
         let filteredData = Ticket;
         if (startDate || endDate || search || selectedCategoryId) {
           // Filtering criteria provided, apply filters
@@ -95,7 +96,6 @@ function PageTicket() {
           });
         }
          
-
         const calculateTimeDifference = (rangeTime) => {
           const now = new Date(); // Waktu sekarang
           const rangeTimeDate = new Date(rangeTime); // Konversi range_time ke objek Date
@@ -115,7 +115,8 @@ function PageTicket() {
       
           return `${hoursDifference} jam, ${minutesDifference} menit`;
         };
-        
+
+
     return (
         <div>
       {loading ? (

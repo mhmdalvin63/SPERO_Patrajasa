@@ -261,7 +261,7 @@ return () => {
     const handleCheckboxChange = (e) => {
       setIsChecked(e.target.checked);
     };
-    let status = ['Open', 'Proses', 'Closed', 'Done', 'Re-Open']
+    let status = ['Open', 'Proses', 'Done' ,'Closed']
     let listStatusFilter = status.map((index)=>
         <Form.Check
         key={index}
@@ -272,17 +272,16 @@ return () => {
         onChange={handleCheckboxChange}
         />
     )
-    let kategori = ['Kategori 1', 'Kategori 2']
-    let listKategoriFilter = kategori.map((index)=>
-        <Form.Check
-        key={index}
-        type="checkbox"
-        label= {index}
-        id="myCheckbox"
-        checked={isChecked.index}
-        onChange={handleCheckboxChange}
-        />
-    )
+    let listKategoriFilter = Kategori.map((item) => (
+      <Form.Check
+          key={item.name}  // assuming that your objects have an 'name' property
+          type="checkbox"
+          label={item.name}  // assuming that your objects have an 'name' property
+          id={`myCheckbox_${item.name}`}  // use a unique identifier for each checkbox
+          checked={isChecked[item.name]}
+          onChange={() => handleCheckboxChange(item.name)}
+      />
+  ));
     let prioritas = ['Low', 'Medium', 'High']
     let listPriorityFilter = prioritas.map((index)=>
         <Form.Check
@@ -321,6 +320,7 @@ return () => {
         const [search, setSearch] = useState('');
         const [selectedCategoryId, setSelectedCategoryId] = useState('');
       
+        // Filtering
         let filteredTicketOpen = DataOpen;
         if (startDate || endDate || search || selectedCategoryId) {
           // Filtering criteria provided, apply filters
