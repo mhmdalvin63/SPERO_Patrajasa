@@ -98,7 +98,7 @@ const IndonesiaMap = (props) => {
      {loading ? (
       <Loading/>
    ) : (
-    <div>
+    <div className='svgMapsParent'>
       <svg width="1800" height="600">
       <image href={Maps} className='svg-main' width="100%" height="100%" />
       {mappedPoints.map((item, index) => {
@@ -123,7 +123,7 @@ const IndonesiaMap = (props) => {
 
         return (
           
-          <g key={index}>
+          <g key={index} className='h-100'>
           <image
             x={cx - 25} // Adjust the position as needed
             y={cy - 30} // Adjust the position as needed
@@ -132,12 +132,12 @@ const IndonesiaMap = (props) => {
             xlinkHref= {item.image} // Use the URL from your data
             onClick={() => handleMarkerClick(index)}
           />(
-                <foreignObject x={cx - x} y={cy - y} width="200" height="100">
+                <foreignObject x={cx - x} y={cy - y} width="100" height="75" className='foreign'>
                   <div class="ribbon-label">
                     <div class="arrow-down"></div>
                     <p>{item.count}</p>
                   </div>
-              </foreignObject>
+                </foreignObject>
           )
           </g>
         );

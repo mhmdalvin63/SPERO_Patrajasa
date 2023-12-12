@@ -1,5 +1,6 @@
 .ribbon-label {
-    position: relative;
+    position: absolute !important;
+    z-index: 2 !important;
     background-color: red; /* Change the background color as desired */
     color: #fff; /* Text color */
     padding: 10px 20px;
@@ -19,6 +20,20 @@
     left: 50%;
     transform: translateX(-50%);
 }
+.g-svg{
+    position: absolute;
+    z-index: 1000;
+}
+.svgMapsParent svg{
+    position: relative !important;
+}
+.svg-main{
+    position: relative !important;
+}
 .svg-main path{
     fill: #9CB9C7 !important;
+}
+.foreign{
+    position: absolute !important;
+    z-index: 19 !important;
 }

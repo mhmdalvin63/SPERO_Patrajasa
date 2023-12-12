@@ -323,7 +323,7 @@ function MainNew() {
             </div>
 
             <div className='SvgMaps'>
-                <SvgMaps parameter = 'day'/>
+                <SvgMaps parameter = 'day' className='h-100' />
             </div>
 
             <div className='main-new-bottom px-5'>

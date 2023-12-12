@@ -93,6 +93,7 @@
 .SvgMaps{
     margin-top: -10rem;
     width: 100%;
+    height: calc(100% + 5rem) !important;
 }
 .SvgMaps div:not([class]){
     display: flex;

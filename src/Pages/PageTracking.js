@@ -140,7 +140,7 @@ const [search, setSearch] = useState('');
 // SEARCH TIKET
 // Filter data for the first tab based on the search query
 
-let filteredData1 = [];
+// let filteredData1 = [];
 let filteredData2  = [];
 
 const [OpenFilter, setOpenFilter] = useState(true);
@@ -166,47 +166,52 @@ const [endDate, setEndDate] = useState('');
   const toggleClosedFilter = () => {
     setClosedFilter(!ClosedFilter);
   };
-if (byTicketId) {
-  filteredData1 = byTicketId.filter((item) => {
+  
+  let filteredData1;
+
+  if (byTicketId) {
+    filteredData1 = byTicketId.filter((item) => {
       // Tambahkan filter untuk start date dan end date
-    const startTime = new Date(item.start_time);
-    const endTime = new Date(item.range_time);
-
-    if (startDate && endDate) {
-      const filterStartDate = new Date(startDate);
-      const filterEndDate = new Date(endDate);
-
-      if (startTime >= filterStartDate && endTime <= filterEndDate) {
-        return true;
+      const startTime = new Date(item.start_time);
+      const endTime = new Date(item.range_time);
+  
+      if (startDate && endDate) {
+        const filterStartDate = new Date(startDate);
+        const filterEndDate = new Date(endDate);
+  
+        if (!(startTime >= filterStartDate && endTime <= filterEndDate)) {
+          return false;
+        }
+      }
+  
+      if (item.subject !== null) {
+        if (search && !item.subject.toLowerCase().includes(search.toLowerCase())) {
+          return false;
+        }
+  
+        if (
+          (item.activity_name === 'open' && OpenFilter) ||
+          (item.activity_name === 'forwarding' && ForwardingFilter) ||
+          (item.activity_name === 'process' && ProcessFilter) ||
+          (item.activity_name === 'done' && DoneFilter) ||
+          (item.activity_name === 'closed' && ClosedFilter)
+        ) {
+          return true;
+        }
+  
+        return false;
       } else {
+        console.error('yourVariable is null');
         return false;
       }
-    }
-
-    if (item.subject !== null) {
-      if (search && !item.subject.toLowerCase().includes(search.toLowerCase())) {
-        return false;
-      }
-
-      if (item.activity_name === 'open' && OpenFilter) {
-        return true;
-      } else if (item.activity_name === 'forwarding' && ForwardingFilter) {
-        return true;
-      }else if (item.activity_name === 'process' && ProcessFilter) {
-        return true;
-      }else if (item.activity_name === 'done' && DoneFilter) {
-        return true;
-      }else if (item.activity_name === 'closed' && ClosedFilter) {
-        return true;
-      }
-      return false;
-    } else {
-      console.error('yourVariable is null');
-    }
-  });
-} else {
-  console.error('byTicketId is null');
-}
+    });
+  } else {
+    console.error('byTicketId is null');
+  }
+  
+  // Use filteredData1 as needed
+  console.log(filteredData1);
+  
 
 
 const [onlineFilter, setOnlineFilter] = useState(true);
