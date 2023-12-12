@@ -68,41 +68,32 @@ function PageTicket() {
         const [selectedCategoryId, setSelectedCategoryId] = useState('');
         const [startDate, setStartDate] = useState('');
         const [endDate, setEndDate] = useState('');
-        let filteredData  = [];
-
-        if (Ticket) {
-          filteredData = Ticket.filter((item) => {
+        
+        let filteredData = Ticket;
+        if (startDate || endDate || search || selectedCategoryId) {
+          // Filtering criteria provided, apply filters
+         filteredData = Ticket.filter((item) => {
+            // Filter by time range
             const startTime = new Date(item.start_time);
             const endTime = new Date(item.range_time);
-
-            if (startDate && endDate) {
-            const filterStartDate = new Date(startDate);
-            const filterEndDate = new Date(endDate);
-
-            if (startTime >= filterStartDate && endTime <= filterEndDate) {
-              return true;
-            } else {
-              return false;
-            }
-    }
-            // Filter by search input
-            if (search && !item.ticket_code.toLowerCase().includes(search.toLowerCase()) &&
-            !item.category.name.toLowerCase().includes(search.toLowerCase()) && 
-            !item.activity.name.toLowerCase().includes(search.toLowerCase()) ) {
-            return false;
-            }
-           
-            // Filter by selected category
-            if (
-              (selectedCategoryId && item.category.name !== selectedCategoryId)
-            ) {
-              return false;
-            }
-            return true;
-            });
-            } else {
-              console.error('byTicketId is null');
-            }
+            const filterStartDate = startDate ? new Date(startDate) : null;
+            const filterEndDate = endDate ? new Date(endDate) : null;
+        
+            // Check individual criteria
+            const isDateInRange = (!filterStartDate || startTime >= filterStartDate) &&
+                                  (!filterEndDate || endTime <= filterEndDate);
+        
+            const isSearchMatch = !search ||
+              (item.ticket_code.toLowerCase().includes(search.toLowerCase()) ||
+                item.category.name.toLowerCase().includes(search.toLowerCase()) ||
+                item.activity.name.toLowerCase().includes(search.toLowerCase()));
+        
+            const isCategoryMatch = !selectedCategoryId || (item.category.name === selectedCategoryId);
+        
+            // Combine individual criteria with AND logic
+            return isDateInRange && isSearchMatch && isCategoryMatch;
+          });
+        }
          
 
         const calculateTimeDifference = (rangeTime) => {
