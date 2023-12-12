@@ -321,165 +321,270 @@ return () => {
         const [search, setSearch] = useState('');
         const [selectedCategoryId, setSelectedCategoryId] = useState('');
       
-        const filteredTicketOpen = DataOpen.filter((item) => {
-          // Filter by time range
-          const startTime = new Date(item.start_time);
-          const endTime = new Date(item.range_time);
-          const filterStartDate = new Date(startDate);
-          const filterEndDate = new Date(endDate);
-        
-          // Filter by time range, search input, and selected category
-          if (
-            (startDate && endDate && startTime >= filterStartDate && endTime <= filterEndDate) &&
-            (!search ||
-              (search &&
-                (item.ticket_code.toLowerCase().includes(search.toLowerCase()) ||
-                  item.category.name.toLowerCase().includes(search.toLowerCase()) ||
-                  item.activity.name.toLowerCase().includes(search.toLowerCase())))) &&
-            (!selectedCategoryId || (selectedCategoryId && item.category.name === selectedCategoryId))
-          ) {
-            return true;
-          }
-        
-          return false;
-        });
-        
-        const filteredTicketProcess= DataProcess.filter((item) => {
+        let filteredTicketOpen = DataOpen;
+        if (startDate || endDate || search || selectedCategoryId) {
+          // Filtering criteria provided, apply filters
+          filteredTicketOpen = DataOpen.filter((item) => {
             // Filter by time range
             const startTime = new Date(item.start_time);
             const endTime = new Date(item.range_time);
+            const filterStartDate = startDate ? new Date(startDate) : null;
+            const filterEndDate = endDate ? new Date(endDate) : null;
         
-            if (startDate && endDate) {
-              const filterStartDate = new Date(startDate);
-              const filterEndDate = new Date(endDate);
+            // Check individual criteria
+            const isDateInRange = (!filterStartDate || startTime >= filterStartDate) &&
+                                  (!filterEndDate || endTime <= filterEndDate);
         
-              if (startTime >= filterStartDate && endTime <= filterEndDate) {
-                return true;
-              } else {
-                return false;
-              }
-            }
-
-       // Filter by search input
-    if (search && !item.ticket_code.toLowerCase().includes(search.toLowerCase()) &&
-    !item.category.name.toLowerCase().includes(search.toLowerCase()) && 
-    !item.activity.name.toLowerCase().includes(search.toLowerCase()) ) {
-    return false;
-    }
-           
-        // Filter by selected category 
+            const isSearchMatch = !search ||
+              (item.ticket_code.toLowerCase().includes(search.toLowerCase()) ||
+                item.category.name.toLowerCase().includes(search.toLowerCase()) ||
+                item.activity.name.toLowerCase().includes(search.toLowerCase()));
         
-        if (
-          (selectedCategoryId && item.category.name !== selectedCategoryId)
-        ) {
-          return false;
+            const isCategoryMatch = !selectedCategoryId || (item.category.name === selectedCategoryId);
+        
+            // Combine individual criteria with AND logic
+            return isDateInRange && isSearchMatch && isCategoryMatch;
+          });
         }
-
-    
-        return true;
-        });
-        const filteredTicketDone= DataDone.filter((item) => {
+        let filteredTicketProcess = DataProcess;
+        if (startDate || endDate || search || selectedCategoryId) {
+          // Filtering criteria provided, apply filters
+          filteredTicketProcess = DataProcess.filter((item) => {
             // Filter by time range
             const startTime = new Date(item.start_time);
             const endTime = new Date(item.range_time);
+            const filterStartDate = startDate ? new Date(startDate) : null;
+            const filterEndDate = endDate ? new Date(endDate) : null;
         
-            if (startDate && endDate) {
-              const filterStartDate = new Date(startDate);
-              const filterEndDate = new Date(endDate);
+            // Check individual criteria
+            const isDateInRange = (!filterStartDate || startTime >= filterStartDate) &&
+                                  (!filterEndDate || endTime <= filterEndDate);
         
-              if (startTime >= filterStartDate && endTime <= filterEndDate) {
-                return true;
-              } else {
-                return false;
-              }
-            }
-
-       // Filter by search input
-    if (search && !item.ticket_code.toLowerCase().includes(search.toLowerCase()) &&
-    !item.category.name.toLowerCase().includes(search.toLowerCase()) && 
-    !item.activity.name.toLowerCase().includes(search.toLowerCase()) ) {
-    return false;
-    }
-           
-        // Filter by selected category
+            const isSearchMatch = !search ||
+              (item.ticket_code.toLowerCase().includes(search.toLowerCase()) ||
+                item.category.name.toLowerCase().includes(search.toLowerCase()) ||
+                item.activity.name.toLowerCase().includes(search.toLowerCase()));
         
-        if (
-          (selectedCategoryId && item.category.name !== selectedCategoryId)
-        ) {
-          return false;
+            const isCategoryMatch = !selectedCategoryId || (item.category.name === selectedCategoryId);
+        
+            // Combine individual criteria with AND logic
+            return isDateInRange && isSearchMatch && isCategoryMatch;
+          });
         }
-
-    
-        return true;
-        });
-        const filteredTicketClosed= DataClosed.filter((item) => {
+        let filteredTicketDone = DataDone;
+        if (startDate || endDate || search || selectedCategoryId) {
+          // Filtering criteria provided, apply filters
+          filteredTicketDone = DataDone.filter((item) => {
             // Filter by time range
             const startTime = new Date(item.start_time);
             const endTime = new Date(item.range_time);
+            const filterStartDate = startDate ? new Date(startDate) : null;
+            const filterEndDate = endDate ? new Date(endDate) : null;
         
-            if (startDate && endDate) {
-              const filterStartDate = new Date(startDate);
-              const filterEndDate = new Date(endDate);
+            // Check individual criteria
+            const isDateInRange = (!filterStartDate || startTime >= filterStartDate) &&
+                                  (!filterEndDate || endTime <= filterEndDate);
         
-              if (startTime >= filterStartDate && endTime <= filterEndDate) {
-                return true;
-              } else {
-                return false;
-              }
-            }
-
-       // Filter by search input
-    if (search && !item.ticket_code.toLowerCase().includes(search.toLowerCase()) &&
-    !item.category.name.toLowerCase().includes(search.toLowerCase()) && 
-    !item.activity.name.toLowerCase().includes(search.toLowerCase()) ) {
-    return false;
-    }
-           
-        // Filter by selected category
+            const isSearchMatch = !search ||
+              (item.ticket_code.toLowerCase().includes(search.toLowerCase()) ||
+                item.category.name.toLowerCase().includes(search.toLowerCase()) ||
+                item.activity.name.toLowerCase().includes(search.toLowerCase()));
         
-        if (
-          (selectedCategoryId && item.category.name !== selectedCategoryId)
-        ) {
-          return false;
+            const isCategoryMatch = !selectedCategoryId || (item.category.name === selectedCategoryId);
+        
+            // Combine individual criteria with AND logic
+            return isDateInRange && isSearchMatch && isCategoryMatch;
+          });
         }
-
-    
-        return true;
-        });
-        const allDataFiltered= Ticket.filter((item) => {
+        let filteredTicketClosed = DataClosed;
+        if (startDate || endDate || search || selectedCategoryId) {
+          // Filtering criteria provided, apply filters
+          filteredTicketClosed = DataClosed.filter((item) => {
             // Filter by time range
             const startTime = new Date(item.start_time);
             const endTime = new Date(item.range_time);
+            const filterStartDate = startDate ? new Date(startDate) : null;
+            const filterEndDate = endDate ? new Date(endDate) : null;
         
-            if (startDate && endDate) {
-              const filterStartDate = new Date(startDate);
-              const filterEndDate = new Date(endDate);
+            // Check individual criteria
+            const isDateInRange = (!filterStartDate || startTime >= filterStartDate) &&
+                                  (!filterEndDate || endTime <= filterEndDate);
         
-              if (startTime >= filterStartDate && endTime <= filterEndDate) {
-                return true;
-              } else {
-                return false;
-              }
-            }
-
-       // Filter by search input
-    if (search && !item.ticket_code.toLowerCase().includes(search.toLowerCase()) &&
-    !item.category.name.toLowerCase().includes(search.toLowerCase()) && 
-    !item.activity.name.toLowerCase().includes(search.toLowerCase()) ) {
-    return false;
-    }
-           
-        // Filter by selected category
+            const isSearchMatch = !search ||
+              (item.ticket_code.toLowerCase().includes(search.toLowerCase()) ||
+                item.category.name.toLowerCase().includes(search.toLowerCase()) ||
+                item.activity.name.toLowerCase().includes(search.toLowerCase()));
         
-        if (
-          (selectedCategoryId && item.category.name !== selectedCategoryId)
-        ) {
-          return false;
+            const isCategoryMatch = !selectedCategoryId || (item.category.name === selectedCategoryId);
+        
+            // Combine individual criteria with AND logic
+            return isDateInRange && isSearchMatch && isCategoryMatch;
+          });
         }
+        let allDataFiltered = Ticket;
+        if (startDate || endDate || search || selectedCategoryId) {
+          // Filtering criteria provided, apply filters
+         allDataFiltered = Ticket.filter((item) => {
+            // Filter by time range
+            const startTime = new Date(item.start_time);
+            const endTime = new Date(item.range_time);
+            const filterStartDate = startDate ? new Date(startDate) : null;
+            const filterEndDate = endDate ? new Date(endDate) : null;
+        
+            // Check individual criteria
+            const isDateInRange = (!filterStartDate || startTime >= filterStartDate) &&
+                                  (!filterEndDate || endTime <= filterEndDate);
+        
+            const isSearchMatch = !search ||
+              (item.ticket_code.toLowerCase().includes(search.toLowerCase()) ||
+                item.category.name.toLowerCase().includes(search.toLowerCase()) ||
+                item.activity.name.toLowerCase().includes(search.toLowerCase()));
+        
+            const isCategoryMatch = !selectedCategoryId || (item.category.name === selectedCategoryId);
+        
+            // Combine individual criteria with AND logic
+            return isDateInRange && isSearchMatch && isCategoryMatch;
+          });
+        }
+        
+
+        
+    //     const filteredTicketProcess= DataProcess.filter((item) => {
+    //         // Filter by time range
+    //         const startTime = new Date(item.start_time);
+    //         const endTime = new Date(item.range_time);
+        
+    //         if (startDate && endDate) {
+    //           const filterStartDate = new Date(startDate);
+    //           const filterEndDate = new Date(endDate);
+        
+    //           if (startTime >= filterStartDate && endTime <= filterEndDate) {
+    //             return true;
+    //           } else {
+    //             return false;
+    //           }
+    //         }
+
+    //    // Filter by search input
+    // if (search && !item.ticket_code.toLowerCase().includes(search.toLowerCase()) &&
+    // !item.category.name.toLowerCase().includes(search.toLowerCase()) && 
+    // !item.activity.name.toLowerCase().includes(search.toLowerCase()) ) {
+    // return false;
+    // }
+           
+    //     // Filter by selected category 
+        
+    //     if (
+    //       (selectedCategoryId && item.category.name !== selectedCategoryId)
+    //     ) {
+    //       return false;
+    //     }
 
     
-        return true;
-        });
+    //     return true;
+    //     });
+    //     const filteredTicketDone= DataDone.filter((item) => {
+    //         // Filter by time range
+    //         const startTime = new Date(item.start_time);
+    //         const endTime = new Date(item.range_time);
+        
+    //         if (startDate && endDate) {
+    //           const filterStartDate = new Date(startDate);
+    //           const filterEndDate = new Date(endDate);
+        
+    //           if (startTime >= filterStartDate && endTime <= filterEndDate) {
+    //             return true;
+    //           } else {
+    //             return false;
+    //           }
+    //         }
+
+    //    // Filter by search input
+    // if (search && !item.ticket_code.toLowerCase().includes(search.toLowerCase()) &&
+    // !item.category.name.toLowerCase().includes(search.toLowerCase()) && 
+    // !item.activity.name.toLowerCase().includes(search.toLowerCase()) ) {
+    // return false;
+    // }
+           
+    //     // Filter by selected category
+        
+    //     if (
+    //       (selectedCategoryId && item.category.name !== selectedCategoryId)
+    //     ) {
+    //       return false;
+    //     }
+
+    
+    //     return true;
+    //     });
+    //     const filteredTicketClosed= DataClosed.filter((item) => {
+    //         // Filter by time range
+    //         const startTime = new Date(item.start_time);
+    //         const endTime = new Date(item.range_time);
+        
+    //         if (startDate && endDate) {
+    //           const filterStartDate = new Date(startDate);
+    //           const filterEndDate = new Date(endDate);
+        
+    //           if (startTime >= filterStartDate && endTime <= filterEndDate) {
+    //             return true;
+    //           } else {
+    //             return false;
+    //           }
+    //         }
+
+    //    // Filter by search input
+    // if (search && !item.ticket_code.toLowerCase().includes(search.toLowerCase()) &&
+    // !item.category.name.toLowerCase().includes(search.toLowerCase()) && 
+    // !item.activity.name.toLowerCase().includes(search.toLowerCase()) ) {
+    // return false;
+    // }
+           
+    //     // Filter by selected category
+        
+    //     if (
+    //       (selectedCategoryId && item.category.name !== selectedCategoryId)
+    //     ) {
+    //       return false;
+    //     }
+
+    
+    //     return true;
+    //     });
+    //     const allDataFiltered= Ticket.filter((item) => {
+    //         // Filter by time range
+    //         const startTime = new Date(item.start_time);
+    //         const endTime = new Date(item.range_time);
+        
+    //         if (startDate && endDate) {
+    //           const filterStartDate = new Date(startDate);
+    //           const filterEndDate = new Date(endDate);
+        
+    //           if (startTime >= filterStartDate && endTime <= filterEndDate) {
+    //             return true;
+    //           } else {
+    //             return false;
+    //           }
+    //         }
+
+    //    // Filter by search input
+    // if (search && !item.ticket_code.toLowerCase().includes(search.toLowerCase()) &&
+    // !item.category.name.toLowerCase().includes(search.toLowerCase()) && 
+    // !item.activity.name.toLowerCase().includes(search.toLowerCase()) ) {
+    // return false;
+    // }
+           
+    //     // Filter by selected category
+        
+    //     if (
+    //       (selectedCategoryId && item.category.name !== selectedCategoryId)
+    //     ) {
+    //       return false;
+    //     }
+
+    
+    //     return true;
+    //     });
 
 
     return (
