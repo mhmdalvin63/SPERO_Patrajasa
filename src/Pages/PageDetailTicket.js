@@ -5,6 +5,7 @@ import Loading from '../Parts/Loading';
 import DateTime from '../Parts/DateTime';
 import SvgLogo from '../Parts/SvgLogo';
 import { Col, Row } from 'react-bootstrap';
+import { OverlayTrigger, Popover } from 'react-bootstrap';
 import { Icon } from '@iconify/react';
 import '../Css/Pages/PageDetailTicket.css';
 import Pusher from 'pusher-js';
@@ -99,6 +100,14 @@ function DetailComponent() {
     const getTimeFromData = (timeString) => {
         const date = new Date(timeString);
         return date.toLocaleTimeString();
+      };
+
+      const [popoverShow, setPopoverShow] = useState(false);
+      const [popoverContent, setPopoverContent] = useState('');
+    
+      const handlePopover = (content) => {
+        setPopoverShow(!popoverShow);
+        setPopoverContent(content);
       };
 
   return (
@@ -197,13 +206,36 @@ function DetailComponent() {
                             </div>
                         </Col>
                         <Col sm={5}>
-                            <div className='data-log px-5 py-3 my-4'>
+                            <div className='data-chat px-5 py-3 my-4'>
+                                <div className='header-ticket pb-3'>
+                                    <h3 className='text-blue'>Chat</h3>
+                                </div>
+                                {/* <hr /> */}
+                                <div className='element-chat'>
+                                    <ol className="chat">
+                                    {Chat.map((item, id) => (
+                                        <li key={id} className={item.user_id === 3 ? 'self' : 'other'}>
+                                            <div className="avatar"><img src="https://i.imgur.com/DY6gND0.png" draggable="false"/></div>
+                                        <div className="msg">
+                                            <h4>{item.user.name}</h4>
+                                            <div className='my-2'/>
+                                            <h4>{item.content}</h4>
+                                            <div className='text-end'>{getTimeFromData(item.created_at)}</div>
+                                        </div>
+                                        </li>
+                                    ))}
+                                    </ol>
+                                </div>
+                            </div>
+                        </Col>
+                        <Col sm={12}>
+                        <div className='data-log px-5 py-3 my-4'>
                                 <div className='header-ticket pb-3'>
                                     <h3 className='text-blue'>Log</h3>
                                 </div>
                                 <hr />
                                 <div className='timeline-right'>
-                                <ul className="timeline">
+                                {/* <ul className="timeline">
                                 {Log.map((item, id) => (
                                     <li key={id} className='my-2'>
                                         <div className="direction-r">
@@ -221,31 +253,27 @@ function DetailComponent() {
                                         </div>
                                     </li>
                                 ))}
-                                </ul>
+                                </ul> */}
+                                <div className="line_box my-4">
+                        {/* <div className="line_box" style="margin: 40px 0 40px 0;"> */}
+                            {Log.map((item, id) => (
+                                <div key={id} className="text_circle">
+                                    <div className="circle">
+                                    <h3 style={{ color: item.activity.color }}>{item.activity.public_name}</h3>
+                                    <h4>{formatDate(item.created_at)} {getTimeFromData(item.created_at)}</h4>
+                                    <h4>{item.added_by.name}</h4>
+                                    <h4 onClick={() => handlePopover('Read By Operator')}>Read By Operator</h4>
+                                    </div>
+                                <h2 className="tvar" style={{ border: `4px solid #${item.activity.color}` }}>
+                                    <span style={{ backgroundColor: item.activity.color }}><Icon icon="fe:timeline" /></span>
+                                </h2>
                                 </div>
-                            </div>
-                            <div className='data-chat px-5 py-3 my-4'>
-                                <div className='header-ticket pb-3'>
-                                    <h3 className='text-blue'>Chat</h3>
-                                </div>
-                                {/* <hr /> */}
-                                <div className='element-chat'>
-                                    <ol class="chat">
-                                    {Chat.map((item, id) => (
-                                        <li key={id} className={item.user_id === 3 ? 'self' : 'other'}>
-                                            <div className="avatar"><img src="https://i.imgur.com/DY6gND0.png" draggable="false"/></div>
-                                        <div className="msg">
-                                            <h4>{item.user.name}</h4>
-                                            <div className='my-2'/>
-                                            <h4>{item.content}</h4>
-                                            <div className='text-end'>{getTimeFromData(item.created_at)}</div>
-                                        </div>
-                                        </li>
-                                    ))}
-                                    </ol>
+                            ))}
+                        </div>
                                 </div>
                             </div>
                         </Col>
+                        
                     </Row>
             </div>
         </div>
