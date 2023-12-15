@@ -1,6 +1,5 @@
 import '../Css/Pages/PageMain.css';
 import '../Css/Parts/Font.css'; 
-// import Pusher from '../Parts/Pusher'
 import Pusher from 'pusher-js';
 
 import SvgMaps from '../Parts/SvgMaps'
@@ -13,7 +12,6 @@ import SvgLogo from '../Parts/SvgLogo';
 
 import Dropdown from 'react-bootstrap/Dropdown';
 
-// import Detak from '../Images/detak.svg'
 import { ReactComponent as Detak } from '../Images/detak.svg';
 import { ReactComponent as Detakblue } from '../Images/detak-blue.svg';
 import { ReactComponent as Detakred } from '../Images/detak-red.svg';
@@ -761,7 +759,7 @@ function MainNew() {
             </div>
 
             <div className='SvgMaps'>
-                <SvgMaps  parameter = 'month'/>
+                <SvgMaps parameter = 'month'/>
             </div>
 
             <div className='main-new-bottom px-5'>
@@ -980,7 +978,7 @@ function MainNew() {
             </div>
 
             <div className='SvgMaps'>
-                <SvgMaps  parameter = 'year'/>
+                <SvgMaps parameter = 'year'/>
             </div>
 
             <div className='main-new-bottom px-5'>

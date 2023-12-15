@@ -716,7 +716,7 @@ return () => {
             </div>
                             </Dropdown.Menu>
                         </Dropdown>
-                        <Dropdown drop="start">
+                        {/* <Dropdown drop="start">
                             <Dropdown.Toggle className='dropdown-filter-tracking'>
                             <h1><Icon icon="ion:filter" className='filter-button' /></h1>
                             </Dropdown.Toggle>
@@ -750,7 +750,7 @@ return () => {
                                     <Form.Control type="date" name="sd" placeholder="End Date" />
                                 </Form.Group>
                             </Dropdown.Menu>
-                        </Dropdown>
+                        </Dropdown> */}
                     </div>
                 </div>
             </div>

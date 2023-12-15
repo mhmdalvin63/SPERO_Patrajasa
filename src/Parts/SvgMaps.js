@@ -32,6 +32,7 @@ const IndonesiaMap = (props) => {
    // Convert the parameters object into a URL-encoded string
    useEffect(() => {
     const { parameter } = props;
+    console.log('PARAMETERRRRRRRR',parameter)
      const token = sessionStorage.getItem("jwttoken");
      const fetchData = async () => {
       try {
