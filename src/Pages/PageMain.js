@@ -239,24 +239,22 @@ function MainNew() {
             try {
               if (data.message.status === 'open' || data.message.status === 'process' || data.message.status === 'done' || data.message.status === 'closed') {
                 // If data.message is "Ping!", update the state
-                setOpen((prevOpen) => !prevOpen);
-                setOpenWeek((prevOpenWeek) => !prevOpenWeek);
-                setOpenMonth((prevOpenMonth) => !prevOpenMonth);
-                setOpenYear((prevOpenYear) => !prevOpenYear);
-                setProses((prevProses) => !prevProses);
-                setProsesWeek((prevProsesWeek) => !prevProsesWeek);
-                setProsesMonth((prevProsesMonth) => !prevProsesMonth);
-                setProsesYear((prevProsesYear) => !prevProsesYear);
-                setDone((prevDone) => !prevDone);
-                setDoneWeek((prevDoneWeek) => !prevDoneWeek);
-                setDoneMonth((prevDoneMonth) => !prevDoneMonth);
-                setDoneYear((prevDoneYear) => !prevDoneYear);
-                setClose((prevClose) => !prevClose);
-                setCloseWeek((prevCloseWeek) => !prevCloseWeek);
-                setCloseMonth((prevCloseMonth) => !prevCloseMonth);
-                setCloseYear((prevCloseYear) => !prevCloseYear);
-      
-                // Fetch the latest data after updating the state
+                // setOpen((prevOpen) => !prevOpen);
+                // setOpenWeek((prevOpenWeek) => !prevOpenWeek);
+                // setOpenMonth((prevOpenMonth) => !prevOpenMonth);
+                // setOpenYear((prevOpenYear) => !prevOpenYear);
+                // setProses((prevProses) => !prevProses);
+                // setProsesWeek((prevProsesWeek) => !prevProsesWeek);
+                // setProsesMonth((prevProsesMonth) => !prevProsesMonth);
+                // setProsesYear((prevProsesYear) => !prevProsesYear);
+                // setDone((prevDone) => !prevDone);
+                // setDoneWeek((prevDoneWeek) => !prevDoneWeek);
+                // setDoneMonth((prevDoneMonth) => !prevDoneMonth);
+                // setDoneYear((prevDoneYear) => !prevDoneYear);
+                // setClose((prevClose) => !prevClose);
+                // setCloseWeek((prevCloseWeek) => !prevCloseWeek);
+                // setCloseMonth((prevCloseMonth) => !prevCloseMonth);
+                // setCloseYear((prevCloseYear) => !prevCloseYear);
                 fetchData();
               }
             } catch (error) {

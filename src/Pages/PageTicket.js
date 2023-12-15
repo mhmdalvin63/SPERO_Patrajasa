@@ -189,23 +189,28 @@ NothingHaveToken()
     });
     const channel = pusher.subscribe('post-ticket');
 
-channel.bind('post-ticket-event', (data) => {
-  console.log(data.message);
-  try {
-    if (data.message.status === 'open') {
-      // If data.message is "Ping!", update the state
-      setOpen((prevOpen) => !prevOpen); // Use functional update
-      setPosts((prevPosts) => !prevPosts); // Use functional update
-      // setTicket((prevTicket) => !prevTicket); // Use functional update
-
-      // Fetch the latest data after updating the state
-      fetchData();
-    }
-  } catch (error) {
-    console.error('Gagal mengurai data JSON:', error);
-  }
-  // Add additional logic or rendering here if needed
-});
+    channel.bind('post-ticket-event', (data) => {
+      console.log('TESSSSSSSSSSSSSSSSS', data.message.status);
+      try {
+        if (data.message && data.message.status) {
+          if (
+            data.message.status === 'open' ||
+            data.message.status === 'process' ||
+            data.message.status === 'done' ||
+            data.message.status === 'closed'
+          ) {
+            // setOpen((prevOpen) => !prevOpen);
+            // setProses((prevProses) => !prevProses);
+            // setDone((prevDone) => !prevDone);
+            // setClose((prevClose) => !prevClose);
+            fetchData();
+          }
+        }
+      } catch (error) {
+        console.error('Gagal mengurai data JSON:', error);
+      }
+    });
+    
 
 channel.bind('pusher:error', (err) => {
   console.error('Pusher Error:', err);
