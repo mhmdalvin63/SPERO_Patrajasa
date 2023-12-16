@@ -28,6 +28,9 @@ import Loading from '../Parts/Loading';
 // import { useState } from 'react';
 import NothingHaveToken from '../Parts/NothingHaveToken';
 
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 function MainNew() {
     NothingHaveToken()
     const [loading, setLoading] = useState(true);
@@ -255,6 +258,7 @@ function MainNew() {
                 // setCloseWeek((prevCloseWeek) => !prevCloseWeek);
                 // setCloseMonth((prevCloseMonth) => !prevCloseMonth);
                 // setCloseYear((prevCloseYear) => !prevCloseYear);
+                console.log('Fetching data...');
                 fetchData();
               }
             } catch (error) {
@@ -278,9 +282,33 @@ function MainNew() {
           };
     }, []);
 
+
+    useEffect(() => {
+        const handleOnlineStatusChange = () => {
+          if (navigator.onLine) {
+            // Koneksi jaringan baik
+            toast.success('Jaringan kembali online!', { position: toast.POSITION.TOP_CENTER });
+          } else {
+            // Koneksi jaringan buruk
+            toast.error('Koneksi jaringan kurang bagus!', { position: toast.POSITION.TOP_CENTER });
+          }
+        };
+    
+        // Menambahkan event listener untuk mendeteksi perubahan status koneksi
+        window.addEventListener('online', handleOnlineStatusChange);
+        window.addEventListener('offline', handleOnlineStatusChange);
+    
+        // Membersihkan event listener saat komponen di-unmount
+        return () => {
+          window.removeEventListener('online', handleOnlineStatusChange);
+          window.removeEventListener('offline', handleOnlineStatusChange);
+        };
+      }, []);
+
     // console.log(open)
     return (
         <div>
+            <ToastContainer />
         {loading ? (
            <Loading/>
         ) : (

@@ -1,6 +1,7 @@
 import '../Css/Pages/PageTicket.css';
 import '../Css/Parts/Font.css'; 
 
+import Pusher from 'pusher-js';
 
 import {Dropdown, Form,  FormControl, Button} from 'react-bootstrap';
 
@@ -29,8 +30,9 @@ function PageTicket() {
   const [DetailTicket, setDetailTicket] = useState([]);
     useEffect(() => {
         const token = sessionStorage.getItem("jwttoken");
-         axios.get(process.env.REACT_APP_API_URL + 'api/dashboard/ticket', { headers: {"Authorization" : `Bearer ${token}`} })
-          .then((result) => {
+        const fetchData = async () => {
+          try {
+            const result = await axios.get(process.env.REACT_APP_API_URL + 'api/dashboard/ticket', { headers: {"Authorization" : `Bearer ${token}`} })
             console.log('DATAAAAA',result.data.data);
             setTicket(result.data.data);
             setActivity(result.data.data);
@@ -39,10 +41,77 @@ function PageTicket() {
             const eventEndTime = new Date(result.data.data.category.range_time);
             setEndTime(eventEndTime);
             setLoading(false);
-          })
-          .catch((error) => {
+    
+            setLoading(false);
+          } catch (error) {
             console.log(error)
-            setLoading(false);});
+            setLoading(false);
+          }
+        };
+
+        const pusher = new Pusher('2b7208e6523a6e855f6b', {
+          cluster: 'ap1',
+        });
+        const channel = pusher.subscribe('post-ticket');
+        
+        channel.bind('post-ticket-event', (data) => {
+          console.log(data.message);
+          try {
+            if (data.message.status === 'open' || data.message.status === 'process' || data.message.status === 'done' || data.message.status === 'closed') {
+              // If data.message is "Ping!", update the state
+              // setOpen((prevOpen) => !prevOpen);
+              // setOpenWeek((prevOpenWeek) => !prevOpenWeek);
+              // setOpenMonth((prevOpenMonth) => !prevOpenMonth);
+              // setOpenYear((prevOpenYear) => !prevOpenYear);
+              // setProses((prevProses) => !prevProses);
+              // setProsesWeek((prevProsesWeek) => !prevProsesWeek);
+              // setProsesMonth((prevProsesMonth) => !prevProsesMonth);
+              // setProsesYear((prevProsesYear) => !prevProsesYear);
+              // setDone((prevDone) => !prevDone);
+              // setDoneWeek((prevDoneWeek) => !prevDoneWeek);
+              // setDoneMonth((prevDoneMonth) => !prevDoneMonth);
+              // setDoneYear((prevDoneYear) => !prevDoneYear);
+              // setClose((prevClose) => !prevClose);
+              // setCloseWeek((prevCloseWeek) => !prevCloseWeek);
+              // setCloseMonth((prevCloseMonth) => !prevCloseMonth);
+              // setCloseYear((prevCloseYear) => !prevCloseYear);
+              console.log('Fetching data...');
+              fetchData();
+            }
+          } catch (error) {
+            console.error('Gagal mengurai data JSON:', error);
+          }
+          // Add additional logic or rendering here if needed
+        });
+    
+        channel.bind('pusher:error', err => {
+          console.error('Pusher Error:', err);
+        });
+    
+        pusher.connection.bind('connected', () => {
+          console.log('Connected to Pusher');
+        });
+    
+        fetchData(); 
+
+        return () => {
+          pusher.disconnect(); // Disconnect Pusher when the component unmounts
+        };
+    
+        //  axios.get(process.env.REACT_APP_API_URL + 'api/dashboard/ticket', { headers: {"Authorization" : `Bearer ${token}`} })
+        //   .then((result) => {
+        //     console.log('DATAAAAA',result.data.data);
+        //     setTicket(result.data.data);
+        //     setActivity(result.data.data);
+        //     setDetailTicket(result.data.data);
+        //     // setFilteredData(result.data.data);
+        //     const eventEndTime = new Date(result.data.data.category.range_time);
+        //     setEndTime(eventEndTime);
+        //     setLoading(false);
+        //   })
+        //   .catch((error) => {
+        //     console.log(error)
+        //     setLoading(false);});
 
          axios.get(process.env.REACT_APP_API_URL + 'api/dashboard/ticket/get-categories', { headers: {"Authorization" : `Bearer ${token}`} })
           .then((result) => {

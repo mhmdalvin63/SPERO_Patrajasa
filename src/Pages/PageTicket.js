@@ -193,10 +193,11 @@ NothingHaveToken()
       console.log('TESSSSSSSSSSSSSSSSS', data.message.status);
       try {
         if (data.message.status === 'open' || data.message.status === 'process' || data.message.status === 'done' || data.message.status === 'closed') {
+          console.log('Fetching data...');
           fetchData();
         }
       } catch (error) {
-        console.error('Gagal mengurai data JSON:', error);
+        console.error('Failed to parse JSON data:', error);
       }
     });
     

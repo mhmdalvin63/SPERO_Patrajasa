@@ -32,12 +32,12 @@ const IndonesiaMap = (props) => {
    // Convert the parameters object into a URL-encoded string
    useEffect(() => {
     const { parameter } = props;
-    console.log('PARAMETERRRRRRRR',parameter)
+    // console.log('PARAMETERRRRRRRR',parameter)
      const token = sessionStorage.getItem("jwttoken");
      const fetchData = async () => {
       try {
         const result = await axios.get(`${process.env.REACT_APP_API_URL}api/dashboard/province-earthquake?filter=${parameter}`, { headers: {"Authorization" : `Bearer ${token}`} })
-        console.log('SVGGGGGGGG',result.data.data)
+        // console.log('SVGGGGGGGG',result.data.data)
         SetEarthQuakes(result.data.data);
 
         setLoading(false);
@@ -53,7 +53,7 @@ const IndonesiaMap = (props) => {
     const channel = pusher.subscribe('post-ticket');
     
     channel.bind('post-ticket-event', (data) => {
-      console.log(data.message);
+      // console.log(data.message);
       try {
         if (data.message.status === 'open' || data.message.status === 'process' || data.message.status === 'done' || data.message.status === 'closed') {
           // If data.message is "Ping!", update the state
