@@ -192,19 +192,8 @@ NothingHaveToken()
     channel.bind('post-ticket-event', (data) => {
       console.log('TESSSSSSSSSSSSSSSSS', data.message.status);
       try {
-        if (data.message && data.message.status) {
-          if (
-            data.message.status === 'open' ||
-            data.message.status === 'process' ||
-            data.message.status === 'done' ||
-            data.message.status === 'closed'
-          ) {
-            // setOpen((prevOpen) => !prevOpen);
-            // setProses((prevProses) => !prevProses);
-            // setDone((prevDone) => !prevDone);
-            // setClose((prevClose) => !prevClose);
-            fetchData();
-          }
+        if (data.message.status === 'open' || data.message.status === 'process' || data.message.status === 'done' || data.message.status === 'closed') {
+          fetchData();
         }
       } catch (error) {
         console.error('Gagal mengurai data JSON:', error);

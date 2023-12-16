@@ -143,17 +143,17 @@ const MultiAxisLineChart = () => {
                     <select value={selectedOption} onChange={handleChange} size="xl" aria-label="Default select example" className='select-multi-axis '>
                       <option>Pilih Bulan</option>
                       <option value="january">Januari</option>
-                      <option value="Februari">Februari</option>
-                      <option value="Maret">Maret</option>
-                      <option value="April">April</option>
-                      <option value="Mei">Mei</option>
-                      <option value="Juni">Juni</option>
-                      <option value="Juli">Juli</option>
-                      <option value="Agustus">Agustus</option>
-                      <option value="September">September</option>
+                      <option value="february">Februari</option>
+                      <option value="march">Maret</option>
+                      <option value="april">April</option>
+                      <option value="may">Mei</option>
+                      <option value="june">Juni</option>
+                      <option value="july">Juli</option>
+                      <option value="august">Agustus</option>
+                      <option value="september">September</option>
                       <option value="october">Oktober</option>
-                      <option value="November">November</option>
-                      <option value="Desember">Desember</option>
+                      <option value="november">November</option>
+                      <option value="december">Desember</option>
                     </select>
                     {/* <p>selected : {selectedOption}</p> */}
                   </div>
