@@ -16,7 +16,7 @@ const Login = () => {
     if (currentURL.includes('172.16.16.3:3000')) {
       urlApi = process.env.REACT_APP_API_URL_HTTP;
     } else if (currentURL.includes('dashboard.par.co.id')) {
-      urlApi = process.env.REACT_APP_API_URL_HTTP;
+      urlApi = process.env.REACT_APP_API_URL;
     } else {
       urlApi = process.env.REACT_APP_API_URL;
     }
