@@ -334,7 +334,7 @@ return () => {
           filteredTicketOpen = DataOpen.filter((item) => {
             // Filter by time range
             const startTime = new Date(item.start_time);
-            const endTime = new Date(item.range_time);
+            const endTime = new Date(startTime.getTime() + item.range_time * 60 * 60 * 1000);
             const filterStartDate = startDate ? new Date(startDate) : null;
             const filterEndDate = endDate ? new Date(endDate) : null;
         
@@ -359,7 +359,7 @@ return () => {
           filteredTicketProcess = DataProcess.filter((item) => {
             // Filter by time range
             const startTime = new Date(item.start_time);
-            const endTime = new Date(item.range_time);
+            const endTime = new Date(startTime.getTime() + item.range_time * 60 * 60 * 1000);
             const filterStartDate = startDate ? new Date(startDate) : null;
             const filterEndDate = endDate ? new Date(endDate) : null;
         
@@ -384,7 +384,7 @@ return () => {
           filteredTicketDone = DataDone.filter((item) => {
             // Filter by time range
             const startTime = new Date(item.start_time);
-            const endTime = new Date(item.range_time);
+            const endTime = new Date(startTime.getTime() + item.range_time * 60 * 60 * 1000);
             const filterStartDate = startDate ? new Date(startDate) : null;
             const filterEndDate = endDate ? new Date(endDate) : null;
         
@@ -409,7 +409,7 @@ return () => {
           filteredTicketClosed = DataClosed.filter((item) => {
             // Filter by time range
             const startTime = new Date(item.start_time);
-            const endTime = new Date(item.range_time);
+            const endTime = new Date(startTime.getTime() + item.range_time * 60 * 60 * 1000);
             const filterStartDate = startDate ? new Date(startDate) : null;
             const filterEndDate = endDate ? new Date(endDate) : null;
         
@@ -434,7 +434,7 @@ return () => {
          allDataFiltered = Ticket.filter((item) => {
             // Filter by time range
             const startTime = new Date(item.start_time);
-            const endTime = new Date(item.range_time);
+            const endTime = new Date(startTime.getTime() + item.range_time * 60 * 60 * 1000);
             const filterStartDate = startDate ? new Date(startDate) : null;
             const filterEndDate = endDate ? new Date(endDate) : null;
         
@@ -880,39 +880,55 @@ return () => {
                 </tr>
                 </thead>
                 <tbody className='page-ticket-bottom-tbody'>
-                {filteredTicketOpen.map((item, index) => (
-                    <tr className='text-center'>
-                    <td>{index+1}</td>
-                    <td>{item.ticket_code}</td>
-                    <td>{item.category.name}</td>
-                    <td>
-                        <p>{formatDateLong(item.start_time)}</p>
-                        {/* <p className='text-red'>{getTimeFromData(item.start_time)} WIB</p> */}
-                        {/* <p className='text-red'>11 : 14 WIB</p> */}
-                    </td>
-                    <td>
-                        <p>{formatDateLong(item.range_time)}</p>
-                        {/* <p className='text-red'>{getTimeFromData(item.range_time)} WIB</p> */}
-                    </td>
-                    {item.priority_id === 1 ? (
-                      <td>
-                      <p  className='fwb text-lime'>Low</p>
-                      </td>
-                    ) : item.priority_id === 2  ? (
-                     <td>
-                      <p className='fwb text-blue'>Medium</p>
-                      </td>
-                    ) : (
-                      <td>
-                      <p className='fwb text-red'>High</p>
-                      </td>
-                    )}
-                    <td>
-                        <p style={{ color: item.activity.color}}>{item.activity.name}</p>
-                    </td>
-                    {/* <td><Link to={`/list-ticket/${item.id}`} className='button-eye py-2 px-3'><Icon icon="mdi:eye" /></Link></td> */}
-                    </tr>
-                ))}
+                {filteredTicketOpen.map((item, index) => {
+  const startTime = new Date(item.start_time);
+  const endTime = new Date(startTime.getTime() + item.range_time * 60 * 60 * 1000);
+
+  // Calculate the time remaining
+  const currentTime = new Date();
+  const timeRemaining = endTime.getTime() - currentTime.getTime();
+
+  // Convert timeRemaining to hours, minutes, and seconds
+  const hours = Math.floor(timeRemaining / (60 * 60 * 1000));
+  const minutes = Math.floor((timeRemaining % (60 * 60 * 1000)) / (60 * 1000));
+  const seconds = Math.floor((timeRemaining % (60 * 1000)) / 1000);
+
+  return (
+        <tr className='text-center'>
+        <td>{index + 1}</td>
+        <td>{item.ticket_code}</td>
+        <td>{item.detail_ticket.subject}</td>
+        <td>
+            <p>{formatDateLong(item.start_time)}</p>
+            <p className='text-red'>{getTimeFromData(item.start_time)} WIB</p>
+            {/* <p className='text-red'>11 : 14 WIB</p> */}
+        </td>
+        <td>
+            <p>{item.range_time}</p>
+            <p>{formatDateLong(new Date(item.start_time).getTime() + item.range_time * 60 * 60 * 1000)}</p>
+            <p className='text-red'>{getTimeFromData(new Date(item.start_time).getTime() + item.range_time * 60 * 60 * 1000)}</p>
+
+            {/* <p>{new Date(new Date(item.start_time).getTime() + item.range_time * 60 * 60 * 1000).toLocaleString()}</p> */}
+        </td>
+        {item.priority_id === 1 ? (
+          <td>
+          <p  className='fwb text-lime'>Low</p>
+          </td>
+        ) : item.priority_id === 2  ? (
+         <td>
+          <p className='fwb text-blue'>Medium</p>
+          </td>
+        ) : (
+          <td>
+          <p className='fwb text-red'>High</p>
+          </td>
+        )}
+        <td>
+            <p style={{ color: item.activity.color}}>{item.activity.name}</p>
+        </td>
+        </tr>
+  );
+})}
                 </tbody>
             </Table>
             </div>
@@ -1019,39 +1035,55 @@ return () => {
                 </tr>
                 </thead>
                 <tbody className='page-ticket-bottom-tbody'>
-                {filteredTicketProcess.map((item, index) => (
-                    <tr className='text-center'>
-                    <td>{index+1}</td>
-                    <td>{item.ticket_code}</td>
-                    <td>{item.category.name}</td>
-                    <td>
-                        <p>{formatDateLong(item.start_time)}</p>
-                        {/* <p className='text-red'>{getTimeFromData(item.start_time)} WIB</p> */}
-                        {/* <p className='text-red'>11 : 14 WIB</p> */}
-                    </td>
-                    <td>
-                        <p>{formatDateLong(item.range_time)}</p>
-                        {/* <p className='text-red'>{getTimeFromData(item.range_time)} WIB</p> */}
-                    </td>
-                    {item.priority_id === 1 ? (
-                      <td>
-                      <p  className='fwb text-lime'>Low</p>
-                      </td>
-                    ) : item.priority_id === 2  ? (
-                     <td>
-                      <p className='fwb text-blue'>Medium</p>
-                      </td>
-                    ) : (
-                      <td>
-                      <p className='fwb text-red'>High</p>
-                      </td>
-                    )}
-                    <td>
-                        <p style={{ color: item.activity.color}}>{item.activity.name}</p>
-                    </td>
-                    {/* <td><Link to={`/list-ticket/${item.id}`} className='button-eye py-2 px-3'><Icon icon="mdi:eye" /></Link></td> */}
-                    </tr>
-                ))}
+                {filteredTicketProcess.map((item, index) => {
+  const startTime = new Date(item.start_time);
+  const endTime = new Date(startTime.getTime() + item.range_time * 60 * 60 * 1000);
+
+  // Calculate the time remaining
+  const currentTime = new Date();
+  const timeRemaining = endTime.getTime() - currentTime.getTime();
+
+  // Convert timeRemaining to hours, minutes, and seconds
+  const hours = Math.floor(timeRemaining / (60 * 60 * 1000));
+  const minutes = Math.floor((timeRemaining % (60 * 60 * 1000)) / (60 * 1000));
+  const seconds = Math.floor((timeRemaining % (60 * 1000)) / 1000);
+
+  return (
+        <tr className='text-center'>
+        <td>{index + 1}</td>
+        <td>{item.ticket_code}</td>
+        <td>{item.detail_ticket.subject}</td>
+        <td>
+            <p>{formatDateLong(item.start_time)}</p>
+            <p className='text-red'>{getTimeFromData(item.start_time)} WIB</p>
+            {/* <p className='text-red'>11 : 14 WIB</p> */}
+        </td>
+        <td>
+            <p>{item.range_time}</p>
+            <p>{formatDateLong(new Date(item.start_time).getTime() + item.range_time * 60 * 60 * 1000)}</p>
+            <p className='text-red'>{getTimeFromData(new Date(item.start_time).getTime() + item.range_time * 60 * 60 * 1000)}</p>
+
+            {/* <p>{new Date(new Date(item.start_time).getTime() + item.range_time * 60 * 60 * 1000).toLocaleString()}</p> */}
+        </td>
+        {item.priority_id === 1 ? (
+          <td>
+          <p  className='fwb text-lime'>Low</p>
+          </td>
+        ) : item.priority_id === 2  ? (
+         <td>
+          <p className='fwb text-blue'>Medium</p>
+          </td>
+        ) : (
+          <td>
+          <p className='fwb text-red'>High</p>
+          </td>
+        )}
+        <td>
+            <p style={{ color: item.activity.color}}>{item.activity.name}</p>
+        </td>
+        </tr>
+  );
+})}
                 </tbody>
             </Table>
             </div>
@@ -1158,39 +1190,55 @@ return () => {
                 </tr>
                 </thead>
                 <tbody className='page-ticket-bottom-tbody'>
-                {filteredTicketDone.map((item, index) => (
-                    <tr className='text-center'>
-                    <td>{index+1}</td>
-                    <td>{item.ticket_code}</td>
-                    <td>{item.category.name}</td>
-                    <td>
-                        <p>{formatDateLong(item.start_time)}</p>
-                        {/* <p className='text-red'>{getTimeFromData(item.start_time)} WIB</p> */}
-                        {/* <p className='text-red'>11 : 14 WIB</p> */}
-                    </td>
-                    <td>
-                        <p>{formatDateLong(item.range_time)}</p>
-                        {/* <p className='text-red'>{getTimeFromData(item.range_time)} WIB</p> */}
-                    </td>
-                    {item.priority_id === 1 ? (
-                      <td>
-                      <p  className='fwb text-lime'>Low</p>
-                      </td>
-                    ) : item.priority_id === 2  ? (
-                     <td>
-                      <p className='fwb text-blue'>Medium</p>
-                      </td>
-                    ) : (
-                      <td>
-                      <p className='fwb text-red'>High</p>
-                      </td>
-                    )}
-                    <td>
-                        <p style={{ color: item.activity.color}}>{item.activity.name}</p>
-                    </td>
-                    {/* <td><Link to={`/list-ticket/${item.id}`} className='button-eye py-2 px-3'><Icon icon="mdi:eye" /></Link></td> */}
-                    </tr>
-                ))}
+                {filteredTicketDone.map((item, index) => {
+  const startTime = new Date(item.start_time);
+  const endTime = new Date(startTime.getTime() + item.range_time * 60 * 60 * 1000);
+
+  // Calculate the time remaining
+  const currentTime = new Date();
+  const timeRemaining = endTime.getTime() - currentTime.getTime();
+
+  // Convert timeRemaining to hours, minutes, and seconds
+  const hours = Math.floor(timeRemaining / (60 * 60 * 1000));
+  const minutes = Math.floor((timeRemaining % (60 * 60 * 1000)) / (60 * 1000));
+  const seconds = Math.floor((timeRemaining % (60 * 1000)) / 1000);
+
+  return (
+        <tr className='text-center'>
+        <td>{index + 1}</td>
+        <td>{item.ticket_code}</td>
+        <td>{item.detail_ticket.subject}</td>
+        <td>
+            <p>{formatDateLong(item.start_time)}</p>
+            <p className='text-red'>{getTimeFromData(item.start_time)} WIB</p>
+            {/* <p className='text-red'>11 : 14 WIB</p> */}
+        </td>
+        <td>
+            <p>{item.range_time}</p>
+            <p>{formatDateLong(new Date(item.start_time).getTime() + item.range_time * 60 * 60 * 1000)}</p>
+            <p className='text-red'>{getTimeFromData(new Date(item.start_time).getTime() + item.range_time * 60 * 60 * 1000)}</p>
+
+            {/* <p>{new Date(new Date(item.start_time).getTime() + item.range_time * 60 * 60 * 1000).toLocaleString()}</p> */}
+        </td>
+        {item.priority_id === 1 ? (
+          <td>
+          <p  className='fwb text-lime'>Low</p>
+          </td>
+        ) : item.priority_id === 2  ? (
+         <td>
+          <p className='fwb text-blue'>Medium</p>
+          </td>
+        ) : (
+          <td>
+          <p className='fwb text-red'>High</p>
+          </td>
+        )}
+        <td>
+            <p style={{ color: item.activity.color}}>{item.activity.name}</p>
+        </td>
+        </tr>
+  );
+})}
                 </tbody>
             </Table>
             </div>
@@ -1297,39 +1345,55 @@ return () => {
                 </tr>
                 </thead>
                 <tbody className='page-ticket-bottom-tbody'>
-                {filteredTicketClosed.map((item, index) => (
-                    <tr className='text-center'>
-                    <td>{index+1}</td>
-                    <td>{item.ticket_code}</td>
-                    <td>{item.category.name}</td>
-                    <td>
-                        <p>{formatDateLong(item.start_time)}</p>
-                        {/* <p className='text-red'>{getTimeFromData(item.start_time)} WIB</p> */}
-                        {/* <p className='text-red'>11 : 14 WIB</p> */}
-                    </td>
-                    <td>
-                        <p>{formatDateLong(item.range_time)}</p>
-                        {/* <p className='text-red'>{getTimeFromData(item.range_time)} WIB</p> */}
-                    </td>
-                    {item.priority_id === 1 ? (
-                      <td>
-                      <p  className='fwb text-lime'>Low</p>
-                      </td>
-                    ) : item.priority_id === 2  ? (
-                     <td>
-                      <p className='fwb text-blue'>Medium</p>
-                      </td>
-                    ) : (
-                      <td>
-                      <p className='fwb text-red'>High</p>
-                      </td>
-                    )}
-                    <td>
-                        <p style={{ color: item.activity.color}}>{item.activity.name}</p>
-                    </td>
-                    {/* <td><Link to={`/list-ticket/${item.id}`} className='button-eye py-2 px-3'><Icon icon="mdi:eye" /></Link></td> */}
-                    </tr>
-                ))}
+                {filteredTicketClosed.map((item, index) => {
+  const startTime = new Date(item.start_time);
+  const endTime = new Date(startTime.getTime() + item.range_time * 60 * 60 * 1000);
+
+  // Calculate the time remaining
+  const currentTime = new Date();
+  const timeRemaining = endTime.getTime() - currentTime.getTime();
+
+  // Convert timeRemaining to hours, minutes, and seconds
+  const hours = Math.floor(timeRemaining / (60 * 60 * 1000));
+  const minutes = Math.floor((timeRemaining % (60 * 60 * 1000)) / (60 * 1000));
+  const seconds = Math.floor((timeRemaining % (60 * 1000)) / 1000);
+
+  return (
+        <tr className='text-center'>
+        <td>{index + 1}</td>
+        <td>{item.ticket_code}</td>
+        <td>{item.detail_ticket.subject}</td>
+        <td>
+            <p>{formatDateLong(item.start_time)}</p>
+            <p className='text-red'>{getTimeFromData(item.start_time)} WIB</p>
+            {/* <p className='text-red'>11 : 14 WIB</p> */}
+        </td>
+        <td>
+            <p>{item.range_time}</p>
+            <p>{formatDateLong(new Date(item.start_time).getTime() + item.range_time * 60 * 60 * 1000)}</p>
+            <p className='text-red'>{getTimeFromData(new Date(item.start_time).getTime() + item.range_time * 60 * 60 * 1000)}</p>
+
+            {/* <p>{new Date(new Date(item.start_time).getTime() + item.range_time * 60 * 60 * 1000).toLocaleString()}</p> */}
+        </td>
+        {item.priority_id === 1 ? (
+          <td>
+          <p  className='fwb text-lime'>Low</p>
+          </td>
+        ) : item.priority_id === 2  ? (
+         <td>
+          <p className='fwb text-blue'>Medium</p>
+          </td>
+        ) : (
+          <td>
+          <p className='fwb text-red'>High</p>
+          </td>
+        )}
+        <td>
+            <p style={{ color: item.activity.color}}>{item.activity.name}</p>
+        </td>
+        </tr>
+  );
+})}
                 </tbody>
             </Table>
             </div>

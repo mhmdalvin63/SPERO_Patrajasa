@@ -159,7 +159,8 @@ function PageTicket() {
          filteredData = Ticket.filter((item) => {
             // Filter by time range
             const startTime = new Date(item.start_time);
-            const endTime = new Date(item.range_time);
+            const endTime = new Date(startTime.getTime() + item.range_time * 60 * 60 * 1000);
+            console.log('COBAAAAAA', endTime)
             const filterStartDate = startDate ? new Date(startDate) : null;
             const filterEndDate = endDate ? new Date(endDate) : null;
         
