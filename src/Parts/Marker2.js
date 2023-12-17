@@ -1,6 +1,6 @@
 import React, { Fragment, useState, useEffect } from "react";
 import axios from 'axios';
-import MarkerHelm from '../Images/markerHelm.png';
+import MarkerHelm from '../Images/MarkerTicket.png';
 import Profile from '../Images/MarkerStir.png';
 import Kendala from '../Images/banmotor.jpg';
 import '../Css/Parts/MapsMarker.css';
@@ -233,7 +233,6 @@ function App(props) {
     const channelPostDriver = pusher.subscribe(`post-driver`);
     channelPostDriver.bind('post-driver-event', (data) => {
       console.log('DRIVER BARU:', data.message.data);
-
         const newTicket = {
           driverid: data.driver_id,
           position: { lat: parseFloat(data.lat), lng: parseFloat(data.long) },
