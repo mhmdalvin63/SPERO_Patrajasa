@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
 import Loading from '../Parts/Loading';
@@ -52,10 +52,10 @@ function DetailComponent() {
         setLoading(false);
       });
 
-      const pusher = new Pusher('f0f69c0d22ba85c93f21', {
+      const pusher = new Pusher('2b7208e6523a6e855f6b', {
         cluster: 'ap1',
       });
-      const channel = pusher.subscribe(`private-chat.${id}`);
+      const channel = pusher.subscribe(`chat`);
       
       channel.bind('chat-event', (data) => {
         // console.log(data)
@@ -110,6 +110,20 @@ function DetailComponent() {
         setPopoverContent(content);
       };
 
+      const chatContainerRef = useRef(null);
+      useEffect(() => {
+    // Scroll to the bottom when the component mounts or when new messages are added
+    scrollToBottom();
+  }, [Chat]);
+      useEffect(() => {
+    // Scroll to the bottom whenever the component updates (e.g., when new messages arrive)
+    scrollToBottom();
+  });
+      const scrollToBottom = () => {
+    if (chatContainerRef.current) {
+      chatContainerRef.current.scrollTop = chatContainerRef.current.scrollHeight;
+    }
+  };
   return (
     <div>
       {loading ? (
@@ -211,7 +225,7 @@ function DetailComponent() {
                                     <h3 className='text-blue'>Chat</h3>
                                 </div>
                                 {/* <hr /> */}
-                                <div className='element-chat'>
+                                <div className='element-chat' ref={chatContainerRef}>
                                     <ol className="chat">
                                     {Chat.map((item, id) => (
                                         <li key={id} className={item.user_id === 3 ? 'self' : 'other'}>

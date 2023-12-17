@@ -10,6 +10,15 @@ const Login = () => {
     const [showNotification, setShowNotification] = useState(false);
     const usenavigate = useNavigate();
 
+    const currentURL = window.location.href;
+    console.log('CURRENTTTTTTTTTTTTT:', currentURL);
+    let urlApi;
+    if (currentURL.includes('172.16.16.3:3000')) {
+        urlApi = process.env.REACT_APP_API_URL_HTTP;
+      } else {
+        urlApi = process.env.REACT_APP_API_URL;
+      }
+
     const proceedLoginUsingAPI = (e) => {
         e.preventDefault();
         if (validate()) {
@@ -27,7 +36,7 @@ const Login = () => {
             "password": password
           };
     
-          fetch(process.env.REACT_APP_API_URL + "api/login", {
+          fetch(`${urlApi}api/login`, {
             method: 'POST',
             headers: { 'content-type': 'application/json' },
             body: JSON.stringify(inputobj)

@@ -21,7 +21,7 @@ import Tabs from 'react-bootstrap/Tabs';
 import Tab from 'react-bootstrap/Tab'; 
 
 // ICONIFY
-import { Icon } from '@iconify/react';
+import { Icon, _api } from '@iconify/react';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import Loading from '../Parts/Loading';
@@ -83,10 +83,21 @@ function MainNew() {
   // T I C K E T   S U M M A R Y
   useEffect(() => {
     const token = sessionStorage.getItem("jwttoken");
+    // URL API CUSTOM
+    const currentURL = window.location.href;
+    console.log('CURRENTTTTTTTTTTTTT:', currentURL);
+    let urlApi;
+    if (currentURL.includes('172.16.16.3:3000')) {
+        urlApi = process.env.REACT_APP_API_URL_HTTP;
+      } else {
+        urlApi = process.env.REACT_APP_API_URL;
+      }
+    // const apiUrl = 
 
     const fetchData = async () => {
       try {
-        const result = await axios.get(process.env.REACT_APP_API_URL + 'api/ticket/summary?filter=day', { headers: {"Authorization" : `Bearer ${token}`} })
+        const result = await axios.get(`${urlApi}api/ticket/summary?filter=day`, { headers: {"Authorization" : `Bearer ${token}`} })
+        console.log(urlApi)
         setPosts(result.data.data.total_priority);
         setPriority(result.data.data.total_priority);
         setOpen(result.data.data.status.open);
@@ -94,7 +105,7 @@ function MainNew() {
         setDone(result.data.data.status.done);
         setClose(result.data.data.status.closed);
 
-        const resultWeek = await axios.get(process.env.REACT_APP_API_URL + 'api/ticket/summary?filter=week', { headers: {"Authorization" : `Bearer ${token}`} })
+        const resultWeek = await axios.get(`${urlApi}api/ticket/summary?filter=week`, { headers: {"Authorization" : `Bearer ${token}`} })
         setPostsWeek(resultWeek.data.data.total_priority);
         setPriorityWeek(resultWeek.data.data.total_priority);
         setOpenWeek(resultWeek.data.data.status.open);
@@ -102,7 +113,7 @@ function MainNew() {
         setDoneWeek(resultWeek.data.data.status.done);
         setCloseWeek(resultWeek.data.data.status.closed);
 
-        const resultMonth = await axios.get(process.env.REACT_APP_API_URL + 'api/ticket/summary?filter=month', { headers: {"Authorization" : `Bearer ${token}`} })
+        const resultMonth = await axios.get(`${urlApi}api/ticket/summary?filter=month`, { headers: {"Authorization" : `Bearer ${token}`} })
         setPostsMonth(resultMonth.data.data.total_priority);
         setPriorityMonth(resultMonth.data.data.total_priority);
         setOpenMonth(resultMonth.data.data.status.open);
@@ -110,7 +121,7 @@ function MainNew() {
         setDoneMonth(resultMonth.data.data.status.done);
         setCloseMonth(resultMonth.data.data.status.closed);
 
-        const resultYear = await axios.get(process.env.REACT_APP_API_URL + 'api/ticket/summary?filter=year', { headers: {"Authorization" : `Bearer ${token}`} })
+        const resultYear = await axios.get(`${urlApi}api/ticket/summary?filter=year`, { headers: {"Authorization" : `Bearer ${token}`} })
         setPostsYear(resultYear.data.data.total_priority);
         setPriorityYear(resultYear.data.data.total_priority);
         setOpenYear(resultYear.data.data.status.open);
@@ -185,7 +196,7 @@ function MainNew() {
     //     console.log(error)
     //     setLoading(false);});
 
-      axios.get(process.env.REACT_APP_API_URL + 'api/dashboard/driver', { headers: {"Authorization" : `Bearer ${token}`} })
+      axios.get(`${urlApi}api/dashboard/driver`, { headers: {"Authorization" : `Bearer ${token}`} })
        .then((result) => {
          console.log('DRIVERRRRRR',result.data.data);
          setDriver(result.data.data.count);
@@ -198,7 +209,7 @@ function MainNew() {
         setLoading(false);});
        console.log(DriverList)
 
-      axios.get(process.env.REACT_APP_API_URL + 'api/dashboard/operator', { headers: {"Authorization" : `Bearer ${token}`} })
+      axios.get(`${urlApi}api/dashboard/operator`, { headers: {"Authorization" : `Bearer ${token}`} })
        .then((result) => {
         //  console.log('OPERATORRRR',result.data.data);
          SetOperator(result.data.data.operators);
@@ -210,7 +221,7 @@ function MainNew() {
         setLoading(false);});
        console.log(DriverList)
 
-     axios.get(process.env.REACT_APP_API_URL + 'api/dashboard/process-owner', { headers: {"Authorization" : `Bearer ${token}`} })
+     axios.get(`${urlApi}api/dashboard/process-owner`, { headers: {"Authorization" : `Bearer ${token}`} })
       .then((result) => {
         console.log('PROSES OWNER COIIII',result.data.data);
         setPo(result.data.data.count);
@@ -221,7 +232,7 @@ function MainNew() {
         console.log(error)
         setLoading(false);});
 
-     axios.get(process.env.REACT_APP_API_URL + 'api/dashboard/ticket', { headers: {"Authorization" : `Bearer ${token}`} })
+     axios.get(`${urlApi}api/dashboard/ticket`, { headers: {"Authorization" : `Bearer ${token}`} })
       .then((result) => {
         console.log(result.data.data);
         setTicket(result.data.data);
