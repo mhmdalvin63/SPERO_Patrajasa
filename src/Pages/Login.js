@@ -14,10 +14,17 @@ const Login = () => {
     console.log('CURRENTTTTTTTTTTTTT:', currentURL);
     let urlApi;
     if (currentURL.includes('172.16.16.3:3000')) {
-        urlApi = process.env.REACT_APP_API_URL_HTTP;
-      } else {
-        urlApi = process.env.REACT_APP_API_URL;
-      }
+      urlApi = process.env.REACT_APP_API_URL_HTTP;
+    } else if (currentURL.includes('dashboard.par.co.id')) {
+      urlApi = process.env.REACT_APP_API_URL_HTTP;
+    } else {
+      urlApi = process.env.REACT_APP_API_URL;
+    }
+    // if (currentURL.includes('172.16.16.3:3000')) {
+    //     urlApi = process.env.REACT_APP_API_URL_HTTP;
+    //   } else {
+    //     urlApi = process.env.REACT_APP_API_URL;
+    //   }
 
     const proceedLoginUsingAPI = (e) => {
         e.preventDefault();
