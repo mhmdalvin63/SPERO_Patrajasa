@@ -34,9 +34,21 @@ const IndonesiaMap = (props) => {
     const { parameter } = props;
     // console.log('PARAMETERRRRRRRR',parameter)
      const token = sessionStorage.getItem("jwttoken");
+
+     const currentURL = window.location.href;
+    console.log('CURRENTTTTTTTTTTTTT:', currentURL);
+    let urlApi;
+    if (currentURL.includes('172.16.16.3')) {
+      urlApi = process.env.REACT_APP_API_URL_HTTP;
+    } else if (currentURL.includes('dashboard.par.co.id')) {
+      urlApi = process.env.REACT_APP_API_URL;
+    } else {
+      urlApi = process.env.REACT_APP_API_URL;
+    }
+
      const fetchData = async () => {
       try {
-        const result = await axios.get(`${process.env.REACT_APP_API_URL}api/dashboard/province-earthquake?filter=${parameter}`, { headers: {"Authorization" : `Bearer ${token}`} })
+        const result = await axios.get(`${urlApi}api/dashboard/province-earthquake?filter=${parameter}`, { headers: {"Authorization" : `Bearer ${token}`} })
         // console.log('SVGGGGGGGG',result.data.data)
         SetEarthQuakes(result.data.data);
 

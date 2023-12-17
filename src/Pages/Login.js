@@ -13,7 +13,7 @@ const Login = () => {
     const currentURL = window.location.href;
     console.log('CURRENTTTTTTTTTTTTT:', currentURL);
     let urlApi;
-    if (currentURL.includes('172.16.16.3:3000')) {
+    if (currentURL.includes('172.16.16.3')) {
       urlApi = process.env.REACT_APP_API_URL_HTTP;
     } else if (currentURL.includes('dashboard.par.co.id')) {
       urlApi = process.env.REACT_APP_API_URL;

@@ -101,9 +101,21 @@ NothingHaveToken()
 
     useEffect(() => {
     const token = sessionStorage.getItem("jwttoken");
+
+    const currentURL = window.location.href;
+    console.log('CURRENTTTTTTTTTTTTT:', currentURL);
+    let urlApi;
+    if (currentURL.includes('172.16.16.3')) {
+      urlApi = process.env.REACT_APP_API_URL_HTTP;
+    } else if (currentURL.includes('dashboard.par.co.id')) {
+      urlApi = process.env.REACT_APP_API_URL;
+    } else {
+      urlApi = process.env.REACT_APP_API_URL;
+    }
+
     const fetchData = async () => {
       try {
-        const result = await axios.get(`${process.env.REACT_APP_API_URL}api/ticket/summary`, { headers: {"Authorization" : `Bearer ${token}`} })
+        const result = await axios.get(`${urlApi}api/ticket/summary`, { headers: {"Authorization" : `Bearer ${token}`} })
         setPosts(result.data.data.total_priority);
         setPriority(result.data.data.total_priority);
         setOpen(result.data.data.status.open);
@@ -123,10 +135,10 @@ NothingHaveToken()
         setclosedmedium(result.data.data.status.closed.priority[1].value);
         setclosedhigh(result.data.data.status.closed.priority[2].value);
 
-        const resultTicket = await axios.get(`${process.env.REACT_APP_API_URL}api/dashboard/ticket`, { headers: {"Authorization" : `Bearer ${token}`} })
+        const resultTicket = await axios.get(`${urlApi}api/dashboard/ticket`, { headers: {"Authorization" : `Bearer ${token}`} })
         setTicket(resultTicket.data.data);
 
-        const resultKategori = await axios.get(`${process.env.REACT_APP_API_URL}api/dashboard/ticket/get-categories`, { headers: {"Authorization" : `Bearer ${token}`} })
+        const resultKategori = await axios.get(`${urlApi}api/dashboard/ticket/get-categories`, { headers: {"Authorization" : `Bearer ${token}`} })
         setKategori(resultKategori.data.data);
 
         setLoading(false);

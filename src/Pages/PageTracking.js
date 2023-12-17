@@ -66,7 +66,19 @@ const [Driver, setDriver,] = useState([]);
 
 useEffect(() => {
   const token = sessionStorage.getItem("jwttoken");
-  axios.get(`${process.env.REACT_APP_API_URL}api/dashboard/tracking`, { headers: {"Authorization" : `Bearer ${token}`} })
+
+  const currentURL = window.location.href;
+    console.log('CURRENTTTTTTTTTTTTT:', currentURL);
+    let urlApi;
+    if (currentURL.includes('172.16.16.3')) {
+      urlApi = process.env.REACT_APP_API_URL_HTTP;
+    } else if (currentURL.includes('dashboard.par.co.id')) {
+      urlApi = process.env.REACT_APP_API_URL;
+    } else {
+      urlApi = process.env.REACT_APP_API_URL;
+    }
+
+  axios.get(`${urlApi}api/dashboard/tracking`, { headers: {"Authorization" : `Bearer ${token}`} })
   .then((result) => {
     console.log('TICKETT WOIIIIIIIIIII', result.data.data);
     setTicket(result.data.data ?? 0);

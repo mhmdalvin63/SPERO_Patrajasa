@@ -33,8 +33,19 @@ function DetailComponent() {
 
   useEffect(() => {
     const token = sessionStorage.getItem("jwttoken");
+
+    const currentURL = window.location.href;
+    console.log('CURRENTTTTTTTTTTTTT:', currentURL);
+    let urlApi;
+    if (currentURL.includes('172.16.16.3')) {
+      urlApi = process.env.REACT_APP_API_URL_HTTP;
+    } else if (currentURL.includes('dashboard.par.co.id')) {
+      urlApi = process.env.REACT_APP_API_URL;
+    } else {
+      urlApi = process.env.REACT_APP_API_URL;
+    }
   
-    axios.get(`${process.env.REACT_APP_API_URL}api/ticket/${id}`, {
+    axios.get(`${urlApi}api/ticket/${id}`, {
       headers: { "Authorization": `Bearer ${token}` }
     })
       .then((response) => {
