@@ -305,6 +305,8 @@ function PageTicket() {
   const hours = Math.floor(timeRemaining / (60 * 60 * 1000));
   const minutes = Math.floor((timeRemaining % (60 * 60 * 1000)) / (60 * 1000));
   const seconds = Math.floor((timeRemaining % (60 * 1000)) / 1000);
+   // Check if the event has ended
+   const eventEnded = timeRemaining <= 0;
 
   return (
         <tr className='text-center'>
@@ -324,8 +326,12 @@ function PageTicket() {
             {/* <p>{new Date(new Date(item.start_time).getTime() + item.range_time * 60 * 60 * 1000).toLocaleString()}</p> */}
         </td>
         <td>
-            <p className='text-red'>{`${hours} jam, ${minutes} menit, ${seconds} detik`}</p>
-        </td>
+        {eventEnded ? (
+          <p className='text-red'>Waktu Habis</p>
+        ) : (
+          <p className='text-red'>{`${hours} jam, ${minutes} menit, ${seconds} detik`}</p>
+        )}
+      </td>
         {item.priority_id === 1 ? (
           <td>
           <p  className='fwb text-lime'>Low</p>
