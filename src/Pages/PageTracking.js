@@ -508,7 +508,7 @@ const formatDateLong = (dateString) => {
   return (
        <Col sm={3} className='px-3 py-2' key={item.ticket_id} onClick={() => handleItemClick(`s${item.ticket_id}`)}>
        <div className='col-item d-flex align-items-start gap-4'>
-             <h1 style={{fill: item.activity ? item.activity.color : '-'}} className='fwb d-flex align-items-start mt-2' dangerouslySetInnerHTML={{ __html: item.icon }}></h1>
+             <h1 style={{fill: item.activity_color ? item.activity_color : '-'}} className='fwb d-flex align-items-start mt-2' dangerouslySetInnerHTML={{ __html: item.icon }}></h1>
              <div className='subject-tracking-parent'>
                  <p className='xl fwb tg2 subject-tracking'>{item.subject}</p>
                  <p className='md2'>{formatDateLong(item.created_at)}  {getTimeFromData(item.created_at)}</p>
