@@ -56,7 +56,7 @@ function DetailComponent() {
         setAdded(response.data.data.added_by);
         setChat(response.data.data.chat);
         setDetail(response.data.data.detail_ticket);
-        setImage(response.data.data.detail_ticket.file_upload.attachments);
+        setImage(response?.data?.data?.detail_ticket?.file_upload?.attachments ?? []);
         setLog(response.data.data.log);
         setTicket(response.data.data.detail_ticket.ticket);
         setLoading(false);
@@ -65,6 +65,7 @@ function DetailComponent() {
         console.error('Error fetching data:', error);
         setLoading(false);
       });
+
 
       const pusher = new Pusher('2b7208e6523a6e855f6b', {
         cluster: 'ap1',
@@ -236,15 +237,20 @@ const closeModal = () => {
                                 <Row className=' py-2'>
                                     <Col sm={3}><h4>Attachment</h4></Col>
                                     <Col sm={7} className='d-flex gap-2'>: 
-                                    {Image.map(attachment => (
-        <div key={attachment.id} className='img-detail-ticket'>
-          <img
-            src={`${attachment.file_path}/${attachment.file_hash}`}
-            alt={attachment.file_name}
-            onClick={() => openModal(`${attachment.file_path}/${attachment.file_hash}`)}
-          />  
-        </div>
-      ))}
+                                    {Image && Image.length > 0 ?(
+  Image.map((attachment) => (
+    <div key={attachment.id} className='img-detail-ticket'>
+      <img
+        src={`${attachment.file_path}/${attachment.file_hash}`}
+        alt={attachment.file_name}
+        onClick={() => openModal(`${attachment.file_path}/${attachment.file_hash}`)}
+      />
+    </div>
+  ))
+) : (
+  <h4>No images available</h4>
+)}
+
       {/* Modal */}
       <div
         style={{
