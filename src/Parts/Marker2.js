@@ -364,8 +364,8 @@ function App(props) {
                                                <h3 className="text-white">{ticketcode}</h3>
                                              </div>
                                              <div className="header-maps-right">
-                                               <div className="border-status-maps px-3 py-1">
-                                                 <p>{activityname}</p>
+                                               <div className="border-status-maps px-3 py-1" style={{color: activitycolor}}>
+                                                 <h3 className="fw-bold">{activityname}</h3>
                                                </div>
                                              </div>
                                            </div>
@@ -422,7 +422,7 @@ function App(props) {
                   {`s${ticketid}` === idParamDynamic ? (
                      <InfoWindowF position={position}
                      onCloseClick={() => setActiveMarker(null)}>
-                                         <div className="maps-label">
+                                        <div className="maps-label">
                                            <div className="header-maps py-2 px-3 gap-2">
                                              <div className="header-maps-left gap-2">
                                                <div className="header-maps-image p-2">
@@ -431,8 +431,8 @@ function App(props) {
                                                <h3 className="text-white">{ticketcode}</h3>
                                              </div>
                                              <div className="header-maps-right">
-                                               <div className="border-status-maps px-3 py-1">
-                                                 <p>{activityname}</p>
+                                               <div className="border-status-maps px-3 py-1" style={{color: activitycolor}}>
+                                                 <h3 className="fw-bold">{activityname}</h3>
                                                </div>
                                              </div>
                                            </div>
@@ -515,7 +515,7 @@ function App(props) {
                           </div>
                           <div className="header-maps-right">
                             <div className="border-status-maps px-3 py-1">
-                              <p>{status}</p>
+                              <h3>{status}</h3>
                             </div>
                           </div>
                         </div>
