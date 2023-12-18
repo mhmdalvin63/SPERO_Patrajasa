@@ -98,6 +98,14 @@ function PageTicket() {
           // Add additional logic or rendering here if needed
         });
 
+        const fetchDataInterval = setInterval(() => {
+          console.log('Fetching data...');
+          fetchData();
+        }, 5000); // 5000 milliseconds = 5 seconds
+      
+        // Clear the interval when the component unmounts or when it is not needed anymore
+        return () => clearInterval(fetchDataInterval);
+
         axios.get(`${urlApi}api/dashboard/ticket/get-categories`, { headers: {"Authorization" : `Bearer ${token}`} })
           .then((result) => {
             console.log('KATTTT',result.data.data);
