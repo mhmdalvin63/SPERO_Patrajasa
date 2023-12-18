@@ -139,9 +139,9 @@ function DetailComponent() {
     }
   };
 
-  function removeUndefined(text) {
-  return text.replace(/undefined, /g, '');
-}
+  //   function removeUndefined(text) {
+  //   return text.replace(/undefined, /g, '');
+  // }
 
 
 
@@ -229,7 +229,8 @@ const closeModal = () => {
                                 </Row>
                                 <Row className=' py-2'>
                                     <Col sm={3}><h4>Location</h4></Col>
-                                    <Col sm={7}><h4>: {removeUndefined(Detail.location)}</h4></Col>
+                                    {/* <Col sm={7}><h4>: {removeUndefined(Detail.location)}</h4></Col> */}
+                                    <Col sm={7}><h4>: {Detail.location}</h4></Col>
                                     {/* <Col sm={7}><h4>: {Detail.location}</h4></Col> */}
                                 </Row>
                                 <Row className=' py-2'>
