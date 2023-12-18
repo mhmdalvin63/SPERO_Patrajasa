@@ -15,7 +15,28 @@ const MultiAxisLineChart = () => {
   
   const [isLoading, setIsLoading] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [selectedOption, setSelectedOption] = useState('january'); // Nilai awal pilihan
+  const [selectedOption, setSelectedOption] = useState('');
+
+  useEffect(() => {
+    const currentDate = new Date();
+    const currentMonth = currentDate.toLocaleString('en-US', { month: 'long' }).toLowerCase();
+
+    // Set state with the current month
+    setSelectedOption(currentMonth);
+
+    const token = sessionStorage.getItem("jwttoken");
+     axios.get(`${apiUrl}api/dashboard/ticket/daily?month=${currentMonth}`, { headers: {"Authorization" : `Bearer ${token}`} })
+      .then((result) => {
+        // console.log('DATA BULANNNNNNNNNNNN',result.data.data);
+        setData(result.data.data.days);
+        setLoading(false);
+      })
+      .catch((error) => {
+        console.log(error)
+        setLoading(false);});
+
+    // Implement the logic based on the selected month (currentMonth)
+  }, []);
 
   const handleChange = (e) => {
     setLoading(true);
@@ -140,8 +161,11 @@ const MultiAxisLineChart = () => {
           )}
       <div className='title-multi-axis px-5'>
                     <p>Grafik Status Ticket Per Hari</p>
-                    <select value={selectedOption} onChange={handleChange} size="xl" aria-label="Default select example" className='select-multi-axis '>
-                      <option>Pilih Bulan</option>
+                    <select 
+                    value={selectedOption} 
+                    onChange={handleChange} 
+                    size="xl" 
+                    aria-label="Default select example" className='select-multi-axis'>
                       <option value="january">Januari</option>
                       <option value="february">Februari</option>
                       <option value="march">Maret</option>
