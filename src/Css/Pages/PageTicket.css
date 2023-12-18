@@ -84,6 +84,14 @@
     color: grey !important;
     border-radius: 10px !important;
     width: max-content !important;
+    font-size: calc(50% + .5vmin);
+}
+.select-multi-axis:focus{
+    border: none !important;
+    font-size: calc(50% + .25vmin);
+    width: max-content !important;
+    border-radius: 0px !important;
+    padding: .5rem .25rem;
 }
 
 
@@ -96,6 +104,14 @@
     height: 2.5rem;
     border: 1px solid rgb(206, 204, 204) !important;
     border-radius: 10px;
+}
+.search-bottom input{
+    border: none !important;
+    padding: 0 .5rem;
+}
+.search-bottom input:focus{
+    border: none !important;
+    outline: none !important;
 }
 .btn-primary {
     --bs-btn-color: none !important;

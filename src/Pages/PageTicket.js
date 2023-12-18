@@ -28,6 +28,9 @@ import ChartProvinsi from './Charts/MultiLineProvinsi'
 import axios from 'axios';
 import Loading from '../Parts/Loading';
 
+import DatePicker from 'react-datepicker';
+import 'react-datepicker/dist/react-datepicker.css';
+
 import NothingHaveToken from '../Parts/NothingHaveToken';
 
 function PageTicket() {
@@ -345,7 +348,8 @@ return () => {
             const isSearchMatch = !search ||
               (item.ticket_code.toLowerCase().includes(search.toLowerCase()) ||
                 item.category.name.toLowerCase().includes(search.toLowerCase()) ||
-                item.activity.name.toLowerCase().includes(search.toLowerCase()));
+                item.activity.name.toLowerCase().includes(search.toLowerCase()) ||
+                item.detail_ticket.subject.toLowerCase().includes(search.toLowerCase()));
         
             const isCategoryMatch = !selectedCategoryId || (item.category.name === selectedCategoryId);
         
@@ -370,7 +374,8 @@ return () => {
             const isSearchMatch = !search ||
               (item.ticket_code.toLowerCase().includes(search.toLowerCase()) ||
                 item.category.name.toLowerCase().includes(search.toLowerCase()) ||
-                item.activity.name.toLowerCase().includes(search.toLowerCase()));
+                item.activity.name.toLowerCase().includes(search.toLowerCase()) ||
+                item.detail_ticket.subject.toLowerCase().includes(search.toLowerCase()));
         
             const isCategoryMatch = !selectedCategoryId || (item.category.name === selectedCategoryId);
         
@@ -395,7 +400,8 @@ return () => {
             const isSearchMatch = !search ||
               (item.ticket_code.toLowerCase().includes(search.toLowerCase()) ||
                 item.category.name.toLowerCase().includes(search.toLowerCase()) ||
-                item.activity.name.toLowerCase().includes(search.toLowerCase()));
+                item.activity.name.toLowerCase().includes(search.toLowerCase()) ||
+                item.detail_ticket.subject.toLowerCase().includes(search.toLowerCase()));
         
             const isCategoryMatch = !selectedCategoryId || (item.category.name === selectedCategoryId);
         
@@ -420,7 +426,8 @@ return () => {
             const isSearchMatch = !search ||
               (item.ticket_code.toLowerCase().includes(search.toLowerCase()) ||
                 item.category.name.toLowerCase().includes(search.toLowerCase()) ||
-                item.activity.name.toLowerCase().includes(search.toLowerCase()));
+                item.activity.name.toLowerCase().includes(search.toLowerCase()) ||
+                item.detail_ticket.subject.toLowerCase().includes(search.toLowerCase()));
         
             const isCategoryMatch = !selectedCategoryId || (item.category.name === selectedCategoryId);
         
@@ -439,13 +446,14 @@ return () => {
             const filterEndDate = endDate ? new Date(endDate) : null;
         
             // Check individual criteria
-            const isDateInRange = (!filterStartDate || startTime >= filterStartDate) &&
-                                  (!filterEndDate || endTime <= filterEndDate);
+              const isDateInRange = (!filterStartDate || startTime >= filterStartDate) &&
+                                    (!filterEndDate || endTime <= filterEndDate);
         
             const isSearchMatch = !search ||
               (item.ticket_code.toLowerCase().includes(search.toLowerCase()) ||
                 item.category.name.toLowerCase().includes(search.toLowerCase()) ||
-                item.activity.name.toLowerCase().includes(search.toLowerCase()));
+                item.activity.name.toLowerCase().includes(search.toLowerCase()) ||
+                item.detail_ticket.subject.toLowerCase().includes(search.toLowerCase()));
         
             const isCategoryMatch = !selectedCategoryId || (item.category.name === selectedCategoryId);
         
@@ -827,28 +835,32 @@ return () => {
             <div className='filtering-table-dropdown-ticket px-3 my-3'>
                 <div className='d-flex align-items-center gap-5'>
                  <Form.Group className='select-date' controlId="sd">
-                    <Form.Label><p className='nw'><Icon icon="bx:calendar" /> Start Date</p></Form.Label>
-                    {/* <Form.Control type="date" name="sd" placeholder="Start Date" /> */}
-                            <br/>
-          <input
-          type="date"
-          className='ms-3'
-          placeholder="Start Date"
-          value={startDate}
-          onChange={(e) => setStartDate(e.target.value)}
-        />
+                    <Form.Label>
+                        <p className='nw'>
+                            <Icon icon="bx:calendar" /> Start Date
+                        </p>
+                    </Form.Label>
+                    <br />
+                    <DatePicker
+                        selected={startDate}
+                        onChange={(date) => setStartDate(date)}
+                        className='ms-3'
+                        placeholderText="Start Date"
+                    />
                 </Form.Group>
-                <Form.Group className='select-date' controlId="ed">
-                    <Form.Label><p className='nw'><Icon icon="bx:calendar" /> End Date</p></Form.Label>
-                    {/* <Form.Control type="date" name="ed" placeholder="End Date" /> */}
-                    <br/>
-                    <input
-          type="date"
-          className='ms-3'
-          placeholder="End Date"
-          value={endDate}
-          onChange={(e) => setEndDate(e.target.value)}
-        />
+                <Form.Group className='select-date' controlId="sd">
+                    <Form.Label>
+                        <p className='nw'>
+                            <Icon icon="bx:calendar" /> End Date
+                        </p>
+                    </Form.Label>
+                    <br />
+                    <DatePicker
+                        selected={endDate}
+                        onChange={(date) => setEndDate(date)}
+                        className='ms-3'
+                        placeholderText="End Date"
+                    />
                 </Form.Group>
                 <Form.Group className='select-date' controlId="ed">
                     <Form.Label><p className='nw'><Icon icon="material-symbols:border-all" /> Kategori</p></Form.Label>
@@ -982,28 +994,32 @@ return () => {
             <div className='filtering-table-dropdown-ticket px-3 my-3'>
                 <div className='d-flex align-items-center gap-5'>
                  <Form.Group className='select-date' controlId="sd">
-                    <Form.Label><p className='nw'><Icon icon="bx:calendar" /> Start Date</p></Form.Label>
-                    {/* <Form.Control type="date" name="sd" placeholder="Start Date" /> */}
-                            <br/>
-          <input
-          type="date"
-          className='ms-3'
-          placeholder="Start Date"
-          value={startDate}
-          onChange={(e) => setStartDate(e.target.value)}
-        />
+                    <Form.Label>
+                        <p className='nw'>
+                            <Icon icon="bx:calendar" /> Start Date
+                        </p>
+                    </Form.Label>
+                    <br />
+                    <DatePicker
+                        selected={startDate}
+                        onChange={(date) => setStartDate(date)}
+                        className='ms-3'
+                        placeholderText="Start Date"
+                    />
                 </Form.Group>
-                <Form.Group className='select-date' controlId="ed">
-                    <Form.Label><p className='nw'><Icon icon="bx:calendar" /> End Date</p></Form.Label>
-                    {/* <Form.Control type="date" name="ed" placeholder="End Date" /> */}
-                    <br/>
-                    <input
-          type="date"
-          className='ms-3'
-          placeholder="End Date"
-          value={endDate}
-          onChange={(e) => setEndDate(e.target.value)}
-        />
+                <Form.Group className='select-date' controlId="sd">
+                    <Form.Label>
+                        <p className='nw'>
+                            <Icon icon="bx:calendar" /> End Date
+                        </p>
+                    </Form.Label>
+                    <br />
+                    <DatePicker
+                        selected={endDate}
+                        onChange={(date) => setEndDate(date)}
+                        className='ms-3'
+                        placeholderText="End Date"
+                    />
                 </Form.Group>
                 <Form.Group className='select-date' controlId="ed">
                     <Form.Label><p className='nw'><Icon icon="material-symbols:border-all" /> Kategori</p></Form.Label>
@@ -1137,28 +1153,32 @@ return () => {
             <div className='filtering-table-dropdown-ticket px-3 my-3'>
                 <div className='d-flex align-items-center gap-5'>
                  <Form.Group className='select-date' controlId="sd">
-                    <Form.Label><p className='nw'><Icon icon="bx:calendar" /> Start Date</p></Form.Label>
-                    {/* <Form.Control type="date" name="sd" placeholder="Start Date" /> */}
-                            <br/>
-          <input
-          type="date"
-          className='ms-3'
-          placeholder="Start Date"
-          value={startDate}
-          onChange={(e) => setStartDate(e.target.value)}
-        />
+                    <Form.Label>
+                        <p className='nw'>
+                            <Icon icon="bx:calendar" /> Start Date
+                        </p>
+                    </Form.Label>
+                    <br />
+                    <DatePicker
+                        selected={startDate}
+                        onChange={(date) => setStartDate(date)}
+                        className='ms-3'
+                        placeholderText="Start Date"
+                    />
                 </Form.Group>
-                <Form.Group className='select-date' controlId="ed">
-                    <Form.Label><p className='nw'><Icon icon="bx:calendar" /> End Date</p></Form.Label>
-                    {/* <Form.Control type="date" name="ed" placeholder="End Date" /> */}
-                    <br/>
-                    <input
-          type="date"
-          className='ms-3'
-          placeholder="End Date"
-          value={endDate}
-          onChange={(e) => setEndDate(e.target.value)}
-        />
+                <Form.Group className='select-date' controlId="sd">
+                    <Form.Label>
+                        <p className='nw'>
+                            <Icon icon="bx:calendar" /> End Date
+                        </p>
+                    </Form.Label>
+                    <br />
+                    <DatePicker
+                        selected={endDate}
+                        onChange={(date) => setEndDate(date)}
+                        className='ms-3'
+                        placeholderText="End Date"
+                    />
                 </Form.Group>
                 <Form.Group className='select-date' controlId="ed">
                     <Form.Label><p className='nw'><Icon icon="material-symbols:border-all" /> Kategori</p></Form.Label>
@@ -1292,28 +1312,32 @@ return () => {
             <div className='filtering-table-dropdown-ticket px-3 my-3'>
                 <div className='d-flex align-items-center gap-5'>
                  <Form.Group className='select-date' controlId="sd">
-                    <Form.Label><p className='nw'><Icon icon="bx:calendar" /> Start Date</p></Form.Label>
-                    {/* <Form.Control type="date" name="sd" placeholder="Start Date" /> */}
-                            <br/>
-          <input
-          type="date"
-          className='ms-3'
-          placeholder="Start Date"
-          value={startDate}
-          onChange={(e) => setStartDate(e.target.value)}
-        />
+                    <Form.Label>
+                        <p className='nw'>
+                            <Icon icon="bx:calendar" /> Start Date
+                        </p>
+                    </Form.Label>
+                    <br />
+                    <DatePicker
+                        selected={startDate}
+                        onChange={(date) => setStartDate(date)}
+                        className='ms-3'
+                        placeholderText="Start Date"
+                    />
                 </Form.Group>
-                <Form.Group className='select-date' controlId="ed">
-                    <Form.Label><p className='nw'><Icon icon="bx:calendar" /> End Date</p></Form.Label>
-                    {/* <Form.Control type="date" name="ed" placeholder="End Date" /> */}
-                    <br/>
-                    <input
-          type="date"
-          className='ms-3'
-          placeholder="End Date"
-          value={endDate}
-          onChange={(e) => setEndDate(e.target.value)}
-        />
+                <Form.Group className='select-date' controlId="sd">
+                    <Form.Label>
+                        <p className='nw'>
+                            <Icon icon="bx:calendar" /> End Date
+                        </p>
+                    </Form.Label>
+                    <br />
+                    <DatePicker
+                        selected={endDate}
+                        onChange={(date) => setEndDate(date)}
+                        className='ms-3'
+                        placeholderText="End Date"
+                    />
                 </Form.Group>
                 <Form.Group className='select-date' controlId="ed">
                     <Form.Label><p className='nw'><Icon icon="material-symbols:border-all" /> Kategori</p></Form.Label>
