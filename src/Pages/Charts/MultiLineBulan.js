@@ -14,10 +14,27 @@ const MultiAxisLineChart = () => {
 
   const [Kategori, setKategori] = useState([]);
 
-  const [selectedOption, setSelectedOption] = useState('1'); // Nilai awal pilihan
+  const [selectedOption, setSelectedOption] = useState(''); // Nilai awal pilihan
 
   const [isLoading, setIsLoading] = useState(false);
   const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    // Set state with the ID of the first item in the Kategori array
+    if (Kategori.length > 0) {
+      setSelectedOption(Kategori[1].id);
+      const token = sessionStorage.getItem("jwttoken");
+     axios.get(`${apiUrl}api/dashboard/ticket/monthly?category_id=${Kategori[1].id}`, { headers: {"Authorization" : `Bearer ${token}`} })
+      .then((result) => {
+        // console.log(result.data.data.months);
+        setDataPerBulan(result.data.data.months);
+        setLoading(false);
+      })
+      .catch((error) => {
+        console.log(error)
+        setLoading(false);});
+    }
+  }, [Kategori]);
 
   let handleChange = (e) => {
     setLoading(true);
@@ -153,7 +170,7 @@ const MultiAxisLineChart = () => {
       <div className='title-multi-axis px-5'>
                     <p>Grafik Per Bulan</p>
                     <select value={selectedOption} onChange={handleChange}  size="xl" aria-label="Default select example" className='select-multi-axis'>
-                      <option>Pilih Kategori</option>
+                      {/* <option>Pilih Kategori</option> */}
                       {/* {Kategori.map((item, id) => (
                         <option key={id} value={item.id}>{item.name}</option>
                       ))} */}
