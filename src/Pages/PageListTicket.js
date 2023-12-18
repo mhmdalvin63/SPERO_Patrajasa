@@ -15,6 +15,8 @@ import axios from 'axios';
 import DateTime from '../Parts/DateTime';
 import SvgLogo from '../Parts/SvgLogo';
 import Loading from '../Parts/Loading';
+import DatePicker from 'react-datepicker';
+import 'react-datepicker/dist/react-datepicker.css';
 
 
 
@@ -25,7 +27,7 @@ function PageTicket() {
   const [Ticket, setTicket] = useState([]);
   const [Kategori, setKategori] = useState([]);
   const [endTime, setEndTime] = useState(null);
-  const [timeRemaining, setTimeRemaining] = useState({ days: 0, hours: 0, minutes: 0 });
+  const [timeRemaining, setTimeRemaining] = useState({ });
   const [Activity, setActivity] = useState([]);
   const [DetailTicket, setDetailTicket] = useState([]);
     useEffect(() => {
@@ -171,7 +173,8 @@ function PageTicket() {
             const isSearchMatch = !search ||
               (item.ticket_code.toLowerCase().includes(search.toLowerCase()) ||
                 item.category.name.toLowerCase().includes(search.toLowerCase()) ||
-                item.activity.name.toLowerCase().includes(search.toLowerCase()));
+                item.activity.name.toLowerCase().includes(search.toLowerCase()) ||
+                item.detail_ticket.subject.toLowerCase().includes(search.toLowerCase()));
         
             const isCategoryMatch = !selectedCategoryId || (item.category.name === selectedCategoryId);
         
@@ -179,6 +182,26 @@ function PageTicket() {
             return isDateInRange && isSearchMatch && isCategoryMatch;
           });
         }
+        
+
+  useEffect(() => {
+    // Update the time remaining every second
+    const intervalId = setInterval(() => {
+      // Update time remaining for each event
+      const updatedTimeRemaining = {};
+      filteredData.forEach((item) => {
+        const startTime = new Date(item.start_time);
+        const endTime = new Date(startTime.getTime() + item.range_time * 60 * 60 * 1000);
+        const currentTime = new Date();
+        const remaining = endTime.getTime() - currentTime.getTime();
+        updatedTimeRemaining[item.id] = remaining > 0 ? remaining : 0;
+      });
+      setTimeRemaining(updatedTimeRemaining);
+    }, 1000);
+
+    // Clear the interval when the component unmounts
+    return () => clearInterval(intervalId);
+  }, [filteredData]);
          
         const calculateTimeDifference = (rangeTime) => {
           const now = new Date(); // Waktu sekarang
@@ -221,29 +244,32 @@ function PageTicket() {
             <div className='filtering-table-dropdown-ticket px-3 my-3'>
                 <div className='d-flex align-items-center gap-5'>
                 <Form.Group className='select-date' controlId="sd">
-                    <Form.Label><p className='nw'><Icon icon="bx:calendar" /> Start Date</p></Form.Label>
-                    {/* <Form.Control type="date" name="sd" placeholder="Start Date" /> */}
-                    <br/>
-                    
-          <input
-          className='ms-3'
-          type="date"
-          placeholder="Start Date"
-          value={startDate}
-          onChange={(e) => setStartDate(e.target.value)}
-        />
+                    <Form.Label>
+                        <p className='nw'>
+                            <Icon icon="bx:calendar" /> Start Date
+                        </p>
+                    </Form.Label>
+                    <br />
+                    <DatePicker
+                        selected={startDate}
+                        onChange={(date) => setStartDate(date)}
+                        className='ms-3'
+                        placeholderText="Start Date"
+                    />
                 </Form.Group>
-                <Form.Group className='select-date' controlId="ed">
-                    <Form.Label><p className='nw'><Icon icon="bx:calendar" /> End Date</p></Form.Label>
-                    {/* <Form.Control type="date" name="ed" placeholder="End Date" /> */}
-                    <br/>
-                    <input
-                    className='ms-3'
-          type="date"
-          placeholder="End Date"
-          value={endDate}
-          onChange={(e) => setEndDate(e.target.value)}
-        />
+                <Form.Group className='select-date' controlId="sd">
+                    <Form.Label>
+                        <p className='nw'>
+                            <Icon icon="bx:calendar" /> End Date
+                        </p>
+                    </Form.Label>
+                    <br />
+                    <DatePicker
+                        selected={endDate}
+                        onChange={(date) => setEndDate(date)}
+                        className='ms-3'
+                        placeholderText="End Date"
+                    />
                 </Form.Group>
                 <Form.Group className='select-date' controlId="ed">
                     <Form.Label><p className='nw'><Icon icon="material-symbols:border-all" /> Kategori</p></Form.Label>
@@ -294,20 +320,7 @@ function PageTicket() {
                 </thead>
                 <tbody className='page-ticket-bottom-tbody'>
                 {filteredData.map((item, index) => {
-  const startTime = new Date(item.start_time);
-  const endTime = new Date(startTime.getTime() + item.range_time * 60 * 60 * 1000);
-
-  // Calculate the time remaining
-  const currentTime = new Date();
-  const timeRemaining = endTime.getTime() - currentTime.getTime();
-
-  // Convert timeRemaining to hours, minutes, and seconds
-  const hours = Math.floor(timeRemaining / (60 * 60 * 1000));
-  const minutes = Math.floor((timeRemaining % (60 * 60 * 1000)) / (60 * 1000));
-  const seconds = Math.floor((timeRemaining % (60 * 1000)) / 1000);
-   // Check if the event has ended
-   const eventEnded = timeRemaining <= 0;
-
+                  const remaining = timeRemaining[item.id];
   return (
         <tr className='text-center'>
         <td>{index + 1}</td>
@@ -319,19 +332,23 @@ function PageTicket() {
             {/* <p className='text-red'>11 : 14 WIB</p> */}
         </td>
         <td>
-            <p>{item.range_time}</p>
+            {/* <p>{item.range_time}</p> */}
             <p>{formatDateLong(new Date(item.start_time).getTime() + item.range_time * 60 * 60 * 1000)}</p>
             <p className='text-red'>{getTimeFromData(new Date(item.start_time).getTime() + item.range_time * 60 * 60 * 1000)}</p>
 
             {/* <p>{new Date(new Date(item.start_time).getTime() + item.range_time * 60 * 60 * 1000).toLocaleString()}</p> */}
         </td>
         <td>
-        {eventEnded ? (
-          <p className='text-red'>Waktu Habis</p>
-        ) : (
-          <p className='text-red'>{`${hours} jam, ${minutes} menit, ${seconds} detik`}</p>
-        )}
-      </td>
+          {typeof remaining === 'number' ? (
+            remaining <= 0 ? (
+              <p className='text-red'>Waktu Habis</p>
+            ) : (
+              <p className='text-red'>{`${Math.floor(remaining / (60 * 60 * 1000))} jam, ${Math.floor((remaining % (60 * 60 * 1000)) / (60 * 1000))} menit, ${Math.floor((remaining % (60 * 1000)) / 1000)} detik`}</p>
+            )
+          ) : (
+            <p className='text-red'>Loading...</p>
+          )}
+        </td>
         {item.priority_id === 1 ? (
           <td>
           <p  className='fwb text-lime'>Low</p>
