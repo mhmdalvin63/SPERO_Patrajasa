@@ -25,6 +25,7 @@ function DetailComponent() {
   const [Activity, setActivity] = useState([null]);
   const [Added, setAdded] = useState([null]);
   const [Chat, setChat] = useState([]);
+  const [Image, setImage] = useState([]);
   const [Detail, setDetail] = useState([null]);
   const [Log, setLog] = useState([null]);
   const [Ticket, setTicket] = useState([null]);
@@ -49,11 +50,13 @@ function DetailComponent() {
       headers: { "Authorization": `Bearer ${token}` }
     })
       .then((response) => {
+        console.log('DATA REAL',response.data.data)
         console.log('DATAAAAAAA', response.data.data.chat);
-        setActivity(response.data.data.activity);
+        console.log('setActivity',setActivity)
         setAdded(response.data.data.added_by);
         setChat(response.data.data.chat);
         setDetail(response.data.data.detail_ticket);
+        setImage(response.data.data.detail_ticket.file_upload.attachments);
         setLog(response.data.data.log);
         setTicket(response.data.data.detail_ticket.ticket);
         setLoading(false);
@@ -135,6 +138,25 @@ function DetailComponent() {
       chatContainerRef.current.scrollTop = chatContainerRef.current.scrollHeight;
     }
   };
+
+  function removeUndefined(text) {
+  return text.replace(/undefined, /g, '');
+}
+
+
+
+const [isModalOpen, setIsModalOpen] = useState(false);
+const [selectedImageUrl, setSelectedImageUrl] = useState('');
+
+const openModal = (imageUrl) => {
+  setSelectedImageUrl(imageUrl);
+  setIsModalOpen(true);
+};
+
+const closeModal = () => {
+  setIsModalOpen(false);
+};
+
   return (
     <div>
       {loading ? (
@@ -194,7 +216,8 @@ function DetailComponent() {
                                 </Row>
                                 <Row className=' py-2'>
                                     <Col sm={3}><h4>Target Time</h4></Col>
-                                    <Col sm={7}><h4>: {Ticket.range_time}</h4></Col>
+                                    <Col sm={7}><h4>: {formatDateLong(new Date(Ticket.start_time).getTime() + Ticket.range_time * 60 * 60 * 1000)} <span className='text-red'>{getTimeFromData(new Date(Ticket.start_time).getTime() + Ticket.range_time * 60 * 60 * 1000)}</span></h4></Col>
+                                    <p></p>
                                 </Row>
                                 <Row className=' py-2'>
                                     <Col sm={3}><h4>Subject</h4></Col>
@@ -206,11 +229,51 @@ function DetailComponent() {
                                 </Row>
                                 <Row className=' py-2'>
                                     <Col sm={3}><h4>Location</h4></Col>
-                                    <Col sm={7}><h4>: {Detail.location}</h4></Col>
+                                    <Col sm={7}><h4>: {removeUndefined(Detail.location)}</h4></Col>
+                                    {/* <Col sm={7}><h4>: {Detail.location}</h4></Col> */}
                                 </Row>
                                 <Row className=' py-2'>
                                     <Col sm={3}><h4>Attachment</h4></Col>
-                                    <Col sm={7}><h4>: Driver</h4></Col>
+                                    <Col sm={7} className='d-flex gap-2'>: 
+                                    {Image.map(attachment => (
+        <div key={attachment.id} className='img-detail-ticket'>
+          <img
+            src={`${attachment.file_path}/${attachment.file_hash}`}
+            alt={attachment.file_name}
+            onClick={() => openModal(`${attachment.file_path}/${attachment.file_hash}`)}
+          />  
+        </div>
+      ))}
+      {/* Modal */}
+      <div
+        style={{
+          display: isModalOpen ? 'block' : 'none',
+          position: 'fixed',
+          top: 0,
+          left: 0,
+          width: '100%',
+          height: '100%',
+          backgroundColor: 'rgba(0, 0, 0, 0.7)',
+          zIndex: 1,
+        }}
+        onClick={closeModal}
+      >
+        <div
+          style={{
+            position: 'absolute',
+            top: '50%',
+            left: '50%',
+            transform: 'translate(-50%, -50%)',
+          }}
+        >
+          <img
+            src={selectedImageUrl}
+            alt="Modal"
+            style={{ maxWidth: '80vw', maxHeight: '80vh' }}
+          />
+        </div>
+      </div>
+                                    </Col>
                                 </Row>
                                 <Row className=' py-2'>
                                     <Col sm={3}><h4>Number Plate</h4></Col>

@@ -499,3 +499,18 @@ input.textarea {
 .emojis:active {
   opacity: 0.9;
 }
+
+
+
+
+
+
+.img-detail-ticket{
+  height: 150px;
+  width: 150px;
+}
+.img-detail-ticket img{
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
