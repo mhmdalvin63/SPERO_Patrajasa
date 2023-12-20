@@ -71,17 +71,23 @@ function DetailComponent() {
         cluster: 'ap1',
       });
       const channel = pusher.subscribe(`chat`);
-      
+      const idToCheck = id; // Uncomment this line if 'id' is the variable you want to use
+      console.log(idToCheck); // Uncomment this line to log the 'id'
+
       channel.bind('chat-event', (data) => {
-        // console.log(data)
-        // console.log(JSON.parse(data.message))
-        try {
-            const newData = JSON.parse(data.message); // Mengubah data menjadi objek JSON
-            setChat((prevData) => [...prevData, newData]); // Menambahkan data JSON ke array
-        } catch (error) {
-            console.error('Gagal mengurai data JSON:', error);
-        }
-        });
+          try {
+              let me = JSON.parse(data.message);
+              const newData = me;
+              console.log('truth or dare', idToCheck == newData.ticket_id);
+              if (idToCheck == newData.ticket_id) {
+                  setChat((prevData) => [...prevData, newData]);
+              }
+          } catch (error) {
+              console.error('Gagal mengurai data JSON:', error);
+          }
+      });
+    
+     
   
       channel.bind('pusher:error', err => {
         console.error('Pusher Error:', err);
