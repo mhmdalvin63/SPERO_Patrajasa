@@ -247,8 +247,8 @@ function MainNew() {
         const pusher = new Pusher('2b7208e6523a6e855f6b', {
             cluster: 'ap1',
           });
+
           const channel = pusher.subscribe('post-ticket');
-          
           channel.bind('post-ticket-event', (data) => {
             console.log(data.message);
             try {
@@ -278,6 +278,21 @@ function MainNew() {
             }
             // Add additional logic or rendering here if needed
           });
+
+          const channelStatusUser = pusher.subscribe('status-user');
+          channelStatusUser.bind('status-user-event', (data) => {
+            console.log(data.message);
+            try {
+                if (data.message && data.message.hasOwnProperty('operators')) {
+                 
+                }
+            } catch (error) {
+                console.error('Gagal mengurai data JSON:', error);
+            }
+            // Add additional logic or rendering here if needed
+        });
+        
+        
       
           channel.bind('pusher:error', err => {
             console.error('Pusher Error:', err);

@@ -5,10 +5,12 @@ import Loading from '../Parts/Loading';
 import DateTime from '../Parts/DateTime';
 import SvgLogo from '../Parts/SvgLogo';
 import { Col, Row } from 'react-bootstrap';
-import { OverlayTrigger, Popover } from 'react-bootstrap';
+import { withGoogleMap, GoogleMap, LoadScript, Marker, MarkerF, useLoadScript } from '@react-google-maps/api';
 import { Icon } from '@iconify/react';
 import '../Css/Pages/PageDetailTicket.css';
 import Pusher from 'pusher-js';
+import MarkerHelm from '../Images/MarkerTicket.png';
+
 // import ChatPage from '../Parts/Chat'
 // import Pusher from '../Parts/Pusher'
 // import Pusher from 'pusher-js/types/src/core/pusher';
@@ -56,6 +58,7 @@ function DetailComponent() {
         setAdded(response.data.data.added_by);
         setChat(response.data.data.chat);
         setDetail(response.data.data.detail_ticket);
+        console.log(response.data.data.detail_ticket);
         setImage(response?.data?.data?.detail_ticket?.file_upload?.attachments ?? []);
         setLog(response.data.data.log);
         setTicket(response.data.data.detail_ticket.ticket);
@@ -151,6 +154,13 @@ function DetailComponent() {
   // }
 
 
+  const ticketLocation = { lat: Number(Detail.lat), lng: Number(Detail.long) };
+  // const ticketLocation = { lat: -6.374360607792396, lng: 106.83200794341381 };
+  console.log(Detail.lat , Detail.long) 
+  const { isLoaded } = useLoadScript({
+    googleMapsApiKey: process.env.REACT_APP_GOOGLE_MAPS_API_KEY
+  });
+
 
 const [isModalOpen, setIsModalOpen] = useState(false);
 const [selectedImageUrl, setSelectedImageUrl] = useState('');
@@ -237,7 +247,22 @@ const closeModal = () => {
                                 <Row className=' py-2'>
                                     <Col sm={3}><h4>Location</h4></Col>
                                     {/* <Col sm={7}><h4>: {removeUndefined(Detail.location)}</h4></Col> */}
-                                    <Col sm={7}><h4>: {Detail.location}</h4></Col>
+                                    <Col sm={7}>
+                                      <h4 className='mb-2'>: {Detail.location}</h4>
+                                      {isLoaded ? (
+                                        <GoogleMap
+                                          mapContainerStyle={{ height: '400px', width: '100%' }}
+                                          center={ticketLocation}
+                                          zoom={15}
+                                        >
+                                          <MarkerF 
+                                            position={ticketLocation} 
+                                            title="Detail Tiket" 
+                                            icon={{ url: MarkerHelm }}
+                                          />
+                                        </GoogleMap>
+                                      ) : null} 
+                                    </Col>
                                     {/* <Col sm={7}><h4>: {Detail.location}</h4></Col> */}
                                 </Row>
                                 <Row className=' py-2'>

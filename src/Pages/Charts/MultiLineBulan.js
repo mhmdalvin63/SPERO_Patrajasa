@@ -19,45 +19,87 @@ const MultiAxisLineChart = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [loading, setLoading] = useState(false);
 
-  useEffect(() => {
-    // Set state with the ID of the first item in the Kategori array
-    if (Kategori.length > 0) {
-      setSelectedOption(Kategori[1].id);
-      const token = sessionStorage.getItem("jwttoken");
-     axios.get(`${apiUrl}api/dashboard/ticket/monthly?category_id=${Kategori[1].id}`, { headers: {"Authorization" : `Bearer ${token}`} })
-      .then((result) => {
-        // console.log(result.data.data.months);
-        setDataPerBulan(result.data.data.months);
-        setLoading(false);
-      })
-      .catch((error) => {
-        console.log(error)
-        setLoading(false);});
-    }
-  }, [Kategori]);
+  // useEffect(() => {
+  //   // Set state with the ID of the first item in the Kategori array
+  //   if (Kategori.length > 0) {
+  //     setSelectedOption(Kategori[0].id);
+  //     const token = sessionStorage.getItem("jwttoken");
+  //    axios.get(`${apiUrl}api/dashboard/ticket/monthly?category_id=${Kategori[0].id}`, { headers: {"Authorization" : `Bearer ${token}`} })
+  //     .then((result) => {
+  //       // console.log(result.data.data.months);
+  //       setDataPerBulan(result.data.data.months);
+  //       setLoading(false);
+  //     })
+  //     .catch((error) => {
+  //       console.log(error)
+  //       setLoading(false);});
+  //   }
+  // }, [Kategori]);
+
+  // let handleChange = (e) => {
+  //   setLoading(true);
+  //   setSelectedOption(e.target.value);
+
+  //   const token = sessionStorage.getItem("jwttoken");
+  //    axios.get(`${apiUrl}api/dashboard/ticket/monthly?category_id=${e.target.value}`, { headers: {"Authorization" : `Bearer ${token}`} })
+  //     .then((result) => {
+  //       // console.log(result.data.data.months);
+  //       setDataPerBulan(result.data.data.months);
+  //       setLoading(false);
+  //     })
+  //     .catch((error) => {
+  //       console.log(error)
+  //       setLoading(false);});
+  // };
 
   let handleChange = (e) => {
     setLoading(true);
-    setSelectedOption(e.target.value);
-
-    const token = sessionStorage.getItem("jwttoken");
-     axios.get(`${apiUrl}api/dashboard/ticket/monthly?category_id=${e.target.value}`, { headers: {"Authorization" : `Bearer ${token}`} })
-      .then((result) => {
-        // console.log(result.data.data.months);
-        setDataPerBulan(result.data.data.months);
-        setLoading(false);
-      })
-      .catch((error) => {
-        console.log(error)
-        setLoading(false);});
+  
+    if (e) {
+      setSelectedOption(e.target.value);
+  
+      const token = sessionStorage.getItem("jwttoken");
+      axios
+        .get(`${apiUrl}api/dashboard/ticket/monthly?category_id=${e.target.value}`, {
+          headers: { Authorization: `Bearer ${token}` }
+        })
+        .then((result) => {
+          setDataPerBulan(result.data.data.months);
+          setLoading(false);
+        })
+        .catch((error) => {
+          console.log(error);
+          setLoading(false);
+        });
+    } else {
+      // Set selected option to the ID of the first item in the Kategori array
+      if (Kategori.length > 0) {
+        setSelectedOption(Kategori[0].id);
+      }
+  
+      const token = sessionStorage.getItem("jwttoken");
+      axios
+        .get(`${apiUrl}api/dashboard/ticket/monthly?category_id=${Kategori[0].id}`, {
+          headers: { Authorization: `Bearer ${token}` }
+        })
+        .then((result) => {
+          setDataPerBulan(result.data.data.months);
+          setLoading(false);
+        })
+        .catch((error) => {
+          console.log(error);
+          setLoading(false);
+        });
+    }
   };
+  
 
   // D R I V E R
   useEffect(() => {
     const token = sessionStorage.getItem("jwttoken");
      axios.get(`${apiUrl}api/dashboard/ticket/get-categories`, { headers: {"Authorization" : `Bearer ${token}`} })
       .then((result) => {
-        // console.log('KATEGORI BRO',result.data.data);
+        console.log('KATEGORI BRO',result.data.data);
         setKategori(result.data.data);
         setLoading(false);
       })

@@ -7,6 +7,7 @@ import Loading from './Loading';
 import '../Css/Parts/SvgMaps.css'
 import Pusher from 'pusher-js';
 
+
 const IndonesiaMap = (props) => {
 
   const [loading, setLoading] = useState(true);
@@ -136,7 +137,7 @@ const IndonesiaMap = (props) => {
 
         return (
           
-          <g key={index} className='h-100'>
+          <g key={index} className='h-100' style={{position : 'relative'}}>
           <image
             x={cx - 25} // Adjust the position as needed
             y={cy - 30} // Adjust the position as needed

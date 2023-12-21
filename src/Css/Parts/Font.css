@@ -6,6 +6,15 @@
 .PageMain{
   margin-top: 4.5rem;
 }
+.apexcharts-yaxis-title-text {
+  display: none !important;
+}
+#SvgjsText6746{
+  display: none !important;
+}
+#SvgjsText6476{
+  display: none !important;
+}
 /* .PageMainNew{
   margin-top: .5rem;
 } */
